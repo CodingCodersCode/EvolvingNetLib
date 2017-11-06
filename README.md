@@ -148,7 +148,7 @@ EvolvingNetLib当前最新版本为v1.0.0。
 
 感谢
 ---
-本人新手，第一次共享开源库，觉得好的，用您宝贵的小手点个start，以示对我的鼓励，个人新作，不喜者勿喷，谢谢！
+觉得好的，用您宝贵的小手点个start，以示对我的鼓励。不喜者勿喷，谢谢！
 特别感谢[@jeasonlzy/okhttp-OkGo](https://github.com/jeasonlzy/okhttp-OkGo)和[@Tamicer/Novate](https://github.com/Tamicer/Novate),两位作者的开源库对我的工作起到了很大帮助，感谢！
 
 
