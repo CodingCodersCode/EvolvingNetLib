@@ -58,7 +58,7 @@ EvolvingNetLib当前最新版本为v1.0.0。
 
     - 初始化
 
-      使用EvolvingNetLib之前需要对其进行一些初始化操作，如下代码所示：
+      使用EvolvingNetLib之前需要对其进行一些初始化操作，如下代码所示:  
 
           //所有Http请求的公共header信息
           Map<String, String> commonHeaderMap = new HashMap<>();
@@ -77,22 +77,22 @@ EvolvingNetLib当前最新版本为v1.0.0。
                     .enableLogInterceptor(true)//是否开启日志打印
                     .build();
 
-    - 发起网络请求，以发起GE请求为例：
-
-          CCRxNetManager.<TestRespObj>get("your api url")//业务api接口，例：//web/path1/path2/userinfo.do  
-                    .setHeaderMap(specifyHeaderMap)//添加的额外header信息，Map<String, String>形式传递  
-                    .setPathMap(pathMap)//restful api的路径替换信息，Map<String, String>形式传递，同Retrofit的@Path功能  
-                    .setParamMap(paramMap)//所需参数信息，Map<String, String>形式传递  
-                    .setRetryCount(3)//设置失败重试最大次数  
-                    .setRetryDelayTimeMillis(3000)//重试请求发起的时间间隔，单位毫秒  
-                    .setCacheQueryMode(CCCacheMode.QueryMode.MODE_MEMORY_THEN_DISK_THEN_NET)//数据查询策略  
-                    .setCacheSaveMode(CCCacheMode.SaveMode.MODE_SAVE_MEMORY_AND_DISK)//缓存保存策略  
-                    .setReqTag("test_login_req_tag")//请求标识  
-                    .setCacheKey("test_login_req_cache_key")//缓存查询标识  
-                    .setCCNetCallback(new RxNetManagerCallback())//请求回调，UI线程  
-                    .setCCCacheSaveCallback(new RxNetCacheSaveCallback())//数据缓存保存回调，非UI线程  
-                    .setCCCacheQueryCallback(new RxNetCacheQueryCallback())//缓存数据查询回调，非UI线程  
-                    .setNetLifecycleComposer(this.<CCBaseResponse<TestRespObj>>bindUntilEvent(ActivityEvent.DESTROY))//设置请求的生命周期管理，同RxLifeCycle  
-                    .setResponseBeanType(TestRespObj.class)//响应的json数据所对应的Java bean实体类型  
-                    .executeAsync();//执行请求  
-
+    - 发起网络请求，以发起GET请求为例:
+    
+    
+         CCRxNetManager.<TestRespObj>get("/web/userController/login.do")  
+                       .setHeaderMap(specifyHeaderMap)  
+                       .setPathMap(pathMap)  
+                       .setParamMap(paramMap)  
+                       .setRetryCount(3)  
+                       .setRetryDelayTimeMillis(3000)  
+                       .setCacheQueryMode(CCCacheMode.QueryMode.MODE_MEMORY_THEN_DISK_THEN_NET)  
+                       .setCacheSaveMode(CCCacheMode.SaveMode.MODE_SAVE_MEMORY_AND_DISK)  
+                       .setReqTag("test_login_req_tag")  
+                       .setCacheKey("test_login_req_cache_key")  
+                       .setCCNetCallback(new RxNetManagerCallback())  
+                       .setCCCacheSaveCallback(new RxNetCacheSaveCallback())  
+                       .setCCCacheQueryCallback(new RxNetCacheQueryCallback())  
+                       .setNetLifecycleComposer(this<CCBaseResponse<TestRespObj>>bindUntilEvent(ActivityEvent.DESTROY))  
+                       .setResponseBeanType(TestRespObj.class)  
+                       .executeAsync();  
