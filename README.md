@@ -41,7 +41,7 @@ EvolvingNetLib当前最新版本为v1.0.0。
             ......
             compile 'com.github.CodingCodersCode.EvolvingNetLib:EvolvingBase:v1.0.0'
           }
-          
+            
       EvolingBase通过结合RxLifeCycle，提供了网络请求的生命周期管理，也提供了简单的懒加载Fragment。
         
  - 添加和申请权限
