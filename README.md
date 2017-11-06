@@ -54,9 +54,9 @@ EvolvingNetLib当前最新版本为v1.0.0。
         
         对于6.0+的动态权限申请，需要开发者自己实现，EvolvingNetLib不包含申请逻辑，方便开发者自定义权限申请实现方式，减少捆绑。
         
- - 请求样例
-
-    - 初始化
+请求样例
+---
+ - 初始化
 
       使用EvolvingNetLib之前需要对其进行一些初始化操作，如下代码所示:  
 
@@ -77,8 +77,8 @@ EvolvingNetLib当前最新版本为v1.0.0。
                     .enableLogInterceptor(true)  //是否开启日志打印
                     .build();  
 
-    - 发起普通网络请求，以发起GET请求为例: 
-
+ - 发起普通网络请求，以发起GET请求为例: 
+          
           CCRxNetManager.<TestRespObj>get("your api url")  //业务api接口，例：//web/path1/path2/userinfo.do 
                        .setHeaderMap(specifyHeaderMap)  //添加的额外header信息，Map<String, String>形式传递  
                        .setPathMap(pathMap)  //restful api的路径替换信息，Map<String, String>形式传递，同Retrofit的@Path功能  
@@ -95,13 +95,12 @@ EvolvingNetLib当前最新版本为v1.0.0。
                        .setNetLifecycleComposer(this<CCBaseResponse<TestRespObj>>bindUntilEvent(ActivityEvent.DESTROY))  //设置请求的生命周期管理，同RxLifeCycle  
                        .setResponseBeanType(TestRespObj.class)  //响应的json数据所对应的Java bean实体类型  
                        .executeAsync();  //执行请求  
+           
+   其中TestRespObj.class表示服务端所响应的json数据所对应的java bean实体类的类型,若要发起其他类型的请求，只需将 CCRxNetManager.<TestRespObj>***get***("your api url") 中的 ***get*** 替换为 ***post*** 或 ***put*** 等即可。
 
-        其中TestRespObj.class表示服务端所响应的json数据所对应的java bean实体类的类型,若要发起其他类型的请求，只需将 CCRxNetManager.<TestRespObj>***get***("your api url") 中的 ***get*** 替换为 ***post*** 或 ***put*** 等即可。
-  
-  
-    - 发起上传请求，示例代码如下: 
+ - 发起上传请求，示例代码如下: 
           
-          CCRxNetManager.<String>upload("upload")
+           CCRxNetManager.<String>upload("upload")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
                     .setTxtParamMap(txtParamMap)
@@ -116,11 +115,11 @@ EvolvingNetLib当前最新版本为v1.0.0。
                     .setResponseBeanType(TestRespObj.class)
                     .executeAsync();
  
-   其中各方法含义，与普通网络请求中各方法含义相同。
+   其中各方法含义，与普通网络请求中各方法含义相同。
      
-    - 发起下载请求，示例代码如下：  
+ - 发起下载请求，示例代码如下：  
      
-          CCDownloadRequest downloadRequest = CCRxNetManager.<String>download("sw-search-sp/software/16d5a98d3e034/QQ_8.9.5.22062_setup.exe")
+           CCDownloadRequest downloadRequest = CCRxNetManager.<String>download("sw-search-sp/software/16d5a98d3e034/QQ_8.9.5.22062_setup.exe")
                         .setHeaderMap(specifyHeaderMap)
                         .setPathMap(pathMap)
                         .setFileSaveName("test_OkGo_apk_file_download.apk")
@@ -137,7 +136,8 @@ EvolvingNetLib当前最新版本为v1.0.0。
 
           downloadRequest.executeAsync();
      
-     通过downloadRequest.executeAsync()开始或继续下载请求，通过downloadRequest.getNetCCCanceler().cancel();暂停或取消下载请求。
+   通过downloadRequest.executeAsync()开始或继续下载请求,
+   通过downloadRequest.getNetCCCanceler().cancel()暂停或取消下载请求。
        
      
 以上是对EvolvingNetLib使用方法的简单介绍，详细内容请看demo代码。
