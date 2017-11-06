@@ -75,12 +75,11 @@ EvolvingNetLib当前最新版本为v1.0.0。
                     .readTimeout(30, TimeUnit.SECONDS)  //设置写超时时间，同Retrofit的readTimeout的含义
                     .writeTimeout(30, TimeUnit.SECONDS)  //设置写超时时间，同Retrofit的writeTimeout的含义
                     .enableLogInterceptor(true)  //是否开启日志打印
-                    .build();
+                    .build();  
 
-    - 发起普通网络请求，以发起GET请求为例:
-    
-       
-         CCRxNetManager.<TestRespObj>get("your api url")  //业务api接口，例：//web/path1/path2/userinfo.do  
+   - 发起普通网络请求，以发起GET请求为例: 
+
+          CCRxNetManager.<TestRespObj>get("your api url")  //业务api接口，例：//web/path1/path2/userinfo.do 
                        .setHeaderMap(specifyHeaderMap)  //添加的额外header信息，Map<String, String>形式传递  
                        .setPathMap(pathMap)  //restful api的路径替换信息，Map<String, String>形式传递，同Retrofit的@Path功能  
                        .setParamMap(paramMap)  //所需参数信息，Map<String, String>形式传递  
@@ -100,8 +99,8 @@ EvolvingNetLib当前最新版本为v1.0.0。
         其中TestRespObj.class表示服务端所响应的json数据所对应的java bean实体类的类型,若要发起其他类型的请求，只需将 CCRxNetManager.<TestRespObj>***get***("your api url") 中的 ***get*** 替换为 ***post*** 或 ***put*** 等即可。
 
    - 发起上传请求，示例代码如下：  
-     
-     CCRxNetManager.<String>upload("upload")
+
+         CCRxNetManager.<String>upload("upload")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
                     .setTxtParamMap(txtParamMap)
@@ -120,7 +119,7 @@ EvolvingNetLib当前最新版本为v1.0.0。
      
    - 发起下载请求，示例代码如下：  
      
-     CCDownloadRequest downloadRequest = CCRxNetManager.<String>download("sw-search-sp/software/16d5a98d3e034/QQ_8.9.5.22062_setup.exe")
+         CCDownloadRequest downloadRequest = CCRxNetManager.<String>download("sw-search-sp/software/16d5a98d3e034/QQ_8.9.5.22062_setup.exe")
                         .setHeaderMap(specifyHeaderMap)
                         .setPathMap(pathMap)
                         .setFileSaveName("test_OkGo_apk_file_download.apk")
@@ -135,7 +134,7 @@ EvolvingNetLib当前最新版本为v1.0.0。
                         .setNetLifecycleComposer(this.<CCBaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
                         .setResponseBeanType(TestRespObj.class);
 
-     downloadRequest.executeAsync();
+         downloadRequest.executeAsync();
      
      通过downloadRequest.executeAsync()开始或继续下载请求，通过downloadRequest.getNetCCCanceler().cancel();暂停或取消下载请求。
        
