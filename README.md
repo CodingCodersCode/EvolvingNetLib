@@ -77,10 +77,10 @@ EvolvingNetLib当前最新版本为v1.0.0。
                     .enableLogInterceptor(true)  //是否开启日志打印
                     .build();
 
-    - 发起网络请求，以发起GET请求为例:
+    - 发起普通网络请求，以发起GET请求为例:
     
-    ```
-         CCRxNetManager.<TestRespObj>get("/web/userController/login.do")  //业务api接口，例：//web/path1/path2/userinfo.do  
+       
+         CCRxNetManager.<TestRespObj>get("your api url")  //业务api接口，例：//web/path1/path2/userinfo.do  
                        .setHeaderMap(specifyHeaderMap)  //添加的额外header信息，Map<String, String>形式传递  
                        .setPathMap(pathMap)  //restful api的路径替换信息，Map<String, String>形式传递，同Retrofit的@Path功能  
                        .setParamMap(paramMap)  //所需参数信息，Map<String, String>形式传递  
@@ -96,5 +96,70 @@ EvolvingNetLib当前最新版本为v1.0.0。
                        .setNetLifecycleComposer(this<CCBaseResponse<TestRespObj>>bindUntilEvent(ActivityEvent.DESTROY))  //设置请求的生命周期管理，同RxLifeCycle  
                        .setResponseBeanType(TestRespObj.class)  //响应的json数据所对应的Java bean实体类型  
                        .executeAsync();  //执行请求  
-  ```
-    其中TestRespObj.class表示服务端所响应的json数据所对应的java bean实体类的类型
+       
+        其中TestRespObj.class表示服务端所响应的json数据所对应的java bean实体类的类型,若要发起其他类型的请求，只需将 CCRxNetManager.<TestRespObj>***get***("your api url") 中的 ***get*** 替换为 ***post*** 或 ***put*** 等即可。
+
+   - 发起上传请求，示例代码如下：  
+     
+     CCRxNetManager.<String>upload("upload")
+                    .setHeaderMap(specifyHeaderMap)
+                    .setPathMap(pathMap)
+                    .setTxtParamMap(txtParamMap)
+                    .setFileParamMap(fileParamMap)
+                    .setRetryCount(0)
+                    .setCacheQueryMode(CCCacheMode.QueryMode.MODE_ONLY_NET)
+                    .setCacheSaveMode(CCCacheMode.SaveMode.MODE_NO_CACHE)
+                    .setReqTag("test_login_req_tag")
+                    .setCacheKey("test_login_req_cache_key")
+                    .setCCNetCallback(new RxNetUploadProgressCallback())
+                    .setNetLifecycleComposer(this.<CCBaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
+                    .setResponseBeanType(TestRespObj.class)
+                    .executeAsync();
+ 
+   其中各方法含义，与普通网络请求中各方法含义相同。
+     
+   - 发起下载请求，示例代码如下：  
+     
+     CCDownloadRequest downloadRequest = CCRxNetManager.<String>download("sw-search-sp/software/16d5a98d3e034/QQ_8.9.5.22062_setup.exe")
+                        .setHeaderMap(specifyHeaderMap)
+                        .setPathMap(pathMap)
+                        .setFileSaveName("test_OkGo_apk_file_download.apk")
+                        .setRetryCount(3)
+                        .setCacheQueryMode(CCCacheMode.QueryMode.MODE_ONLY_NET)
+                        .setCacheSaveMode(CCCacheMode.SaveMode.MODE_NO_CACHE)
+                        .setReqTag("test_login_req_tag")
+                        .setCacheKey("test_login_req_cache_key")
+                        .setSupportRage(true)
+                        .setDeleteExistFile(false)
+                        .setCCNetCallback(new RxNetDownloadCalback())
+                        .setNetLifecycleComposer(this.<CCBaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
+                        .setResponseBeanType(TestRespObj.class);
+
+     downloadRequest.executeAsync();
+     
+     通过downloadRequest.executeAsync()开始或继续下载请求，通过downloadRequest.getNetCCCanceler().cancel();暂停或取消下载请求。
+       
+     
+以上是对EvolvingNetLib使用方法的简单介绍，详细内容请看demo代码。
+
+感谢
+---
+本人新手，第一次共享开源库，觉得好的，用您宝贵的小手点个start，以示对我的鼓励，个人新作，不喜者勿喷，谢谢！
+特别感谢[@jeasonlzy/okhttp-OkGo](https://github.com/jeasonlzy/okhttp-OkGo)和[@Tamicer/Novate](https://github.com/Tamicer/Novate),两位作者的开源库对我的工作起到了很大帮助，感谢！
+
+
+License
+---
+Copyright 2017 CodingCodersCode
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
