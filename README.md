@@ -41,6 +41,9 @@ EvolvingNetLib当前最新版本为v1.0.0。
             ......
             compile 'com.github.CodingCodersCode.EvolvingNetLib:EvolvingBase:v1.0.0'
           }
+          
+      EvolingBase通过结合RxLifeCycle，提供了网络请求的生命周期管理，也提供了简单的懒加载Fragment。
+        
  - 添加和申请权限
  
         <!--网络权限-->
@@ -52,7 +55,7 @@ EvolvingNetLib当前最新版本为v1.0.0。
         <!--向SD卡写入数据的权限 -->
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
         
-        对于6.0+的动态权限申请，需要开发者自己实现，EvolvingNetLib不包含申请逻辑，方便开发者自定义权限申请实现方式，减少捆绑。
+      对于6.0+的动态权限申请，需要开发者自己实现，EvolvingNetLib不包含申请逻辑，方便开发者自定义权限申请实现方式，减少捆绑。
         
 请求样例
 ---
