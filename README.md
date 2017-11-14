@@ -26,7 +26,22 @@ EvolvingNetLib当前最新版本为v1.0.1。
  
  使用方式
  ----
- AndroidStudio Gradle:
+ (1) maven 
+   
+          <repositories>
+             <repository>
+                 <id>jitpack.io</id>
+                 <url>https://jitpack.io</url>
+             </repository>
+          </repositories>
+          
+          <dependency>
+              <groupId>com.github.CodingCodersCode</groupId>
+              <artifactId>EvolvingNetLib</artifactId>
+              <version>v1.0.1</version>
+          </dependency>
+ 
+ (2) gradle
   - project root `build.gradle`:
   
           allprojects {
@@ -41,17 +56,21 @@ EvolvingNetLib当前最新版本为v1.0.1。
  
           dependencies {
             ......
-            compile 'com.github.CodingCodersCode.EvolvingNetLib:EvolvingNet:v1.0.0'
+            compile 'com.github.CodingCodersCode.EvolvingNetLib:EvolvingNet:vx.x.x'
           }
 
  - EvolvingNetLib还提供了另外一个类库，与RxLifeCycle结合，方便管理RxJava，避免内存泄漏问题的产生，若要使用，则添加如下依赖：
           
           dependencies {
             ......
-            compile 'com.github.CodingCodersCode.EvolvingNetLib:EvolvingBase:v1.0.0'
+            compile 'com.github.CodingCodersCode.EvolvingNetLib:EvolvingBase:vx.x.x'
           }
-            
-      EvolingBase通过结合RxLifeCycle，提供了网络请求的生命周期管理，也提供了简单的懒加载Fragment。
+          
+    EvolingBase通过结合RxLifeCycle，提供了网络请求的生命周期管理，也提供了简单的懒加载Fragment。 
+     
+ 将`x.x.x`替换成具体的版本号。 
+    
+  
         
  - 添加和申请权限
  
