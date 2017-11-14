@@ -5,6 +5,7 @@ import com.codingcoderscode.evolving.net.request.CCDeleteRequest;
 import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
 import com.codingcoderscode.evolving.net.request.CCGetRequest;
 import com.codingcoderscode.evolving.net.request.CCHeadRequest;
+import com.codingcoderscode.evolving.net.request.CCMultiDownladRequest;
 import com.codingcoderscode.evolving.net.request.CCOptionsRequest;
 import com.codingcoderscode.evolving.net.request.CCPostRequest;
 import com.codingcoderscode.evolving.net.request.CCPutRequest;
@@ -167,6 +168,10 @@ public class CCRxNetManager {
     /** 下载文件请求 */
     public static <T> CCDownloadRequest<T> download(String url){
         return new CCDownloadRequest<T>(url);
+    }
+
+    public static <T> CCMultiDownladRequest<T> multiDownload(String url){
+        return new CCMultiDownladRequest<T>(url);
     }
 
 }

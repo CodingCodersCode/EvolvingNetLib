@@ -18,6 +18,7 @@ import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.request.entity.CCFile;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.demo.evolving.net.lib.downloadmanager.CCDownloadTask;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
@@ -25,11 +26,19 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.squareup.leakcanary.RefWatcher;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
+import org.reactivestreams.Subscription;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.FlowableSubscriber;
+import io.reactivex.annotations.NonNull;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -213,7 +222,6 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
                 downloadRequest = CCRxNetManager.<String>download("sw-search-sp/software/16d5a98d3e034/QQ_8.9.5.22062_setup.exe")
                         .setHeaderMap(specifyHeaderMap)
                         .setPathMap(pathMap)
-                        //.setParamMap(paramMap)
                         .setFileSaveName("test_OkGo_apk_file_download.apk")
                         .setRetryCount(3)
                         .setCacheQueryMode(CCCacheMode.QueryMode.MODE_ONLY_NET)
@@ -221,10 +229,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
                         .setReqTag("test_login_req_tag")
                         .setCacheKey("test_login_req_cache_key")
                         .setSupportRage(true)
-                        .setDeleteExistFile(false)
-                        //.setAutoRange(true)
                         .setCCNetCallback(new RxNetDownloadCalback())
-                        //.setCcDownloadProgressCallback(new RxNetDownloadCalback())
                         .setNetLifecycleComposer(this.<CCBaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
                         .setResponseBeanType(TestRespObj.class);
 
@@ -311,7 +316,6 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
                     .setReqTag("test_login_req_tag")
                     .setCacheKey("test_login_req_cache_key")
                     .setCCNetCallback(new RxNetUploadProgressCallback())
-                    //.setCcUploadProgressCallback(new RxNetUploadProgressCallback())
                     .setNetLifecycleComposer(this.<CCBaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
                     .setResponseBeanType(TestRespObj.class)
                     .executeAsync();
@@ -388,6 +392,46 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+
+    private void onTestRepeat(){
+
+        Flowable flowable = Flowable.create(new FlowableOnSubscribe<CCDownloadTask>() {
+            @Override
+            public void subscribe(FlowableEmitter<CCDownloadTask> e) throws Exception {
+
+
+
+
+            }
+        }, BackpressureStrategy.BUFFER);
+
+
+        flowable.repeat().subscribe(new FlowableSubscriber() {
+            @Override
+            public void onSubscribe(@NonNull Subscription s) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
+
     }
 
 

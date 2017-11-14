@@ -12,6 +12,7 @@ import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCDownloadFileWritterCallback;
 //import com.codingcoderscode.evolving.net.request.callback.CCDownloadProgressCallback;
 import com.codingcoderscode.evolving.net.request.entity.CCDownloadPiece;
+import com.codingcoderscode.evolving.net.request.exception.NoEnoughSpaceException;
 import com.codingcoderscode.evolving.net.request.exception.NoResponseBodyDataException;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
 import com.codingcoderscode.evolving.net.request.retry.FlowableRetryWithDelay;
@@ -19,6 +20,7 @@ import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.CCFileUtils;
 import com.codingcoderscode.evolving.net.util.CCNetUtil;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.codingcoderscode.evolving.net.util.SDCardUtil;
 
 import org.reactivestreams.Publisher;
 
@@ -121,17 +123,19 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                     });
                 }*/
 
-                onFileSaveCheck();
 
-                File fileToSave = new File(getFileSavePath() + getFileSaveName());
-
-                long fileNowSize = fileToSave.length();
-
-                long requestRangeStart = (fileNowSize - 2 >= 0)? fileNowSize - 2 : 0;
-
-                StringBuilder rangeBulider = new StringBuilder("bytes=");
 
                 if (isSupportRage()) {
+
+                    onFileSaveCheck(isSupportRage());
+
+                    File fileToSave = new File(getFileSavePath() + getFileSaveName());
+
+                    long fileNowSize = fileToSave.length();
+
+                    long requestRangeStart = (fileNowSize - 2 >= 0)? fileNowSize - 2 : 0;
+
+                    StringBuilder rangeBulider = new StringBuilder("bytes=");
 
                     rangeBulider.append(requestRangeStart).append("-");
                     downloadedSize = requestRangeStart;
@@ -159,6 +163,24 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                             retrofitResponse = responseBodyCall.clone().execute();
 
                             headers = retrofitResponse.headers();
+
+                            onFileSaveCheck(CCNetUtil.isHttpSupportRange(headers) && isSupportRage());
+
+                            String contentLengthStr = CCNetUtil.getHeader("Content-Length", headers);
+
+                            if (TextUtils.isEmpty(contentLengthStr)){
+                                throw new NoResponseBodyDataException("no file data");
+                            }else {
+                                long contentLengthLong = convertStringToLong(contentLengthStr);
+
+                                if (contentLengthLong > SDCardUtil.getSDCardAvailableSize() * 1024 * 1024){
+                                    throw new NoEnoughSpaceException("write failed: ENOSPC (No space left on device)");
+                                }
+
+                                if (contentLengthLong == 0){
+                                    throw new NoResponseBodyDataException("no file data");
+                                }
+                            }
 
                             if (getCcDownloadFileWritterCallback() != null){
                                 getCcDownloadFileWritterCallback().onWriteToDisk(retrofitResponse.body(), headers, getCcNetCallback());
@@ -209,6 +231,16 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                     }
                 }).retryWhen(new FlowableRetryWithDelay(getRetryCount(), getRetryDelayTimeMillis())).onBackpressureLatest();*/
 
+    }
+
+    private long convertStringToLong(String source){
+        long result = 0;
+        try {
+            result = Long.parseLong(source);
+        }catch (Exception e){
+
+        }
+        return result;
     }
 
     @Override
@@ -449,7 +481,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
         }
     }
 
-    private void onFileSaveCheck() {
+    private void onFileSaveCheck(boolean supportRage) {
         File file;
         try {
 
@@ -468,7 +500,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
             file = new File(getFileSavePath() + getFileSaveName());
 
-            if (file.exists() && file.isFile() && isDeleteExistFile()) {
+            if (file.exists() && file.isFile() && !supportRage) {
                 CCFileUtils.deleteFile(file);
             }
 
@@ -567,14 +599,14 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
         return this;
     }*/
 
-    public boolean isDeleteExistFile() {
+    /*public boolean isDeleteExistFile() {
         return deleteExistFile;
     }
 
     public CCDownloadRequest<T> setDeleteExistFile(boolean deleteExistFile) {
         this.deleteExistFile = deleteExistFile;
         return this;
-    }
+    }*/
 
     /*
     public long getRangeStart() {

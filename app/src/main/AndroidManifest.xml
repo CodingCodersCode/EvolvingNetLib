@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.demo.evolving.net.lib">
 
+    <!--网络权限-->
     <uses-permission android:name="android.permission.INTERNET" />
     <!--在SD卡中创建与删除文件权限 -->
     <uses-permission android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS"/>
@@ -35,6 +36,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+        <activity android:name=".RepeatTestActivity">
+
+
+
+        </activity>
+
+        <activity android:name=".DownloadListTestActivity">
+
+
+
+        </activity>
+
+        <activity android:name=".DownloadListTestActivity2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

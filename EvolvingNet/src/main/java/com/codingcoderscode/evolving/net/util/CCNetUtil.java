@@ -1,6 +1,10 @@
 package com.codingcoderscode.evolving.net.util;
 
+import android.text.TextUtils;
+
 import java.util.Map;
+
+import okhttp3.Headers;
 
 /**
  * Created by ghc on 2017/10/30.
@@ -36,5 +40,34 @@ public class CCNetUtil {
         }
 
         return resultApiUrl;
+    }
+
+    /**
+     * 判断是否支持Range
+     * @param headers
+     * @return
+     */
+    public static boolean isHttpSupportRange(Headers headers){
+        boolean support = false;
+        try{
+
+            if (TextUtils.equals("bytes", getHeader("Accept-Ranges", headers))){
+                support = true;
+            }else {
+                String value = getHeader("Content-Range", headers);
+                support = (value != null && value.startsWith("bytes"));
+            }
+        }catch (Exception e){
+
+        }
+        return support;
+    }
+
+    public static String getHeader(String headerKey, Headers headers){
+        if (headers == null || headerKey == null){
+            return null;
+        }else {
+            return headers.get(headerKey);
+        }
     }
 }

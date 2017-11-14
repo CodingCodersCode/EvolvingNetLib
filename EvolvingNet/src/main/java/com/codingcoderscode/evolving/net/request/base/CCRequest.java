@@ -271,6 +271,8 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
                     ccNetCallback.<T>onStartRequest(reqTag, netCCCanceler);
                 }
+                setRequestRunning(true);
+                setForceCanceled(false);
             }
 
             @Override
@@ -285,6 +287,8 @@ public abstract class CCRequest<T, R extends CCRequest> {
                 if (ccNetCallback != null) {
                     ccNetCallback.onError(reqTag, t);
                 }
+                setRequestRunning(false);
+                setForceCanceled(false);
             }
 
             @Override
@@ -292,6 +296,8 @@ public abstract class CCRequest<T, R extends CCRequest> {
                 if (ccNetCallback != null) {
                     ccNetCallback.onComplete(reqTag);
                 }
+                setRequestRunning(false);
+                setForceCanceled(false);
             }
         });
     }
@@ -301,7 +307,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
      *
      * @param tccBaseResponse 响应结果包装对象
      */
-    protected void onSaveToCache(CCBaseResponse<T> tccBaseResponse) {
+    private void onSaveToCache(CCBaseResponse<T> tccBaseResponse) {
         try {
 
             T realResponse = (tccBaseResponse == null) ? null : tccBaseResponse.getRealResponse();
@@ -349,7 +355,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
      *
      * @param tccBaseResponse 响应结果包装对象
      */
-    protected void onDealWithResponse(CCBaseResponse<T> tccBaseResponse) {
+    private void onDealWithResponse(CCBaseResponse<T> tccBaseResponse) {
         try {
             if (ccNetCallback != null) {
 
@@ -561,6 +567,10 @@ public abstract class CCRequest<T, R extends CCRequest> {
     public R setNetLifecycleComposer(FlowableTransformer<CCBaseResponse<T>, CCBaseResponse<T>> netLifecycleComposer) {
         this.netLifecycleComposer = netLifecycleComposer;
         return (R) this;
+    }
+
+    public FlowableTransformer<CCBaseResponse<T>, CCBaseResponse<T>> getNetLifecycleComposer() {
+        return netLifecycleComposer;
     }
 
     @SuppressWarnings("unchecked")
