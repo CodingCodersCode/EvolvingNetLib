@@ -58,9 +58,9 @@ EvolvingNetLib当前最新版本为v1.0.1。
  - app `build.gradle`:
  
           dependencies {
-            ......
-            compile 'com.github.CodingCodersCode.EvolvingNetLib:EvolvingNet:vx.x.x'
-          }
+               ......
+               compile 'com.github.CodingCodersCode.EvolvingNetLib:EvolvingNet:vx.x.x' 
+             }
 
  - EvolvingNetLib还提供了另外一个类库，与RxLifeCycle结合，方便管理RxJava，避免内存泄漏问题的产生，若要使用，则添加如下依赖：
           
