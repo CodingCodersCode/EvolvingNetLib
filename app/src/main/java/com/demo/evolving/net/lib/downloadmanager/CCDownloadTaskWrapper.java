@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
 
 /**
- * Created by ghc on 2017/11/8.
+ * Created by CodingCodersCode on 2017/11/8.
  */
 
 public class CCDownloadTaskWrapper implements Comparable<CCDownloadTaskWrapper> {

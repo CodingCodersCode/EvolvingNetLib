@@ -5,7 +5,7 @@ import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import org.reactivestreams.Subscription;
 
 /**
- * Created by ghc on 2017/10/27.
+ * Created by CodingCodersCode on 2017/10/27.
  */
 
 public class CCCanceler {

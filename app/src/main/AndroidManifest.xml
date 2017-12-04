@@ -55,12 +55,34 @@
         </activity>
 
         <activity android:name=".DownloadListTestActivity2">
+
+        </activity>
+
+        <activity android:name=".democode.ChooseDemoCodeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".democode.OrdinaryRequestActivity">
+
+        </activity>
+
+        <activity android:name=".democode.SingleDownloadRequestActivity">
+
+        </activity>
+
+        <activity android:name=".democode.MultiDownloadRequestActivity">
+
+        </activity>
+
+        <activity android:name=".democode.UploadRequestActivity">
+
+        </activity>
+
+
     </application>
 
 </manifest>

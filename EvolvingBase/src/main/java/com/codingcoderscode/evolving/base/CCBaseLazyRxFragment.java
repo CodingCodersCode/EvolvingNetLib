@@ -12,7 +12,7 @@ import com.codingcoderscode.evolving.base.interfaces.OnFragmentVisibilityChanged
 
 
 /**
- * Created by ghc on 2017/10/16.
+ * Created by CodingCodersCode on 2017/10/16.
  * <p>
  * 懒加载Fragment基类
  */

@@ -1,7 +1,7 @@
 package com.codingcoderscode.evolving.net.request.entity;
 
 /**
- * Created by ghc on 2017/11/5.
+ * Created by CodingCodersCode on 2017/11/5.
  */
 
 public class CCDownloadPiece {

@@ -16,7 +16,7 @@ import android.graphics.BitmapFactory;
 import android.os.StatFs;
 
 /**
- * Created by ghc on 2017/11/9.
+ * Created by CodingCodersCode on 2017/11/9.
  * <p>
  * SD卡相关辅助类
  */

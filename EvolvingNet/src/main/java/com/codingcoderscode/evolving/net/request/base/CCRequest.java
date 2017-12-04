@@ -35,7 +35,7 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 
 /**
- * Created by ghc on 2017/10/26.
+ * Created by CodingCodersCode on 2017/10/26.
  * <p>
  * 请求基类
  */
@@ -44,51 +44,53 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
     private final String LOG_TAG = CCRequest.class.getCanonicalName();
 
+    //当前请求额外header信息
     protected Map<String, String> headerMap;
+    //当前请求参数信息
     protected Map<String, String> paramMap;
+    //当前请求restful api路径替换信息
     private Map<String, String> pathMap;
-
+    //失败重试次数
     protected int retryCount;
-
+    //每次重试前的延迟时间，单位：毫秒
     private int retryDelayTimeMillis;
-
-    private int cacheMode;
-
+    //缓存模式
+    //private int cacheMode;
+    //请求标识
     private Object reqTag;
-
+    //缓存标识
     private String cacheKey;
+    //缓存有效期
+    //private long cacheValidTimeLen;
 
-    private long cacheValidTimeLen;
+    //private String baseUrl;
 
-    private String baseUrl;
-
-    private String baseUrl_backup;
-
+    //private String baseUrl_backup;
+    //api url
     protected String apiUrl;
-
+    //网络结果回调
     private CCNetCallback ccNetCallback;
-
+    //缓存保存回调，非ui线程，位于io线程
     private CCCacheSaveCallback ccCacheSaveCallback;
-
+    //缓存查询回调，非ui线程，位于io线程
     private CCCacheQueryCallback ccCacheQueryCallback;
-
+    //请求生命周期管理
     private FlowableTransformer<CCBaseResponse<T>, CCBaseResponse<T>> netLifecycleComposer;
-
-    /**
-     * {@link Type}
-     */
+    //响应结果所对应的具体Java实体类类型
     protected Type responseBeanType;
-
+    //缓存查找策略
     private int cacheQueryMode;
+    //缓存保存策略
     private int cacheSaveMode;
-
+    //网络取消对象
     private CCCanceler netCCCanceler;
+    //取消网络请求对象
     private Subscription netCancelSubscription;
-
+    //结果转换，用户自定义
     private CCConvert ccConvert;
-
+    //请求是否运行
     private boolean requestRunning;
-
+    //是否被强制退出
     private boolean forceCanceled;
 
     protected abstract Flowable<CCBaseResponse<T>> getRequestFlowable();
@@ -189,9 +191,12 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
     }
 
+    /**
+     * 执行请求
+     */
     public synchronized void executeAsync() {
 
-        if (isRequestRunning()){
+        if (isRequestRunning()) {
             return;
         }
 
@@ -391,32 +396,41 @@ public abstract class CCRequest<T, R extends CCRequest> {
         }
     }
 
-    protected T convertResponse(ResponseBody responseBody){
+    /**
+     * 结果转换：json ==> JavaBean
+     *
+     * @param responseBody
+     * @return
+     */
+    protected T convertResponse(ResponseBody responseBody) {
         T response;
         try {
-            if (getCcConvert() != null){
+            if (getCcConvert() != null) {
                 response = getCcConvert().<T>convert(responseBody, responseBeanType);
-            }else {
+            } else {
                 response = CCDefaultResponseBodyConvert.<T>convertResponse(responseBody, responseBeanType);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             response = null;
         }
         return response;
     }
 
-    public void cancel(){
+    /**
+     * 取消 or 中断请求
+     */
+    public void cancel() {
         try {
 
             setRequestRunning(false);
             setForceCanceled(true);
 
-            if (netCancelSubscription != null){
+            if (netCancelSubscription != null) {
                 netCancelSubscription.cancel();
                 netCancelSubscription = null;
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -471,7 +485,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
         return (R) this;
     }
 
-    public int getCacheMode() {
+    /*public int getCacheMode() {
         return cacheMode;
     }
 
@@ -479,7 +493,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
     public R setCacheMode(int cacheMode) {
         this.cacheMode = cacheMode;
         return (R) this;
-    }
+    }*/
 
     public Object getReqTag() {
         return reqTag;
@@ -501,7 +515,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
         return (R) this;
     }
 
-    public long getCacheValidTimeLen() {
+    /*public long getCacheValidTimeLen() {
         return cacheValidTimeLen;
     }
 
@@ -509,9 +523,9 @@ public abstract class CCRequest<T, R extends CCRequest> {
     public R setCacheValidTimeLen(long cacheValidTimeLen) {
         this.cacheValidTimeLen = cacheValidTimeLen;
         return (R) this;
-    }
+    }*/
 
-    public String getBaseUrl() {
+    /*public String getBaseUrl() {
         return baseUrl;
     }
 
@@ -529,7 +543,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
     public R setBaseUrl_backup(String baseUrl_backup) {
         this.baseUrl_backup = baseUrl_backup;
         return (R) this;
-    }
+    }*/
 
     public String getApiUrl() {
         return apiUrl;
@@ -614,7 +628,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
     @SuppressWarnings("unchecked")
     public R setCcConvert(CCConvert ccConvert) {
         this.ccConvert = ccConvert;
-        return (R)this;
+        return (R) this;
     }
 
     public boolean isRequestRunning() {

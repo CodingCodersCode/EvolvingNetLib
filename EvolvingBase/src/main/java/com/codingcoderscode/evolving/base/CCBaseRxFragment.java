@@ -3,7 +3,7 @@ package com.codingcoderscode.evolving.base;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 /**
- * Created by ghc on 2017/10/16.
+ * Created by CodingCodersCode on 2017/10/16.
  *
  * RxJava/Android与Fragment生命周期监听基类
  */

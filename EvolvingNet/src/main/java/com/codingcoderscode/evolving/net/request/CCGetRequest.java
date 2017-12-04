@@ -26,7 +26,7 @@ import retrofit2.Converter;
 import retrofit2.Response;
 
 /**
- * Created by ghc on 2017/10/26.
+ * Created by CodingCodersCode on 2017/10/26.
  * <p>
  * GET类型请求类
  */

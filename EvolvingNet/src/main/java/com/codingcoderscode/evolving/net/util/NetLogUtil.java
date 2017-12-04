@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 /**
- * Created by ghc on 2017/3/29.
+ * Created by CodingCodersCode on 2017/3/29.
  */
 
 public class NetLogUtil {

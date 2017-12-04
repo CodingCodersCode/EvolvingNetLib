@@ -3,7 +3,7 @@ package com.demo.evolving.net.lib.downloadmanager;
 import java.util.Comparator;
 
 /**
- * Created by ghc on 2017/11/10.
+ * Created by CodingCodersCode on 2017/11/10.
  */
 
 public class CCTaskComparator {

@@ -1,7 +1,7 @@
 package com.codingcoderscode.evolving.net.request.callback;
 
 /**
- * Created by ghc on 2017/10/31.
+ * Created by CodingCodersCode on 2017/10/31.
  * <p>
  * 下载进度回调类
  */

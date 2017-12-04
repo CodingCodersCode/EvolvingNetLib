@@ -32,7 +32,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by ghc on 2017/11/7.
+ * Created by CodingCodersCode on 2017/11/7.
  * <p>
  * 下载管理类，封装多线程下载，任务自动管理和调度等功能
  */

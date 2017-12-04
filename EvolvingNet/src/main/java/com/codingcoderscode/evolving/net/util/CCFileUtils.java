@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import java.io.File;
 
 /**
- * Created by ghc on 2017/10/31.
+ * Created by CodingCodersCode on 2017/10/31.
  */
 
 public class CCFileUtils {

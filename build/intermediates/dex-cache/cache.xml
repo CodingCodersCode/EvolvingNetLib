@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="/Users/ghc/AndroidStudioProjects/demo/EvolvingNetLib/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="1904fbc61f10ee22a9b24e88ada074d8905a606f">
+        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_a91a72dcfdc98a9660db979ce33a52687d2a017a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.1"
         sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
-        <dex dex="/Users/ghc/AndroidStudioProjects/demo/EvolvingNetLib/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_71eb869ed7ffc45e9789d9f560c2ddfc7a47367a/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ghc/AndroidStudioProjects/demo/EvolvingNetLib/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.1"
-        sha1="e451c6b5d1b94eec82ef00a9d2871155c0ff965c">
-        <dex dex="/Users/ghc/AndroidStudioProjects/demo/EvolvingNetLib/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_d6322b761e457648afe5ffce524b6aa54bec699e/classes.dex" />
+        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_fcd308c6f7f42f9956480900c750d99c4bf3f26d/classes.dex" />
     </item>
 
 </items>

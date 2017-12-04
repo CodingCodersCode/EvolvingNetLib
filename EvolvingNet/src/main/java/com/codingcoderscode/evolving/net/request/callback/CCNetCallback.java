@@ -3,42 +3,112 @@ package com.codingcoderscode.evolving.net.request.callback;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 
 /**
- * Created by ghc on 2017/11/5.
+ * Created by CodingCodersCode on 2017/11/5.
+ * <p>
+ * 网络请求回调
  */
 
 public abstract class CCNetCallback {
 
     /**
-     * you can call the method canceler.cancel() to cancel the request when you need.
+     * 可以调用canceler的cancel()方法取消请求，但建议通过具体Request对象的cancel()方法取消
+     * <p>
+     * 回调线程：UI线程
      *
+     * @param reqTag
      * @param canceler
+     * @param <T>
      */
     public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
     }
 
+    /**
+     * 内存缓存查询成功回调
+     * <p>
+     * 回调线程：UI线程
+     *
+     * @param reqTag
+     * @param response
+     * @param <T>
+     */
     public <T> void onMemoryCacheQuerySuccess(Object reqTag, T response) {
     }
 
+    /**
+     * 磁盘缓存查询成功回调
+     * <p>
+     * 回调线程：UI线程
+     *
+     * @param reqTag
+     * @param response
+     * @param <T>
+     */
     public <T> void onDiskCacheQuerySuccess(Object reqTag, T response) {
     }
 
+    /**
+     * 缓存查询成功回调
+     * <p>
+     * 回调线程：UI线程
+     *
+     * @param reqTag
+     * @param response
+     * @param <T>
+     */
     public <T> void onCacheQuerySuccess(Object reqTag, T response) {
     }
 
+    /**
+     * 网络请求成功回调
+     * <p>
+     * 回调线程：UI线程
+     *
+     * @param reqTag
+     * @param response
+     * @param <T>
+     */
     public <T> void onNetSuccess(Object reqTag, T response) {
     }
 
+    /**
+     * 请求成功回调
+     * <p>
+     * 回调线程：UI线程
+     *
+     * @param reqTag
+     * @param response
+     * @param <T>
+     */
     public <T> void onSuccess(Object reqTag, T response) {
     }
 
+    /**
+     * 请求失败回调
+     * <p>
+     * 回调线程：UI线程
+     *
+     * @param reqTag
+     * @param t
+     * @param <T>
+     */
     public <T> void onError(Object reqTag, Throwable t) {
     }
 
+    /**
+     * 请求完成回调
+     * <p>
+     * 回调线程：UI线程
+     *
+     * @param reqTag
+     * @param <T>
+     */
     public <T> void onComplete(Object reqTag) {
     }
 
     /**
-     * 进度更新，在UI线程回调
+     * 进度更新回调
+     * <p>
+     * 回调线程：UI线程
      *
      * @param reqTag        文件标识
      * @param progress      下载进度 or 上传进度
@@ -51,7 +121,9 @@ public abstract class CCNetCallback {
     }
 
     /**
-     * 进度保存回调，在非UI线程回调，目前只用于下载进度保存回调
+     * 进度保存回调
+     * <p>
+     * 回调线程：非UI线程，目前只用于下载进度保存回调
      *
      * @param reqTag        文件标识
      * @param progress      下载进度

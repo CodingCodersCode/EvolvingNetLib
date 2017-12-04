@@ -1,7 +1,7 @@
 package com.codingcoderscode.evolving.net.request.exception;
 
 /**
- * Created by ghc on 2017/11/9.
+ * Created by CodingCodersCode on 2017/11/9.
  * <p>
  * 磁盘空间不足异常，用于下载时使用
  */

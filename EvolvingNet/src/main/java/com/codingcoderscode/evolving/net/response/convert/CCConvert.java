@@ -5,7 +5,7 @@ import java.lang.reflect.Type;
 import okhttp3.ResponseBody;
 
 /**
- * Created by ghc on 2017/11/4.
+ * Created by CodingCodersCode on 2017/11/4.
  */
 
 public abstract class CCConvert {

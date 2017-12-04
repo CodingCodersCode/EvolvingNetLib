@@ -7,7 +7,7 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 /**
- * Created by ghc on 2017/11/7.
+ * Created by CodingCodersCode on 2017/11/7.
  */
 
 public class CCDownloadTask extends CCBaseDownloadTask{

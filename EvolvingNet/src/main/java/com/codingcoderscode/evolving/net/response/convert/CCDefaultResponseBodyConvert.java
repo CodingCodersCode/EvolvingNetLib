@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 import okhttp3.ResponseBody;
 
 /**
- * Created by ghc on 2017/10/27.
+ * Created by CodingCodersCode on 2017/10/27.
  */
 
 public class CCDefaultResponseBodyConvert {

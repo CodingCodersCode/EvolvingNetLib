@@ -1,7 +1,7 @@
 package com.codingcoderscode.evolving.net.request.method;
 
 /**
- * Created by ghc on 2017/10/30.
+ * Created by CodingCodersCode on 2017/10/30.
  */
 
 public class CCHttpMethod {

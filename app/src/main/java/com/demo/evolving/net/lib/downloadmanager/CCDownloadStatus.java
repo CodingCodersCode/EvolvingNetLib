@@ -1,7 +1,7 @@
 package com.demo.evolving.net.lib.downloadmanager;
 
 /**
- * Created by ghc on 2017/11/7.
+ * Created by CodingCodersCode on 2017/11/7.
  */
 
 public class CCDownloadStatus {

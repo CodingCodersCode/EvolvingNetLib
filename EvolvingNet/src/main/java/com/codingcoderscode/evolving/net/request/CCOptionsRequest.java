@@ -22,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 /**
- * Created by ghc on 2017/10/30.
+ * Created by CodingCodersCode on 2017/10/30.
  */
 
 public class CCOptionsRequest<T> extends CCRequest<T, CCHeadRequest<T>> {

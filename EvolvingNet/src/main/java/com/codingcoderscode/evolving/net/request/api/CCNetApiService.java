@@ -23,7 +23,7 @@ import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
 /**
- * Created by ghc on 2017/10/16.
+ * Created by CodingCodersCode on 2017/10/16.
  * <p>
  * 公共泛型Retrofit请求接口
  */
@@ -193,10 +193,4 @@ public interface CCNetApiService {
             @QueryMap Map<String, String> txtParamMap
     );
 
-
-    @GET
-    Call<ResponseBody> executeGetsss(
-            @Url String url,
-            @HeaderMap Map<String, String> headerMap,
-            @QueryMap Map<String, String> paramMap);
 }

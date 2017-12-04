@@ -1,7 +1,7 @@
 package com.codingcoderscode.evolving.net.cache.mode;
 
 /**
- * Created by ghc on 2017/10/27.
+ * Created by CodingCodersCode on 2017/10/27.
  */
 
 public class CCCacheMode {

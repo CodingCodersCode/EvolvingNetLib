@@ -132,7 +132,6 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
             if (data != null && requestCode == 100) {
                 List<ImageItem> images = (List<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
-
                 onStartUploadMethodTest(images);
             }
         }
@@ -141,8 +140,6 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        // Forward results to EasyPermissions
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
@@ -153,10 +150,6 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-        //Log.d(TAG, "onPermissionsDenied:" + requestCode + ":" + perms.size());
-
-        // (Optional) Check whether the user denied any permissions and checked "NEVER ASK AGAIN."
-        // This will display a dialog directing them to enable the permission in app settings.
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             new AppSettingsDialog.Builder(this).build().show();
         }
@@ -183,16 +176,10 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
             String[] perms = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
             if (EasyPermissions.hasPermissions(this, perms)) {
 
-                Map<String, String> commonHeaderMap = new HashMap<>();
-                commonHeaderMap.put("common_header_param1", "common_header_value1");
-                commonHeaderMap.put("common_header_param2", "common_header_value2");
-                commonHeaderMap.put("common_header_param3", "common_header_value3");
-
                 Map<String, String> specifyHeaderMap = new HashMap<>();
                 specifyHeaderMap.put("specify_header_param1", "specify_header_value1");
                 specifyHeaderMap.put("specify_header_param2", "specify_header_value2");
                 specifyHeaderMap.put("specify_header_param3", "specify_header_value3");
-
 
                 Map<String, String> paramMap = new HashMap<>();
                 paramMap.put("logic_txt_param1", "logic_txt_value1");
@@ -206,20 +193,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
                 pathMap.put("{path4}", "path1_value4");
                 pathMap.put("{path5}", "path1_value5");
 
-
-                //CCRxNetManager测试代码
-                CCRxNetManager ccRxNetManager = new CCRxNetManager.Builder()
-                        .baseUrl("http://sw.bos.baidu.com/")
-                        .callAdapterFactory(RxJava2CallAdapterFactory.create())
-                        .converterFactory(GsonConverterFactory.create())
-                        .commonHeaders(commonHeaderMap)
-                        .connectTimeout(10, TimeUnit.SECONDS)
-                        .readTimeout(10, TimeUnit.SECONDS)
-                        .writeTimeout(10, TimeUnit.SECONDS)
-                        .enableLogInterceptor(true)
-                        .build();
-
-                downloadRequest = CCRxNetManager.<String>download("sw-search-sp/software/16d5a98d3e034/QQ_8.9.5.22062_setup.exe")
+                downloadRequest = CCRxNetManager.<Void>download("sw-search-sp/software/16d5a98d3e034/QQ_8.9.5.22062_setup.exe")
                         .setHeaderMap(specifyHeaderMap)
                         .setPathMap(pathMap)
                         .setFileSaveName("test_OkGo_apk_file_download.apk")
@@ -230,8 +204,8 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
                         .setCacheKey("test_login_req_cache_key")
                         .setSupportRage(true)
                         .setCCNetCallback(new RxNetDownloadCalback())
-                        .setNetLifecycleComposer(this.<CCBaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
-                        .setResponseBeanType(TestRespObj.class);
+                        .setNetLifecycleComposer(this.<CCBaseResponse<Void>>bindUntilEvent(ActivityEvent.DESTROY))
+                        .setResponseBeanType(Void.class);
 
                 downloadRequest.executeAsync();
 
@@ -252,15 +226,6 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
 
         try {
 
-            //所有Http请求的公共header信息
-            //指定的Http请求所独有的header信息
-            //请求参数信息
-            //restful api中的path信息
-            Map<String, String> commonHeaderMap = new HashMap<>();
-            commonHeaderMap.put("common_header_param1", "common_header_value1");
-            commonHeaderMap.put("common_header_param2", "common_header_value2");
-            commonHeaderMap.put("common_header_param3", "common_header_value3");
-
             Map<String, String> specifyHeaderMap = new HashMap<>();
             specifyHeaderMap.put("specify_header_param1", "specify_header_value1");
             specifyHeaderMap.put("specify_header_param2", "specify_header_value2");
@@ -279,7 +244,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
             for (int i = 0; i < images.size(); i++){
 
                 ImageItem imageItem = images.get(i);
-                fileParamMap.put("fileKey" + i, new CCFile(imageItem.path, "application/octet-stream"));
+                fileParamMap.put("fileKey" + i, new CCFile(imageItem.path));
 
                 fileInfoStr = fileInfoStr + "fileKey" + i + "===>" + imageItem.path + "\n";
             }
@@ -292,18 +257,6 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
             pathMap.put("{path3}", "path1_value3");
             pathMap.put("{path4}", "path1_value4");
             pathMap.put("{path5}", "path1_value5");
-
-            //CCRxNetManager测试代码
-            CCRxNetManager ccRxNetManager = new CCRxNetManager.Builder()
-                    .baseUrl("http://server.jeasonlzy.com/OkHttpUtils/")
-                    .callAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .converterFactory(GsonConverterFactory.create())
-                    .commonHeaders(commonHeaderMap)
-                    .connectTimeout(30, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS)
-                    .writeTimeout(30, TimeUnit.SECONDS)
-                    .enableLogInterceptor(true)
-                    .build();
 
             CCRxNetManager.<String>upload("upload")
                     .setHeaderMap(specifyHeaderMap)
@@ -334,12 +287,6 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
     private void onStartRxRetrofitOkHttpRequest() {
         try {
 
-            //所有Http请求的公共header信息
-            Map<String, String> commonHeaderMap = new HashMap<>();
-            commonHeaderMap.put("common_header_param1", "common_header_value1");
-            commonHeaderMap.put("common_header_param2", "common_header_value2");
-            commonHeaderMap.put("common_header_param3", "common_header_value3");
-
             //指定的Http请求所独有的header信息
             Map<String, String> specifyHeaderMap = new HashMap<>();
             specifyHeaderMap.put("specify_header_param1", "specify_header_value1");
@@ -359,18 +306,6 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
             pathMap.put("{path3}", "path1_value3");
             pathMap.put("{path4}", "path1_value4");
             pathMap.put("{path5}", "path1_value5");
-
-            //CCRxNetManager测试代码
-            CCRxNetManager ccRxNetManager = new CCRxNetManager.Builder()
-                    .baseUrl("http://mobile.huiedu.com.cn")
-                    .callAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .converterFactory(GsonConverterFactory.create())
-                    .commonHeaders(commonHeaderMap)
-                    .connectTimeout(30, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS)
-                    .writeTimeout(30, TimeUnit.SECONDS)
-                    .enableLogInterceptor(true)
-                    .build();
 
             CCRxNetManager.<TestRespObj>get("/web/userController/login.do")
                     .setHeaderMap(specifyHeaderMap)
@@ -393,49 +328,6 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
             e.printStackTrace();
         }
     }
-
-
-
-    private void onTestRepeat(){
-
-        Flowable flowable = Flowable.create(new FlowableOnSubscribe<CCDownloadTask>() {
-            @Override
-            public void subscribe(FlowableEmitter<CCDownloadTask> e) throws Exception {
-
-
-
-
-            }
-        }, BackpressureStrategy.BUFFER);
-
-
-        flowable.repeat().subscribe(new FlowableSubscriber() {
-            @Override
-            public void onSubscribe(@NonNull Subscription s) {
-
-            }
-
-            @Override
-            public void onNext(Object o) {
-
-            }
-
-            @Override
-            public void onError(Throwable t) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
-
-
-    }
-
-
-
 
     /**
      * 数据请求结果回调

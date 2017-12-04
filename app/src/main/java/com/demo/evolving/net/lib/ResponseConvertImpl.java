@@ -11,7 +11,7 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
- * Created by ghc on 2017/10/26.
+ * Created by CodingCodersCode on 2017/10/26.
  */
 
 public class ResponseConvertImpl /*implements IResponseConvert*/ {

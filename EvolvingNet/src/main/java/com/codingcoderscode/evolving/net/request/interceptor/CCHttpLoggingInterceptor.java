@@ -21,7 +21,7 @@ import okhttp3.internal.http.HttpHeaders;
 import okio.Buffer;
 
 /**
- * Created by ghc on 2017/10/27.
+ * Created by CodingCodersCode on 2017/10/27.
  */
 
 public class CCHttpLoggingInterceptor implements Interceptor {

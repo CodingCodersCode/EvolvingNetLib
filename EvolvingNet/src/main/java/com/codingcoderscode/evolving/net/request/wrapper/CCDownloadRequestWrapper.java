@@ -3,7 +3,7 @@ package com.codingcoderscode.evolving.net.request.wrapper;
 import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
 
 /**
- * Created by ghc on 2017/11/13.
+ * Created by CodingCodersCode on 2017/11/13.
  */
 
 public class CCDownloadRequestWrapper {

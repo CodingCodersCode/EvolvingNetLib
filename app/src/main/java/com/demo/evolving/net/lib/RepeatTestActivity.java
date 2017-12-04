@@ -46,7 +46,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by ghc on 2017/11/8.
+ * Created by CodingCodersCode on 2017/11/8.
  */
 
 public class RepeatTestActivity extends CCBaseRxAppCompactActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks {

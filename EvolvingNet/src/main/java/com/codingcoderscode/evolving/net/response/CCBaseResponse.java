@@ -4,7 +4,7 @@ package com.codingcoderscode.evolving.net.response;
 import okhttp3.Headers;
 
 /**
- * Created by ghc on 2017/10/27.
+ * Created by CodingCodersCode on 2017/10/27.
  * <p>
  * 响应数据包装类
  */

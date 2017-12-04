@@ -9,7 +9,7 @@ import com.trello.rxlifecycle2.components.support.RxFragment;
 import io.reactivex.FlowableTransformer;
 
 /**
- * Created by ghc on 2017/11/14.
+ * Created by CodingCodersCode on 2017/11/14.
  */
 
 public class CCDownloadTask2 extends CCDownloadTask {

@@ -5,7 +5,7 @@ import com.codingcoderscode.evolving.net.request.entity.CCDownloadTask;
 import java.util.Comparator;
 
 /**
- * Created by ghc on 2017/11/13.
+ * Created by CodingCodersCode on 2017/11/13.
  */
 
 public class CCDownloadTaskComparator {

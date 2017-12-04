@@ -42,7 +42,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 /**
- * Created by ghc on 2017/10/31.
+ * Created by CodingCodersCode on 2017/10/31.
  * <p>
  * 下载文件请求类
  */
@@ -651,6 +651,11 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
         return ccDownloadFileWritterCallback;
     }
 
+    /**
+     * 设置自定义的文件本地写入回调
+     * @param ccDownloadFileWritterCallback
+     * @return
+     */
     public CCDownloadRequest<T> setCcDownloadFileWritterCallback(CCDownloadFileWritterCallback ccDownloadFileWritterCallback) {
         this.ccDownloadFileWritterCallback = ccDownloadFileWritterCallback;
         return this;

@@ -4,7 +4,7 @@ package com.codingcoderscode.evolving.net.response.callback;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 
 /**
- * Created by ghc on 2017/10/27.
+ * Created by CodingCodersCode on 2017/10/27.
  */
 @Deprecated
 public abstract class CCResponseCallback {

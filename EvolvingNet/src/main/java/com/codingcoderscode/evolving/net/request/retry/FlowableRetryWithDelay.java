@@ -15,7 +15,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by ghc on 2017/11/1.
+ * Created by CodingCodersCode on 2017/11/1.
  * <p>
  * 网络请求失败重试逻辑处理类
  */

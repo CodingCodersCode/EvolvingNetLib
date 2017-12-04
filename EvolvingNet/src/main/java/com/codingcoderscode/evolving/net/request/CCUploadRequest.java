@@ -1,5 +1,7 @@
 package com.codingcoderscode.evolving.net.request;
 
+import android.text.TextUtils;
+
 import com.codingcoderscode.evolving.net.CCRxNetManager;
 import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
@@ -33,7 +35,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 /**
- * Created by ghc on 2017/10/31.
+ * Created by CodingCodersCode on 2017/10/31.
  * <p>
  * 上传文件类型请求类
  */
@@ -79,6 +81,10 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
                         for (Map.Entry<String, CCFile> entry : fileParamMap.entrySet()) {
 
                             fileValue = entry.getValue();
+
+                            if (fileValue == null || TextUtils.isEmpty(fileValue.getUrl())){
+                                continue;
+                            }
 
                             uploadFile = new File(fileValue.getUrl());
 

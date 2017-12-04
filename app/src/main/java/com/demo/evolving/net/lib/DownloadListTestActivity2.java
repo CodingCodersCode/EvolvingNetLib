@@ -31,7 +31,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by ghc on 2017/11/14.
+ * Created by CodingCodersCode on 2017/11/14.
  */
 
 public class DownloadListTestActivity2  extends CCBaseRxAppCompactActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks {

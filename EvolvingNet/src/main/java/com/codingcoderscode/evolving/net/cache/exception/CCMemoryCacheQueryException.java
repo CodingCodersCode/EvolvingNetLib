@@ -1,7 +1,7 @@
 package com.codingcoderscode.evolving.net.cache.exception;
 
 /**
- * Created by ghc on 2017/10/27.
+ * Created by CodingCodersCode on 2017/10/27.
  */
 
 public class CCMemoryCacheQueryException extends Throwable {

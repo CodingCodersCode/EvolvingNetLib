@@ -30,7 +30,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by ghc on 2017/11/13.
+ * Created by CodingCodersCode on 2017/11/13.
  * <p>
  * 多线程下载(单个文件只对应一个线程)
  */

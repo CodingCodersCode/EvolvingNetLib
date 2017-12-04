@@ -21,7 +21,7 @@ import okio.Okio;
 import okio.Sink;
 
 /**
- * Created by ghc on 2017/10/18.
+ * Created by CodingCodersCode on 2017/10/18.
  * <p>
  * 上传文件时文件信息包装类
  */

@@ -1,7 +1,7 @@
 package com.codingcoderscode.evolving.net.request.exception;
 
 /**
- * Created by ghc on 2017/11/1.
+ * Created by CodingCodersCode on 2017/11/1.
  */
 
 public class NoResponseBodyDataException extends Exception {
