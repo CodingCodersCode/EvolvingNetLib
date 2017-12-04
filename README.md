@@ -19,10 +19,13 @@ EvolvingNetLib当前最新版本为v1.0.1。
  
  计划
  ----
- 计划下一版本(V1.0.2)实现功能：
- 1.完善优先级下载功能，可动态调整优先级，目前只支持创建任务时设置优先级。
- 2.继续完善demo。
- 3.完善介绍文档
+ 计划下一版本(V1.0.2)实现功能： 
+ 
+ 1.完善优先级下载功能，可动态调整优先级，目前只支持创建任务时设置优先级。 
+ 
+ 2.继续完善demo。 
+ 
+ 3.完善介绍文档 
  
  使用方式
  ----
@@ -55,9 +58,9 @@ EvolvingNetLib当前最新版本为v1.0.1。
  - app `build.gradle`:
  
           dependencies {
-            ......
-            compile 'com.github.CodingCodersCode.EvolvingNetLib:EvolvingNet:vx.x.x'
-          }
+               ......
+               compile 'com.github.CodingCodersCode.EvolvingNetLib:EvolvingNet:vx.x.x' 
+             }
 
  - EvolvingNetLib还提供了另外一个类库，与RxLifeCycle结合，方便管理RxJava，避免内存泄漏问题的产生，若要使用，则添加如下依赖：
           
