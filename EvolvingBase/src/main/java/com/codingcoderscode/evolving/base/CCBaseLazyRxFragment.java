@@ -110,6 +110,7 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         view.addOnAttachStateChangeListener(this);
+        onInitAfterFragmentOnViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -255,6 +256,16 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
      * @return Fragment要展示的View类型视图对象
      */
     public abstract View getFragmentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
+
+    /**
+     * 在Fragment的onViewCreated方法中被调用，用于在子类中初始化相关控件和设置
+     *
+     * @param view  view The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * @param savedInstanceState    savedInstanceState If non-null, this fragment is being re-constructed
+     */
+    protected void onInitAfterFragmentOnViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+    }
 
     /**
      * Fragment显示or隐藏状态改变监听器
