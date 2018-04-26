@@ -9,7 +9,7 @@ EvolvingNetLib当前最新版本为v1.0.1。
 
 功能
 ----
-当前Release最新版本为v1.0.1版本，包含如下功能：
+当前Release最新版本为v1.0.1.1版本，包含如下功能：
 
  - Http几种基本类型请求，包含：GET、POST、PUT、DELETE、OPTIONS、HEAD。(V1.0.0~至今)
  - 支持Http请求的数据缓存查询和响应的数据保存回调，EvolvingNetLib不负责任何数据缓存逻辑，完全交给开发者自定义，提高灵活性。(V1.0.0~至今)
