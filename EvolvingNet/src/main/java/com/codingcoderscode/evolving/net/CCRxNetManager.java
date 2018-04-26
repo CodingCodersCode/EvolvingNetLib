@@ -22,6 +22,10 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.X509TrustManager;
+
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -205,6 +209,34 @@ public class CCRxNetManager {
          */
         public Builder sslSocketFactory(HttpsUtil.SSLParams sslParams) {
             this.okHttpClientBuilder.sslSocketFactory(sslParams.getSslSocketFactory(), sslParams.getX509TrustManager());
+            return this;
+        }
+
+        /**
+         * Add SSlSocketFactory for https request
+         *
+         * @param sslSocketFactory
+         * @return
+         */
+        public Builder sslSocketFactory(SSLSocketFactory sslSocketFactory) {
+            this.okHttpClientBuilder.sslSocketFactory(sslSocketFactory);
+            return this;
+        }
+
+        /**
+         * Add SSlSocketFactory for https request
+         * @param sslSocketFactory
+         * @param trustManager
+         * @return
+         */
+        public Builder sslSocketFactory(
+                SSLSocketFactory sslSocketFactory, X509TrustManager trustManager){
+            this.okHttpClientBuilder.sslSocketFactory(sslSocketFactory, trustManager);
+            return this;
+        }
+
+        public Builder hostnameVerifier(HostnameVerifier hostnameVerifier){
+            this.okHttpClientBuilder.hostnameVerifier(hostnameVerifier);
             return this;
         }
 
