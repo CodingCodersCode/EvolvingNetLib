@@ -14,10 +14,13 @@ import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.interceptor.CCHeaderInterceptor;
 import com.codingcoderscode.evolving.net.request.interceptor.CCHttpLoggingInterceptor;
 import com.codingcoderscode.evolving.net.request.ssl.HttpsUtil;
+import com.codingcoderscode.evolving.net.util.CCNetUtil;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
 import com.codingcoderscode.evolving.net.util.Utils;
 import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.net.SocketException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -26,6 +29,9 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
+import io.reactivex.exceptions.UndeliverableException;
+import io.reactivex.functions.Consumer;
+import io.reactivex.plugins.RxJavaPlugins;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -57,6 +63,7 @@ public class CCRxNetManager {
     private CCRxNetManager(Retrofit retrofit, Converter.Factory factory) {
         retrofitInstance = retrofit;
         converterFactory = factory;
+        RxJavaPlugins.setErrorHandler(new DefaultErrorHandler());
     }
 
 
@@ -349,4 +356,37 @@ public class CCRxNetManager {
         return new CCMultiDownladRequest<T>(url);
     }
 
+    private static class DefaultErrorHandler implements Consumer<Throwable> {
+
+        @Override
+        public void accept(Throwable throwable) throws Exception {
+            try {
+                if (throwable instanceof UndeliverableException) {
+                    throwable = throwable.getCause();
+                }
+                if ((throwable instanceof IOException) || (throwable instanceof SocketException)) {
+                    // fine, irrelevant network problem or API that throws on cancellation
+                    return;
+                }
+                if (throwable instanceof InterruptedException) {
+                    // fine, some blocking code was interrupted by a dispose call
+                    return;
+                }
+                if ((throwable instanceof NullPointerException) || (throwable instanceof IllegalArgumentException)) {
+                    // that's likely a bug in the application
+                    Thread.currentThread().getUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), throwable);
+                    return;
+                }
+                if (throwable instanceof IllegalStateException) {
+                    // that's a bug in RxJava or in a custom operator
+                    Thread.currentThread().getUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), throwable);
+                    return;
+                }
+                //Log.warning("Undeliverable exception received, not sure what to do", e);
+                NetLogUtil.printLog("e", LOG_TAG, "Undeliverable exception received, not sure what to do", throwable);
+            }catch (Exception e){
+                NetLogUtil.printLog("e", LOG_TAG, "DefaultErrorHandler捕获未知类型异常", e);
+            }
+        }
+    }
 }

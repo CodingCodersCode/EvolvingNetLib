@@ -70,7 +70,6 @@ public class CCGetRequest<T> extends CCRequest<T, CCGetRequest<T>> {
                             realResponse = convertResponse(retrofitResponse.body());
 
                         } catch (Exception exception) {
-                            exception.printStackTrace();
                             throw exception;
                         }
 
