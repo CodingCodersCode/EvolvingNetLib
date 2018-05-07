@@ -386,7 +386,11 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
                 }
 
-                ccNetCallback.<T>onSuccess(reqTag, realResponse);
+                if (realResponse != null) {
+                    ccNetCallback.<T>onSuccess(reqTag, realResponse);
+                }else {
+                    ccNetCallback.onError(reqTag, null);
+                }
             }
 
         } catch (Exception e) {
@@ -402,7 +406,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
      * @param responseBody
      * @return
      */
-    protected T convertResponse(ResponseBody responseBody) {
+    protected T convertResponse(ResponseBody responseBody) throws Exception {
         T response;
         try {
             if (getCcConvert() != null) {
@@ -411,7 +415,8 @@ public abstract class CCRequest<T, R extends CCRequest> {
                 response = CCDefaultResponseBodyConvert.<T>convertResponse(responseBody, responseBeanType);
             }
         } catch (Exception e) {
-            response = null;
+            /*response = null;*/
+            throw e;
         }
         return response;
     }

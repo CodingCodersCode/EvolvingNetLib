@@ -1,5 +1,6 @@
 package com.codingcoderscode.evolving.net.response.convert;
 
+import com.codingcoderscode.evolving.net.util.NetLogUtil;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -15,7 +16,7 @@ import okhttp3.ResponseBody;
 
 public class CCDefaultResponseBodyConvert {
 
-    public static <T> T convertResponse(ResponseBody responseBody, Type typeOfT) {
+    public static <T> T convertResponse(ResponseBody responseBody, Type typeOfT) throws Exception {
 
         T result = null;
 
@@ -42,7 +43,8 @@ public class CCDefaultResponseBodyConvert {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            NetLogUtil.printLog("e", CCDefaultResponseBodyConvert.class.getCanonicalName(), "转换响应json发生异常", e);
+            throw e;
         }
         return result;
     }

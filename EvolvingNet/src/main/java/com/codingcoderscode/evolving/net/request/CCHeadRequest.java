@@ -3,6 +3,7 @@ package com.codingcoderscode.evolving.net.request;
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
+import com.codingcoderscode.evolving.net.request.exception.CCSampleHttpException;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
 import com.codingcoderscode.evolving.net.request.retry.FlowableRetryWithDelay;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
@@ -58,9 +59,14 @@ public class CCHeadRequest<T> extends CCRequest<T, CCHeadRequest<T>> {
                         try {
                             Response<Void> retrofitResponse = voidCall.execute();
 
-                            headers = retrofitResponse.headers();
+                            if (retrofitResponse.isSuccessful()){
+                                headers = retrofitResponse.headers();
 
-                            realResponse = convertResponse(null);
+                                //realResponse = CCDefaultResponseBodyConvert.<T>convertResponse(retrofitResponse.body(), responseBeanType);
+                                realResponse = convertResponse(null);
+                            }else {
+                                throw new Exception(new CCSampleHttpException(retrofitResponse, retrofitResponse.errorBody()));
+                            }
 
                         } catch (Exception exception) {
                             throw exception;

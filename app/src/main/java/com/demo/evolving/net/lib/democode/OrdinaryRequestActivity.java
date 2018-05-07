@@ -15,6 +15,9 @@ import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
 import com.demo.evolving.net.lib.R;
 import com.demo.evolving.net.lib.TestRespObj;
+import com.demo.evolving.net.lib.bean.SampleRespBeanWrapper;
+import com.demo.evolving.net.lib.bean.SampleResponseBean;
+import com.google.gson.reflect.TypeToken;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.HashMap;
@@ -64,24 +67,26 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
 
             //请求参数信息
             Map<String, String> paramMap = new HashMap<>();
-            paramMap.put("logic_param1", "logic_value1——这是段中文文本");
-            paramMap.put("logic_param2", "logic_value2");
-            paramMap.put("logic_param3", "logic_value3");
+            paramMap.put("name", "亚洲文化");
+            paramMap.put("password", "a1111111");
+            paramMap.put("mobile", "18910248213");
+            paramMap.put("appId", "00000000000000002:00:00:00:00:00");
+            paramMap.put("appType", "android");
 
 
             //restful api中的path信息
             Map<String, String> pathMap = new HashMap<String, String>();
-            pathMap.put("{path1}", "path1_value1");
-            pathMap.put("{path2}", "path1_value2");
-            pathMap.put("{path3}", "path1_value3");
-            pathMap.put("{path4}", "path1_value4");
-            pathMap.put("{path5}", "path1_value5");
+            pathMap.put("{path1}", "uaa");
+            pathMap.put("{path2}", "app");
 
-            CCRxNetManager.<String>post("/web/userController/login.do")
+            TypeToken typeToken = new TypeToken<SampleRespBeanWrapper<SampleResponseBean>>() {
+            };
+
+            CCRxNetManager.<SampleRespBeanWrapper<SampleResponseBean>>post("/{path1}/{path2}/login")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
                     .setParamMap(paramMap)
-                    .setRetryCount(3)
+                    .setRetryCount(0)
                     .setRetryDelayTimeMillis(3000)
                     .setCacheQueryMode(CCCacheMode.QueryMode.MODE_MEMORY_THEN_DISK_THEN_NET)
                     .setCacheSaveMode(CCCacheMode.SaveMode.MODE_SAVE_MEMORY_AND_DISK)
@@ -90,8 +95,8 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
                     .setCCNetCallback(new RxNetManagerCallback())
                     .setCCCacheSaveCallback(new RxNetCacheSaveCallback())
                     .setCCCacheQueryCallback(new RxNetCacheQueryCallback())
-                    .setNetLifecycleComposer(this.<CCBaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
-                    .setResponseBeanType(String.class)
+                    .setNetLifecycleComposer(this.<CCBaseResponse<SampleRespBeanWrapper<SampleResponseBean>>>bindUntilEvent(ActivityEvent.DESTROY))
+                    .setResponseBeanType(typeToken.getType())
                     .executeAsync();
 
         } catch (Exception e) {

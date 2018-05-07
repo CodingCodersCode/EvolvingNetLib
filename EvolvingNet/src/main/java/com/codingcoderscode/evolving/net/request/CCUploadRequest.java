@@ -7,6 +7,7 @@ import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCUploadProgressCallback;
 import com.codingcoderscode.evolving.net.request.entity.CCFile;
+import com.codingcoderscode.evolving.net.request.exception.CCSampleHttpException;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
 import com.codingcoderscode.evolving.net.request.requestbody.CCSimpleUploadRequestBody;
 import com.codingcoderscode.evolving.net.request.retry.FlowableRetryWithDelay;
@@ -120,10 +121,14 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
                         try {
                             retrofitResponse = responseBodyCall.clone().execute();
 
-                            headers = retrofitResponse.headers();
+                            if (retrofitResponse.isSuccessful()){
+                                headers = retrofitResponse.headers();
 
-                            //realResponse = CCDefaultResponseBodyConvert.<T>convertResponse(retrofitResponse.body(), responseBeanType);
-                            realResponse = convertResponse(retrofitResponse.body());
+                                //realResponse = CCDefaultResponseBodyConvert.<T>convertResponse(retrofitResponse.body(), responseBeanType);
+                                realResponse = convertResponse(retrofitResponse.body());
+                            }else {
+                                throw new Exception(new CCSampleHttpException(retrofitResponse, retrofitResponse.errorBody()));
+                            }
 
                         } catch (Exception exception) {
                             throw exception;

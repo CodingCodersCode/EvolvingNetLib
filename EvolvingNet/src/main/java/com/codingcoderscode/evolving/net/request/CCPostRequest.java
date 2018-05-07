@@ -2,10 +2,10 @@ package com.codingcoderscode.evolving.net.request;
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
+import com.codingcoderscode.evolving.net.request.exception.CCSampleHttpException;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
 import com.codingcoderscode.evolving.net.request.retry.FlowableRetryWithDelay;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
-import com.codingcoderscode.evolving.net.response.convert.CCDefaultResponseBodyConvert;
 import com.codingcoderscode.evolving.net.util.CCNetUtil;
 
 import org.reactivestreams.Publisher;
@@ -58,10 +58,14 @@ public class CCPostRequest<T> extends CCRequest<T, CCPostRequest<T>> {
                         try {
                             retrofitResponse = responseBodyCall.clone().execute();
 
-                            headers = retrofitResponse.headers();
+                            if (retrofitResponse.isSuccessful()){
+                                headers = retrofitResponse.headers();
 
-                            //realResponse = CCDefaultResponseBodyConvert.<T>convertResponse(retrofitResponse.body(), responseBeanType);
-                            realResponse = convertResponse(retrofitResponse.body());
+                                //realResponse = CCDefaultResponseBodyConvert.<T>convertResponse(retrofitResponse.body(), responseBeanType);
+                                realResponse = convertResponse(retrofitResponse.body());
+                            }else {
+                                throw new Exception(new CCSampleHttpException(retrofitResponse, retrofitResponse.errorBody()));
+                            }
 
                         } catch (Exception exception) {
                             throw exception;
