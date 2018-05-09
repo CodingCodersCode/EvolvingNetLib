@@ -11,10 +11,10 @@ import com.codingcoderscode.evolving.net.request.callback.CCCacheSaveCallback;
 import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
-//import com.codingcoderscode.evolving.net.response.callback.CCResponseCallback;
 import com.codingcoderscode.evolving.net.response.convert.CCConvert;
 import com.codingcoderscode.evolving.net.response.convert.CCDefaultResponseBodyConvert;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.codingcoderscode.evolving.net.util.Utils;
 
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
@@ -33,6 +33,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
+
+//import com.codingcoderscode.evolving.net.response.callback.CCResponseCallback;
 
 /**
  * Created by CodingCodersCode on 2017/10/26.
@@ -215,6 +217,9 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
         if (paramMap == null) {
             paramMap = new HashMap<>();
+        } else {
+            //处理Retrofit 2.x @XXXMap注解不允许传递null值的问题，将所有null值替换为空串("")
+            paramMap = Utils.requireNonNullValues(paramMap);
         }
 
         switch (getCacheQueryMode()) {
@@ -388,7 +393,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
                 if (realResponse != null) {
                     ccNetCallback.<T>onSuccess(reqTag, realResponse);
-                }else {
+                } else {
                     ccNetCallback.onError(reqTag, null);
                 }
             }

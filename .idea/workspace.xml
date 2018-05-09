@@ -11,25 +11,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="232bc718-afda-4b19-8f4f-0240440833a7" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/exception/CCSampleHttpException.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/bean/SampleRespBeanWrapper.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/bean/SampleResponseBean.java" />
       <change beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileHashes.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileSnapshots.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.lock" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.lock" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCDeleteRequest.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCDeleteRequest.java" />
-      <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCGetRequest.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCGetRequest.java" />
-      <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCHeadRequest.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCHeadRequest.java" />
-      <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCOptionsRequest.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCOptionsRequest.java" />
-      <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCPostRequest.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCPostRequest.java" />
-      <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCPutRequest.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCPutRequest.java" />
-      <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCUploadRequest.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCUploadRequest.java" />
       <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java" />
-      <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/response/convert/CCDefaultResponseBodyConvert.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/response/convert/CCDefaultResponseBodyConvert.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/CCApplication.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/CCApplication.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/OrdinaryRequestActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/OrdinaryRequestActivity.java" />
+      <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/Utils.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/Utils.java" />
+      <change beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
       <change beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
     </list>
     <ignored path="EvolvingNetLib.iws" />
@@ -61,65 +50,73 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CCRequest.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CCRequest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="380" column="83" lean-forward="true" selection-start-line="380" selection-start-column="83" selection-end-line="380" selection-end-column="83" />
+            <state relative-caret-position="202">
+              <caret line="205" column="32" lean-forward="true" selection-start-line="205" selection-start-column="32" selection-end-line="205" selection-end-column="32" />
               <folding>
-                <element signature="e#14222#14223#0" expanded="true" />
-                <element signature="e#14254#14255#0" expanded="true" />
-                <element signature="e#14464#14465#0" expanded="true" />
-                <element signature="e#14495#14496#0" expanded="true" />
-                <element signature="e#14700#14701#0" expanded="true" />
-                <element signature="e#14730#14731#0" expanded="true" />
-                <element signature="e#14918#14919#0" expanded="true" />
-                <element signature="e#14951#14952#0" expanded="true" />
-                <element signature="e#15145#15146#0" expanded="true" />
-                <element signature="e#15188#15189#0" expanded="true" />
-                <element signature="e#15626#15627#0" expanded="true" />
-                <element signature="e#15655#15656#0" expanded="true" />
-                <element signature="e#15827#15828#0" expanded="true" />
+                <element signature="e#14425#14426#0" expanded="true" />
+                <element signature="e#14457#14458#0" expanded="true" />
+                <element signature="e#14464#14494#0" expanded="true" />
+                <element signature="e#14667#14668#0" expanded="true" />
+                <element signature="e#14698#14699#0" expanded="true" />
+                <element signature="e#14705#14735#0" expanded="true" />
+                <element signature="e#14903#14904#0" expanded="true" />
+                <element signature="e#14933#14934#0" expanded="true" />
+                <element signature="e#14940#14970#0" expanded="true" />
+                <element signature="e#15121#15122#0" expanded="true" />
+                <element signature="e#15154#15155#0" expanded="true" />
+                <element signature="e#15161#15191#0" expanded="true" />
+                <element signature="e#15348#15349#0" expanded="true" />
+                <element signature="e#15391#15392#0" expanded="true" />
+                <element signature="e#15398#15428#0" expanded="true" />
+                <element signature="e#15829#15830#0" expanded="true" />
                 <element signature="e#15858#15859#0" expanded="true" />
-                <element signature="e#16757#16758#0" expanded="true" />
-                <element signature="e#16786#16787#0" expanded="true" />
-                <element signature="e#17142#17143#0" expanded="true" />
-                <element signature="e#17178#17179#0" expanded="true" />
-                <element signature="e#18351#18352#0" expanded="true" />
-                <element signature="e#18388#18389#0" expanded="true" />
-                <element signature="e#18587#18588#0" expanded="true" />
-                <element signature="e#18623#18624#0" expanded="true" />
-                <element signature="e#18667#18668#0" expanded="true" />
-                <element signature="e#18703#18704#0" expanded="true" />
-                <element signature="e#18857#18858#0" expanded="true" />
-                <element signature="e#18889#18890#0" expanded="true" />
-                <element signature="e#19082#19083#0" expanded="true" />
-                <element signature="e#19119#19120#0" expanded="true" />
-                <element signature="e#19275#19276#0" expanded="true" />
-                <element signature="e#19311#19312#0" expanded="true" />
-                <element signature="e#19370#19371#0" expanded="true" />
-                <element signature="e#19420#19421#0" expanded="true" />
+                <element signature="e#15865#15895#0" expanded="true" />
+                <element signature="e#16030#16031#0" expanded="true" />
+                <element signature="e#16061#16062#0" expanded="true" />
+                <element signature="e#16068#16098#0" expanded="true" />
+                <element signature="e#16960#16961#0" expanded="true" />
+                <element signature="e#16989#16990#0" expanded="true" />
+                <element signature="e#16996#17026#0" expanded="true" />
+                <element signature="e#17133#17163#0" expanded="true" />
+                <element signature="e#17345#17346#0" expanded="true" />
+                <element signature="e#17381#17382#0" expanded="true" />
+                <element signature="e#17388#17418#0" expanded="true" />
+                <element signature="e#17590#17620#0" expanded="true" />
+                <element signature="e#17797#17827#0" expanded="true" />
+                <element signature="e#18182#18212#0" expanded="true" />
+                <element signature="e#18357#18387#0" expanded="true" />
+                <element signature="e#18554#18555#0" expanded="true" />
+                <element signature="e#18591#18592#0" expanded="true" />
+                <element signature="e#18598#18628#0" expanded="true" />
+                <element signature="e#18790#18791#0" expanded="true" />
+                <element signature="e#18826#18827#0" expanded="true" />
+                <element signature="e#18870#18871#0" expanded="true" />
+                <element signature="e#18906#18907#0" expanded="true" />
+                <element signature="e#19060#19061#0" expanded="true" />
+                <element signature="e#19092#19093#0" expanded="true" />
+                <element signature="e#19099#19129#0" expanded="true" />
+                <element signature="e#19285#19286#0" expanded="true" />
+                <element signature="e#19322#19323#0" expanded="true" />
+                <element signature="e#19478#19479#0" expanded="true" />
+                <element signature="e#19514#19515#0" expanded="true" />
+                <element signature="e#19573#19574#0" expanded="true" />
+                <element signature="e#19623#19624#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/EvolvingBase/.gitignore">
+      <file leaf-file-name="Utils.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/Utils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="328">
+              <caret line="28" column="52" lean-forward="false" selection-start-line="28" selection-start-column="52" selection-end-line="28" selection-end-column="52" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -127,8 +124,8 @@
       <file leaf-file-name="CCDeleteRequest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCDeleteRequest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="60" column="82" lean-forward="true" selection-start-line="60" selection-start-column="82" selection-end-line="60" selection-end-column="82" />
+            <state relative-caret-position="646">
+              <caret line="60" column="82" lean-forward="false" selection-start-line="60" selection-start-column="82" selection-end-line="60" selection-end-column="82" />
               <folding />
             </state>
           </provider>
@@ -147,13 +144,9 @@
       <file leaf-file-name="OrdinaryRequestActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/OrdinaryRequestActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="88" column="37" lean-forward="true" selection-start-line="88" selection-start-column="37" selection-end-line="88" selection-end-column="37" />
-              <folding>
-                <element signature="e#2728#2744#0" expanded="true" />
-                <element signature="e#2973#3016#0" expanded="true" />
-                <element signature="e#3831#3890#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1139">
+              <caret line="88" column="37" lean-forward="false" selection-start-line="88" selection-start-column="37" selection-end-line="88" selection-end-column="37" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -182,7 +175,7 @@
         <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/exception/CCSampleHttpException.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="34">
-              <caret line="4" column="26" lean-forward="true" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
+              <caret line="4" column="26" lean-forward="false" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -194,8 +187,6 @@
             <state relative-caret-position="85">
               <caret line="24" column="14" lean-forward="false" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="30" />
               <folding>
-                <element signature="e#1883#3216#0" expanded="true" />
-                <element signature="e#3215#3216#0" expanded="true" />
                 <element signature="e#4985#4986#0" expanded="true" />
                 <element signature="e#5025#5026#0" expanded="true" />
               </folding>
@@ -219,6 +210,7 @@
       <find>UnSafeTrustManager</find>
       <find>sslSocketFactory</find>
       <find>pathMap</find>
+      <find>paramMap</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -4193,7 +4185,6 @@
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/CCNetUtil.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/NetLogUtil.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/SDCardUtil.java" />
-        <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/Utils.java" />
         <option value="$PROJECT_DIR$/EvolvingBase/src/main/java/com/codingcoderscode/evolving/base/CCBaseLazyRxFragment.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/build.gradle" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/CCRxNetManager.java" />
@@ -4211,14 +4202,15 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/bean/SampleRespBeanWrapper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/bean/SampleResponseBean.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/exception/CCSampleHttpException.java" />
+        <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/Utils.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-2616" />
-    <option name="y" value="132" />
-    <option name="width" value="3491" />
+    <option name="x" value="-2560" />
+    <option name="y" value="-226" />
+    <option name="width" value="2560" />
     <option name="height" value="1417" />
   </component>
   <component name="ProjectView">
@@ -4236,9 +4228,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -4346,6 +4335,72 @@
             </path>
             <path>
               <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="net" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="net" type="462c0819:PsiDirectoryNode" />
+              <item name="request" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="net" type="462c0819:PsiDirectoryNode" />
+              <item name="request" type="462c0819:PsiDirectoryNode" />
+              <item name="base" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="net" type="462c0819:PsiDirectoryNode" />
+              <item name="util" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
             <path>
@@ -4396,7 +4451,10 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -4404,7 +4462,7 @@
     <property name="ignore_missing_gitignore" value="true" />
     <property name="add_unversioned_files" value="true" />
     <property name="device.picker.selection" value="Nexus_5X_API_26" />
-    <property name="sync.plugin.last.upgrade.timestamp" value="1525679000734" />
+    <property name="sync.plugin.last.upgrade.timestamp" value="1525853490660" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -4770,7 +4828,7 @@
     <frame x="-2560" y="-226" width="2560" height="1417" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -4784,7 +4842,7 @@
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25099286" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14733917" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32855436" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3287144" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -4892,36 +4950,6 @@
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java</url>
-          <line>366</line>
-          <properties />
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java</url>
-          <line>368</line>
-          <properties />
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java</url>
-          <line>389</line>
-          <properties />
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java</url>
-          <line>397</line>
-          <properties />
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java</url>
-          <line>396</line>
-          <properties />
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCGetRequest.java</url>
           <line>64</line>
           <properties />
@@ -4976,72 +5004,6 @@
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java</url>
-          <line>411</line>
-          <properties />
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java</url>
-          <line>413</line>
-          <properties />
-          <option name="timeStamp" value="26" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java</url>
-          <line>417</line>
-          <properties />
-          <option name="timeStamp" value="27" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java</url>
-          <line>420</line>
-          <properties />
-          <option name="timeStamp" value="28" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java</url>
-          <line>414</line>
-          <properties />
-          <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java</url>
-          <line>412</line>
-          <properties />
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java</url>
-          <line>291</line>
-          <properties />
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java</url>
-          <line>292</line>
-          <properties />
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java</url>
-          <line>294</line>
-          <properties />
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java</url>
-          <line>295</line>
-          <properties />
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java</url>
-          <line>285</line>
-          <properties />
-          <option name="timeStamp" value="35" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/response/convert/CCDefaultResponseBodyConvert.java</url>
           <line>46</line>
           <properties />
@@ -5059,13 +5021,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.trello.rxlifecycle2/rxlifecycle-components/2.2.0/f1bf87ec35f854bd4b9ad99d5aec9b30fe38bedd/rxlifecycle-components-2.2.0-sources.jar!/com/trello/rxlifecycle2/components/support/RxAppCompatActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="35" column="12" lean-forward="true" selection-start-line="35" selection-start-column="12" selection-end-line="35" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/EvolvingBase/src/main/java/com/codingcoderscode/evolving/base/CCBaseRxAppCompactActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -5163,7 +5118,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6273">
           <caret line="400" column="5" lean-forward="false" selection-start-line="400" selection-start-column="5" selection-end-line="400" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5182,7 +5136,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
           <caret line="28" column="25" lean-forward="false" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5190,7 +5143,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
           <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5241,7 +5193,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="397">
           <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5249,7 +5200,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2">
           <caret line="65" column="20" lean-forward="true" selection-start-line="65" selection-start-column="20" selection-end-line="65" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5295,7 +5245,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="29" lean-forward="false" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5313,7 +5262,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="34" column="29" lean-forward="false" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5321,15 +5269,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="284">
           <caret line="110" column="16" lean-forward="false" selection-start-line="110" selection-start-column="16" selection-end-line="110" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#3816#3817#0" expanded="false" />
-            <element signature="e#3854#3855#0" expanded="false" />
-            <element signature="e#4049#4050#0" expanded="false" />
-            <element signature="e#4092#4093#0" expanded="false" />
-            <element signature="e#4375#4376#0" expanded="false" />
-            <element signature="e#4401#4402#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -5387,14 +5326,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCUploadRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="118" column="64" lean-forward="false" selection-start-line="118" selection-start-column="64" selection-end-line="118" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/response/convert/CCDefaultResponseBodyConvert.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="646">
@@ -5413,21 +5344,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCDeleteRequest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="60" column="82" lean-forward="true" selection-start-line="60" selection-start-column="82" selection-end-line="60" selection-end-column="82" />
+        <state relative-caret-position="646">
+          <caret line="60" column="82" lean-forward="false" selection-start-line="60" selection-start-column="82" selection-end-line="60" selection-end-column="82" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/OrdinaryRequestActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="88" column="37" lean-forward="true" selection-start-line="88" selection-start-column="37" selection-end-line="88" selection-end-column="37" />
-          <folding>
-            <element signature="e#2728#2744#0" expanded="true" />
-            <element signature="e#2973#3016#0" expanded="true" />
-            <element signature="e#3831#3890#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1139">
+          <caret line="88" column="37" lean-forward="false" selection-start-line="88" selection-start-column="37" selection-end-line="88" selection-end-column="37" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -5436,8 +5363,6 @@
         <state relative-caret-position="85">
           <caret line="24" column="14" lean-forward="false" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="30" />
           <folding>
-            <element signature="e#1883#3216#0" expanded="true" />
-            <element signature="e#3215#3216#0" expanded="true" />
             <element signature="e#4985#4986#0" expanded="true" />
             <element signature="e#5025#5026#0" expanded="true" />
           </folding>
@@ -5463,49 +5388,16 @@
     <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/exception/CCSampleHttpException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
-          <caret line="4" column="26" lean-forward="true" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
+          <caret line="4" column="26" lean-forward="false" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="380" column="83" lean-forward="true" selection-start-line="380" selection-start-column="83" selection-end-line="380" selection-end-column="83" />
-          <folding>
-            <element signature="e#14222#14223#0" expanded="true" />
-            <element signature="e#14254#14255#0" expanded="true" />
-            <element signature="e#14464#14465#0" expanded="true" />
-            <element signature="e#14495#14496#0" expanded="true" />
-            <element signature="e#14700#14701#0" expanded="true" />
-            <element signature="e#14730#14731#0" expanded="true" />
-            <element signature="e#14918#14919#0" expanded="true" />
-            <element signature="e#14951#14952#0" expanded="true" />
-            <element signature="e#15145#15146#0" expanded="true" />
-            <element signature="e#15188#15189#0" expanded="true" />
-            <element signature="e#15626#15627#0" expanded="true" />
-            <element signature="e#15655#15656#0" expanded="true" />
-            <element signature="e#15827#15828#0" expanded="true" />
-            <element signature="e#15858#15859#0" expanded="true" />
-            <element signature="e#16757#16758#0" expanded="true" />
-            <element signature="e#16786#16787#0" expanded="true" />
-            <element signature="e#17142#17143#0" expanded="true" />
-            <element signature="e#17178#17179#0" expanded="true" />
-            <element signature="e#18351#18352#0" expanded="true" />
-            <element signature="e#18388#18389#0" expanded="true" />
-            <element signature="e#18587#18588#0" expanded="true" />
-            <element signature="e#18623#18624#0" expanded="true" />
-            <element signature="e#18667#18668#0" expanded="true" />
-            <element signature="e#18703#18704#0" expanded="true" />
-            <element signature="e#18857#18858#0" expanded="true" />
-            <element signature="e#18889#18890#0" expanded="true" />
-            <element signature="e#19082#19083#0" expanded="true" />
-            <element signature="e#19119#19120#0" expanded="true" />
-            <element signature="e#19275#19276#0" expanded="true" />
-            <element signature="e#19311#19312#0" expanded="true" />
-            <element signature="e#19370#19371#0" expanded="true" />
-            <element signature="e#19420#19421#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="204">
+          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -5517,11 +5409,78 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCUploadRequest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        <state relative-caret-position="303">
+          <caret line="235" column="21" lean-forward="false" selection-start-line="235" selection-start-column="21" selection-end-line="235" selection-end-column="21" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="28" column="52" lean-forward="false" selection-start-line="28" selection-start-column="52" selection-end-line="28" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="205" column="32" lean-forward="true" selection-start-line="205" selection-start-column="32" selection-end-line="205" selection-end-column="32" />
+          <folding>
+            <element signature="e#14425#14426#0" expanded="true" />
+            <element signature="e#14457#14458#0" expanded="true" />
+            <element signature="e#14464#14494#0" expanded="true" />
+            <element signature="e#14667#14668#0" expanded="true" />
+            <element signature="e#14698#14699#0" expanded="true" />
+            <element signature="e#14705#14735#0" expanded="true" />
+            <element signature="e#14903#14904#0" expanded="true" />
+            <element signature="e#14933#14934#0" expanded="true" />
+            <element signature="e#14940#14970#0" expanded="true" />
+            <element signature="e#15121#15122#0" expanded="true" />
+            <element signature="e#15154#15155#0" expanded="true" />
+            <element signature="e#15161#15191#0" expanded="true" />
+            <element signature="e#15348#15349#0" expanded="true" />
+            <element signature="e#15391#15392#0" expanded="true" />
+            <element signature="e#15398#15428#0" expanded="true" />
+            <element signature="e#15829#15830#0" expanded="true" />
+            <element signature="e#15858#15859#0" expanded="true" />
+            <element signature="e#15865#15895#0" expanded="true" />
+            <element signature="e#16030#16031#0" expanded="true" />
+            <element signature="e#16061#16062#0" expanded="true" />
+            <element signature="e#16068#16098#0" expanded="true" />
+            <element signature="e#16960#16961#0" expanded="true" />
+            <element signature="e#16989#16990#0" expanded="true" />
+            <element signature="e#16996#17026#0" expanded="true" />
+            <element signature="e#17133#17163#0" expanded="true" />
+            <element signature="e#17345#17346#0" expanded="true" />
+            <element signature="e#17381#17382#0" expanded="true" />
+            <element signature="e#17388#17418#0" expanded="true" />
+            <element signature="e#17590#17620#0" expanded="true" />
+            <element signature="e#17797#17827#0" expanded="true" />
+            <element signature="e#18182#18212#0" expanded="true" />
+            <element signature="e#18357#18387#0" expanded="true" />
+            <element signature="e#18554#18555#0" expanded="true" />
+            <element signature="e#18591#18592#0" expanded="true" />
+            <element signature="e#18598#18628#0" expanded="true" />
+            <element signature="e#18790#18791#0" expanded="true" />
+            <element signature="e#18826#18827#0" expanded="true" />
+            <element signature="e#18870#18871#0" expanded="true" />
+            <element signature="e#18906#18907#0" expanded="true" />
+            <element signature="e#19060#19061#0" expanded="true" />
+            <element signature="e#19092#19093#0" expanded="true" />
+            <element signature="e#19099#19129#0" expanded="true" />
+            <element signature="e#19285#19286#0" expanded="true" />
+            <element signature="e#19322#19323#0" expanded="true" />
+            <element signature="e#19478#19479#0" expanded="true" />
+            <element signature="e#19514#19515#0" expanded="true" />
+            <element signature="e#19573#19574#0" expanded="true" />
+            <element signature="e#19623#19624#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
