@@ -14,7 +14,6 @@ import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.interceptor.CCHeaderInterceptor;
 import com.codingcoderscode.evolving.net.request.interceptor.CCHttpLoggingInterceptor;
 import com.codingcoderscode.evolving.net.request.ssl.HttpsUtil;
-import com.codingcoderscode.evolving.net.util.CCNetUtil;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
 import com.codingcoderscode.evolving.net.util.Utils;
 import com.google.gson.Gson;
@@ -34,7 +33,6 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import retrofit2.Call;
 import retrofit2.CallAdapter;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
@@ -232,17 +230,18 @@ public class CCRxNetManager {
 
         /**
          * Add SSlSocketFactory for https request
+         *
          * @param sslSocketFactory
          * @param trustManager
          * @return
          */
         public Builder sslSocketFactory(
-                SSLSocketFactory sslSocketFactory, X509TrustManager trustManager){
+                SSLSocketFactory sslSocketFactory, X509TrustManager trustManager) {
             this.okHttpClientBuilder.sslSocketFactory(sslSocketFactory, trustManager);
             return this;
         }
 
-        public Builder hostnameVerifier(HostnameVerifier hostnameVerifier){
+        public Builder hostnameVerifier(HostnameVerifier hostnameVerifier) {
             this.okHttpClientBuilder.hostnameVerifier(hostnameVerifier);
             return this;
         }
@@ -254,6 +253,24 @@ public class CCRxNetManager {
             Retrofit retrofit = this.retrofitBuilder.client(okHttpClient).build();
 
             return new CCRxNetManager(retrofit, converterFactory);
+        }
+
+        /**
+         * 获取Retrofit.Builder实例
+         *
+         * @return
+         */
+        public Retrofit.Builder getRetrofitBuilder() {
+            return retrofitBuilder;
+        }
+
+        /**
+         * 获取OkHttpClient.Builder实例
+         *
+         * @return
+         */
+        public OkHttpClient.Builder getOkHttpClientBuilder() {
+            return okHttpClientBuilder;
         }
     }
 
@@ -356,6 +373,15 @@ public class CCRxNetManager {
         return new CCMultiDownladRequest<T>(url);
     }
 
+    /**
+     * 获取Retrofit实例
+     *
+     * @return
+     */
+    public static Retrofit getRetrofitInstance() {
+        return retrofitInstance;
+    }
+
     private static class DefaultErrorHandler implements Consumer<Throwable> {
 
         @Override
@@ -384,7 +410,7 @@ public class CCRxNetManager {
                 }
                 //Log.warning("Undeliverable exception received, not sure what to do", e);
                 NetLogUtil.printLog("e", LOG_TAG, "Undeliverable exception received, not sure what to do", throwable);
-            }catch (Exception e){
+            } catch (Exception e) {
                 NetLogUtil.printLog("e", LOG_TAG, "DefaultErrorHandler捕获未知类型异常", e);
             }
         }

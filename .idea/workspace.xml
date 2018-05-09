@@ -11,15 +11,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="232bc718-afda-4b19-8f4f-0240440833a7" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileHashes.bin" />
-      <change beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileSnapshots.bin" />
-      <change beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.bin" />
-      <change beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.lock" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.lock" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java" />
-      <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/Utils.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/Utils.java" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
+      <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/CCRxNetManager.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/CCRxNetManager.java" />
     </list>
     <ignored path="EvolvingNetLib.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -50,7 +42,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CCRequest.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CCRequest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="202">
@@ -104,6 +96,23 @@
                 <element signature="e#19514#19515#0" expanded="true" />
                 <element signature="e#19573#19574#0" expanded="true" />
                 <element signature="e#19623#19624#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CCRxNetManager.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/CCRxNetManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="351">
+              <caret line="248" column="39" lean-forward="true" selection-start-line="248" selection-start-column="39" selection-end-line="248" selection-end-column="39" />
+              <folding>
+                <element signature="e#8642#8643#0" expanded="true" />
+                <element signature="e#8688#8689#0" expanded="true" />
+                <element signature="e#8842#8843#0" expanded="true" />
+                <element signature="e#8892#8893#0" expanded="true" />
+                <element signature="e#11044#11045#0" expanded="true" />
+                <element signature="e#11083#11084#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -4187,7 +4196,6 @@
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/SDCardUtil.java" />
         <option value="$PROJECT_DIR$/EvolvingBase/src/main/java/com/codingcoderscode/evolving/base/CCBaseLazyRxFragment.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/build.gradle" />
-        <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/CCRxNetManager.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/CCApplication.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/response/convert/CCDefaultResponseBodyConvert.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/exception/CCSampleException.java" />
@@ -4204,6 +4212,7 @@
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/exception/CCSampleHttpException.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/Utils.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java" />
+        <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/CCRxNetManager.java" />
       </list>
     </option>
   </component>
@@ -5121,17 +5130,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/CCRxNetManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5542">
-          <caret line="374" column="13" lean-forward="false" selection-start-line="374" selection-start-column="13" selection-end-line="374" selection-end-column="13" />
-          <folding>
-            <element signature="e#8961#8962#0" expanded="false" />
-            <element signature="e#9009#9010#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/callback/CCCacheSaveCallback.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
@@ -5480,6 +5478,21 @@
             <element signature="e#19514#19515#0" expanded="true" />
             <element signature="e#19573#19574#0" expanded="true" />
             <element signature="e#19623#19624#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/CCRxNetManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="248" column="39" lean-forward="true" selection-start-line="248" selection-start-column="39" selection-end-line="248" selection-end-column="39" />
+          <folding>
+            <element signature="e#8642#8643#0" expanded="true" />
+            <element signature="e#8688#8689#0" expanded="true" />
+            <element signature="e#8842#8843#0" expanded="true" />
+            <element signature="e#8892#8893#0" expanded="true" />
+            <element signature="e#11044#11045#0" expanded="true" />
+            <element signature="e#11083#11084#0" expanded="true" />
           </folding>
         </state>
       </provider>
