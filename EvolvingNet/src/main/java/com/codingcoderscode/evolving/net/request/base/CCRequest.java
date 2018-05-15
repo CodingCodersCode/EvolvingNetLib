@@ -391,11 +391,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
                 }
 
-                if (realResponse != null) {
-                    ccNetCallback.<T>onSuccess(reqTag, realResponse);
-                } else {
-                    ccNetCallback.onError(reqTag, null);
-                }
+                ccNetCallback.<T>onSuccess(reqTag, realResponse);
             }
 
         } catch (Exception e) {
