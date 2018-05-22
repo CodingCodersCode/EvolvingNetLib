@@ -42,7 +42,7 @@ public interface CCNetApiService {
     Call<ResponseBody> executeGet(
             @Url String url,
             @HeaderMap Map<String, String> headerMap,
-            @QueryMap Map<String, String> paramMap);
+            @QueryMap Map<String, Object> paramMap);
 
     /*@GET
     Flowable<ResponseBody> executeGet(
@@ -63,7 +63,7 @@ public interface CCNetApiService {
     Call<ResponseBody> executePost(
             @Url String url,
             @HeaderMap Map<String, String> headerMap,
-            @FieldMap Map<String, String> paramMap);
+            @FieldMap Map<String, Object> paramMap);
 
     /*@FormUrlEncoded
     @POST
@@ -85,7 +85,7 @@ public interface CCNetApiService {
     Call<ResponseBody> executePut(
             @Url String url,
             @HeaderMap Map<String, String> headerMap,
-            @FieldMap Map<String, String> paramMap);
+            @FieldMap Map<String, Object> paramMap);
 
     /*@FormUrlEncoded
     @PUT
@@ -106,7 +106,7 @@ public interface CCNetApiService {
     Call<ResponseBody> executeDelete(
             @Url String url,
             @HeaderMap Map<String, String> headerMap,
-            @QueryMap Map<String, String> paramMap);
+            @QueryMap Map<String, Object> paramMap);
 
     /*@DELETE
     Flowable<ResponseBody> executeDelete(
@@ -126,7 +126,7 @@ public interface CCNetApiService {
     Call<Void> executeHead(
             @Url String url,
             @HeaderMap Map<String, String> headerMap,
-            @QueryMap Map<String, String> paramMap);
+            @QueryMap Map<String, Object> paramMap);
 
     /**
      * 发起OPTIONS类型请求
@@ -140,7 +140,7 @@ public interface CCNetApiService {
     Call<ResponseBody> executeOptions(
             @Url String url,
             @HeaderMap Map<String, String> headerMap,
-            @QueryMap Map<String, String> paramMap);
+            @QueryMap Map<String, Object> paramMap);
 
     /*@OPTIONS
     Flowable<ResponseBody> executeOptions(
@@ -190,7 +190,7 @@ public interface CCNetApiService {
     Call<ResponseBody> executeDownload(
             @Url String url,
             @HeaderMap Map<String, String> headerMap,
-            @QueryMap Map<String, String> txtParamMap
+            @QueryMap Map<String, Object> txtParamMap
     );
 
 }

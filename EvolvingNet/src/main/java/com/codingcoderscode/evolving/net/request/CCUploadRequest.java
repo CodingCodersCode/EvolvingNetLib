@@ -45,7 +45,7 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
 
     //private CCUploadProgressCallback ccUploadProgressCallback;
 
-    private Map<String, String> txtParamMap;
+    private Map<String, Object> txtParamMap;
 
     private Map<String, CCFile> fileParamMap;
 
@@ -69,9 +69,9 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
                 try {
 
                     if (txtParamMap != null) {
-                        for (Map.Entry<String, String> entry : txtParamMap.entrySet()) {
+                        for (Map.Entry<String, Object> entry : txtParamMap.entrySet()) {
 
-                            partBody = MultipartBody.Part.createFormData(entry.getKey(), entry.getValue());
+                            partBody = MultipartBody.Part.createFormData(entry.getKey(), entry.getValue().toString());
 
                             paramPartList.add(partBody);
 
@@ -225,13 +225,13 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
 
     @Deprecated
     @Override
-    public Map<String, String> getParamMap() {
+    public Map<String, Object> getParamMap() {
         return txtParamMap;
     }
 
     @Deprecated
     @Override
-    public CCUploadRequest<T> setParamMap(Map<String, String> paramMap) {
+    public CCUploadRequest<T> setParamMap(Map<String, Object> paramMap) {
         this.txtParamMap = paramMap;
         return super.setParamMap(paramMap);
     }
@@ -245,11 +245,11 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
         return this;
     }*/
 
-    public Map<String, String> getTxtParamMap() {
+    public Map<String, Object> getTxtParamMap() {
         return txtParamMap;
     }
 
-    public CCUploadRequest<T> setTxtParamMap(Map<String, String> txtParamMap) {
+    public CCUploadRequest<T> setTxtParamMap(Map<String, Object> txtParamMap) {
         this.txtParamMap = txtParamMap;
         return this;
     }

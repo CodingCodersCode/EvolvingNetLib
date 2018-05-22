@@ -49,7 +49,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
     //当前请求额外header信息
     protected Map<String, String> headerMap;
     //当前请求参数信息
-    protected Map<String, String> paramMap;
+    protected Map<String, Object> paramMap;
     //当前请求restful api路径替换信息
     private Map<String, String> pathMap;
     //失败重试次数
@@ -451,12 +451,12 @@ public abstract class CCRequest<T, R extends CCRequest> {
         return (R) this;
     }
 
-    public Map<String, String> getParamMap() {
+    public Map<String, Object> getParamMap() {
         return paramMap;
     }
 
     @SuppressWarnings("unchecked")
-    public R setParamMap(Map<String, String> paramMap) {
+    public R setParamMap(Map<String, Object> paramMap) {
         this.paramMap = paramMap;
         return (R) this;
     }

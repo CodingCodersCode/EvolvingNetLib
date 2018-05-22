@@ -26,14 +26,14 @@ public class Utils {
      * @param originMap
      * @return
      */
-    public static Map<String, String> requireNonNullValues(Map<String, String> originMap) {
-        Iterator<Map.Entry<String, String>> iterator;
-        Map.Entry<String, String> entry;
+    public static Map<String, Object> requireNonNullValues(Map<String, Object> originMap) {
+        Iterator<Map.Entry<String, Object>> iterator;
+        Map.Entry<String, Object> entry;
         String entryKey;
-        String entryValue;
+        Object entryValue;
         try {
             if (originMap == null) {
-                return new HashMap<String, String>();
+                return new HashMap<String, Object>();
             } else {
                 iterator = originMap.entrySet().iterator();
                 if (iterator != null) {
@@ -54,7 +54,7 @@ public class Utils {
                 return originMap;
             }
         } catch (Exception e) {
-            return new HashMap<String, String>();
+            return new HashMap<String, Object>();
         }
     }
 
