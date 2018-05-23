@@ -109,7 +109,7 @@ public class UploadRequestActivity extends CCBaseRxAppCompactActivity implements
             specifyHeaderMap.put("specify_header_param3", "specify_header_value3");
 
 
-            Map<String, String> txtParamMap = new HashMap<>();
+            Map<String, Object> txtParamMap = new HashMap<>();
             txtParamMap.put("logic_txt_param1", "logic_txt_value1");
             txtParamMap.put("logic_txt_param2", "logic_txt_value2");
             txtParamMap.put("logic_txt_param3", "logic_txt_value3");

@@ -160,7 +160,7 @@ public interface CCNetApiService {
     Call<Void> executePatch(
             @Url String url,
             @HeaderMap Map<String, String> headerMap,
-            @QueryMap Map<String, String> paramMap);
+            @QueryMap Map<String, Object> paramMap);
 
 
     /**

@@ -69,7 +69,7 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
                 try {
 
                     if (txtParamMap != null) {
-                        for (Map.Entry<String, Object> entry : txtParamMap.entrySet()) {
+                        for (Map.Entry<String, ?> entry : txtParamMap.entrySet()) {
 
                             partBody = MultipartBody.Part.createFormData(entry.getKey(), entry.getValue().toString());
 

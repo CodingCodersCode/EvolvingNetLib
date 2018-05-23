@@ -36,21 +36,20 @@ public class Utils {
                 return new HashMap<String, Object>();
             } else {
                 iterator = originMap.entrySet().iterator();
-                if (iterator != null) {
-                    while (iterator.hasNext()) {
-                        entry = iterator.next();
+                while (iterator.hasNext()) {
+                    entry = iterator.next();
 
-                        entryKey = entry.getKey();
-                        entryValue = entry.getValue();
-                        if (entryKey == null || entryKey.trim().equals("")) {
-                            iterator.remove();
-                        } else {
-                            if (entryValue == null) {
-                                entry.setValue("");
-                            }
+                    entryKey = entry.getKey();
+                    entryValue = entry.getValue();
+                    if (entryKey == null || entryKey.trim().equals("")) {
+                        iterator.remove();
+                    } else {
+                        if (entryValue == null) {
+                            entry.setValue("");
                         }
                     }
                 }
+
                 return originMap;
             }
         } catch (Exception e) {

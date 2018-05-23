@@ -3,96 +3,6 @@
 
     <item
         is-multidex="false"
-        jar="/Users/ghc/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/converter-gson/2.3.0/9e09011e9767bb76b5e27c9b8223476b93b14631/converter-gson-2.3.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="9e09011e9767bb76b5e27c9b8223476b93b14631">
-        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/converter-gson-2.3.0_87257db8bb643e525b5ab688695b4b8d8c3d5d75.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/ghc/.android/build-cache/97a4cb4a757c2cacfd55d02270866e1e47ff691b/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="3a64f14f460e307f5dfce75e9804e20077d3e6e8">
-        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/classes_eeaade267e778745fb085a1d67ecf702d436507a.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/ghc/.android/build-cache/cb727e1c173ebcd071a71eeb523b7f6a7f6d42c3/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="d4fcdb502616fa4dae61969d0bc931fbb7a6e213">
-        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/classes_fcd15d5d80a84dbcdf910261f5b9612f55f94826.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/ghc/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/logging-interceptor/3.10.0/55f574ec622f65ac9c0e2e922d3ffa01dc4f139e/logging-interceptor-3.10.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="55f574ec622f65ac9c0e2e922d3ffa01dc4f139e">
-        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/logging-interceptor-3.10.0_4067550389171b88de63ac3c01e7f7b2bf6a0994.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/ghc/.gradle/caches/modules-2/files-2.1/com.squareup.leakcanary/leakcanary-watcher/1.5.4/5e3dadce30fd748563219945d867a2e96f287931/leakcanary-watcher-1.5.4.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="5e3dadce30fd748563219945d867a2e96f287931">
-        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/leakcanary-watcher-1.5.4_548c66e148c9a17c0d34e0dae9d4fdef44641691.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/ghc/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.5.2/7446d06ec8d4f7ffcc53f1da37c95f200dcb9387/picasso-2.5.2.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
-        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/picasso-2.5.2_e0e0de7a11c4ec5fb4a3b7814c2d43dc1aadd4ef.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/ghc/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/glide/3.7.0/9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4/glide-3.7.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
-        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/glide-3.7.0_3839992ccb9fe9d76c67a1cd3c9dc431bc04a5ce.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/EvolvingBase/build/intermediates/bundles/default/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="3b88c9ead60da4fe8da1615af1bb2a541172e4f0">
-        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/classes_cc25ca7f2b618b0e6391a11749b44f9dfa4df672.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/ghc/.android/build-cache/76083e6fe865bc661fc68fcf56853df27ce92fbf/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="ace69012558dde2984bc67a43c5e45736282dc38">
-        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/classes_715bb6ecdd88503996ea4ead9f5bfd31b9ab40b1.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/ghc/.gradle/caches/modules-2/files-2.1/org.reactivestreams/reactive-streams/1.0.2/323964c36556eb0e6209f65c1cef72b53b461ab8/reactive-streams-1.0.2.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="323964c36556eb0e6209f65c1cef72b53b461ab8">
-        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/reactive-streams-1.0.2_2334b47bc1144d4a676ce6acd96cad9e8db5f069.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/Users/ghc/.android/build-cache/be40de3558a33989c63c6383930c10b23f3c817d/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -147,12 +57,39 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/ghc/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/converter-gson/2.3.0/9e09011e9767bb76b5e27c9b8223476b93b14631/converter-gson-2.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="9e09011e9767bb76b5e27c9b8223476b93b14631">
+        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/converter-gson-2.3.0_87257db8bb643e525b5ab688695b4b8d8c3d5d75.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/ghc/.android/build-cache/97a4cb4a757c2cacfd55d02270866e1e47ff691b/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3a64f14f460e307f5dfce75e9804e20077d3e6e8">
+        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/classes_eeaade267e778745fb085a1d67ecf702d436507a.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/ghc/.gradle/caches/modules-2/files-2.1/com.squareup.haha/haha/2.0.3/640a438d2d415c056ca6a673ac26b183b044e160/haha-2.0.3.jar"
         jumboMode="false"
         optimize="true"
         revision="26.0.1"
         sha1="640a438d2d415c056ca6a673ac26b183b044e160">
         <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/haha-2.0.3_842f867c6edf298604ad3466b29c86cb8024ba8c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/ghc/.android/build-cache/cb727e1c173ebcd071a71eeb523b7f6a7f6d42c3/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="d4fcdb502616fa4dae61969d0bc931fbb7a6e213">
+        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/classes_fcd15d5d80a84dbcdf910261f5b9612f55f94826.jar" />
     </item>
     <item
         is-multidex="false"
@@ -171,6 +108,15 @@
         revision="26.0.1"
         sha1="19556fcd27f540abd2e6e8179107fcbae4d983fa">
         <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/classes_de48289b876da1ac6544104fd5dbf5bd03526b90.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
+        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_fcd308c6f7f42f9956480900c750d99c4bf3f26d/classes.dex" />
     </item>
     <item
         is-multidex="false"
@@ -192,6 +138,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/ghc/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/logging-interceptor/3.10.0/55f574ec622f65ac9c0e2e922d3ffa01dc4f139e/logging-interceptor-3.10.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="55f574ec622f65ac9c0e2e922d3ffa01dc4f139e">
+        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/logging-interceptor-3.10.0_4067550389171b88de63ac3c01e7f7b2bf6a0994.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/EvolvingNet/build/intermediates/bundles/default/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -201,12 +156,39 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/ghc/.gradle/caches/modules-2/files-2.1/com.squareup.leakcanary/leakcanary-watcher/1.5.4/5e3dadce30fd748563219945d867a2e96f287931/leakcanary-watcher-1.5.4.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="5e3dadce30fd748563219945d867a2e96f287931">
+        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/leakcanary-watcher-1.5.4_548c66e148c9a17c0d34e0dae9d4fdef44641691.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/ghc/.gradle/caches/modules-2/files-2.1/com.trello.rxlifecycle2/rxlifecycle/2.2.0/bad74e98db4857406a87d5b7595fef62bf31823c/rxlifecycle-2.2.0.jar"
         jumboMode="false"
         optimize="true"
         revision="26.0.1"
         sha1="bad74e98db4857406a87d5b7595fef62bf31823c">
         <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/rxlifecycle-2.2.0_4dfccc00c1426a056e80af7896cd6a9d47f0f443.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/ghc/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.5.2/7446d06ec8d4f7ffcc53f1da37c95f200dcb9387/picasso-2.5.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/picasso-2.5.2_e0e0de7a11c4ec5fb4a3b7814c2d43dc1aadd4ef.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/ghc/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/glide/3.7.0/9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4/glide-3.7.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
+        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/glide-3.7.0_3839992ccb9fe9d76c67a1cd3c9dc431bc04a5ce.jar" />
     </item>
     <item
         is-multidex="false"
@@ -237,6 +219,33 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/EvolvingBase/build/intermediates/bundles/default/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3b88c9ead60da4fe8da1615af1bb2a541172e4f0">
+        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/classes_cc25ca7f2b618b0e6391a11749b44f9dfa4df672.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="ea2767302dd838872a46dcfeb48f2460f4fd717c">
+        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_a91a72dcfdc98a9660db979ce33a52687d2a017a/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/ghc/.android/build-cache/76083e6fe865bc661fc68fcf56853df27ce92fbf/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="ace69012558dde2984bc67a43c5e45736282dc38">
+        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/classes_715bb6ecdd88503996ea4ead9f5bfd31b9ab40b1.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/ghc/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.10.0/7ef0f1d95bf4c0b3ba30bbae25e0e562b05cf75e/okhttp-3.10.0.jar"
         jumboMode="false"
         optimize="true"
@@ -252,6 +261,15 @@
         revision="26.0.1"
         sha1="975d34a9f14da5b0aecffa603501e9716aae5aa4">
         <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/rxjava-2.1.12_8295b59f27fdb54387c4f2afd2d3bada330904d9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/ghc/.gradle/caches/modules-2/files-2.1/org.reactivestreams/reactive-streams/1.0.2/323964c36556eb0e6209f65c1cef72b53b461ab8/reactive-streams-1.0.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="323964c36556eb0e6209f65c1cef72b53b461ab8">
+        <dex dex="/Users/ghc/AndroidStudioProjects/personalLib/EvolvingNetLib/app/build/intermediates/pre-dexed/debug/reactive-streams-1.0.2_2334b47bc1144d4a676ce6acd96cad9e8db5f069.jar" />
     </item>
     <item
         is-multidex="false"

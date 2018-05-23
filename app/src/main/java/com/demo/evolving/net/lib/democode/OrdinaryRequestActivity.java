@@ -66,7 +66,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
             specifyHeaderMap.put("specify_header_param3", "specify_header_value3");
 
             //请求参数信息
-            Map<String, String> paramMap = new HashMap<>();
+            Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("name", "亚洲文化");
             paramMap.put("password", "a1111111");
             paramMap.put("mobile", "18910248213");

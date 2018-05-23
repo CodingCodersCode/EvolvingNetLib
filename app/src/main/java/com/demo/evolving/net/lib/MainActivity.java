@@ -232,7 +232,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
             specifyHeaderMap.put("specify_header_param3", "specify_header_value3");
 
 
-            Map<String, String> txtParamMap = new HashMap<>();
+            Map<String, Object> txtParamMap = new HashMap<>();
             txtParamMap.put("logic_txt_param1", "logic_txt_value1");
             txtParamMap.put("logic_txt_param2", "logic_txt_value2");
             txtParamMap.put("logic_txt_param3", "logic_txt_value3");
@@ -294,7 +294,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
             specifyHeaderMap.put("specify_header_param3", "specify_header_value3");
 
             //请求参数信息
-            Map<String, String> paramMap = new HashMap<>();
+            Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("logic_param1", "logic_value1——这是段中文文本");
             paramMap.put("logic_param2", "logic_value2");
             paramMap.put("logic_param3", "logic_value3");

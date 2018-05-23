@@ -11,11 +11,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="232bc718-afda-4b19-8f4f-0240440833a7" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileHashes.bin" />
+      <change beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileSnapshots.bin" />
+      <change beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.bin" />
+      <change beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.lock" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.lock" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCUploadRequest.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCUploadRequest.java" />
       <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/api/CCNetApiService.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/api/CCNetApiService.java" />
-      <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java" />
       <change beforePath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/Utils.java" afterPath="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/Utils.java" />
+      <change beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/MainActivity.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/OrdinaryRequestActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/OrdinaryRequestActivity.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/UploadRequestActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/UploadRequestActivity.java" />
+      <change beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
     </list>
     <ignored path="EvolvingNetLib.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -49,8 +58,30 @@
       <file leaf-file-name="OrdinaryRequestActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/OrdinaryRequestActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="541">
-              <caret line="87" column="29" lean-forward="false" selection-start-line="87" selection-start-column="29" selection-end-line="87" selection-end-column="29" />
+            <state relative-caret-position="135">
+              <caret line="68" column="30" lean-forward="false" selection-start-line="68" selection-start-column="24" selection-end-line="68" selection-end-column="30" />
+              <folding>
+                <element signature="e#2973#3016#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="404">
+              <caret line="254" column="51" lean-forward="true" selection-start-line="254" selection-start-column="51" selection-end-line="254" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UploadRequestActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/UploadRequestActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="473">
+              <caret line="140" column="48" lean-forward="false" selection-start-line="140" selection-start-column="48" selection-end-line="140" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -59,12 +90,52 @@
       <file leaf-file-name="CCRequest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="456" column="0" lean-forward="false" selection-start-line="456" selection-start-column="0" selection-end-line="456" selection-end-column="0" />
+            <state relative-caret-position="38">
+              <caret line="458" column="56" lean-forward="false" selection-start-line="458" selection-start-column="56" selection-end-line="458" selection-end-column="56" />
               <folding>
-                <element signature="e#8354#8735#0" expanded="true" />
-                <element signature="e#8734#8735#0" expanded="true" />
+                <element signature="e#14519#14520#0" expanded="true" />
+                <element signature="e#14550#14551#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/EvolvingNet/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/EvolvingBase/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -72,29 +143,22 @@
       <file leaf-file-name="CCNetApiService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/api/CCNetApiService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
-              <caret line="87" column="40" lean-forward="false" selection-start-line="87" selection-start-column="40" selection-end-line="87" selection-end-column="40" />
+            <state relative-caret-position="2414">
+              <caret line="162" column="40" lean-forward="false" selection-start-line="162" selection-start-column="40" selection-end-line="162" selection-end-column="40" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CCUploadRequest.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CCUploadRequest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCUploadRequest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="241" column="0" lean-forward="true" selection-start-line="241" selection-start-column="0" selection-end-line="241" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Utils.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/Utils.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="35" column="49" lean-forward="false" selection-start-line="35" selection-start-column="43" selection-end-line="35" selection-end-column="49" />
-              <folding />
+            <state relative-caret-position="1018">
+              <caret line="252" column="39" lean-forward="false" selection-start-line="252" selection-start-column="39" selection-end-line="252" selection-end-column="39" />
+              <folding>
+                <element signature="e#8682#8683#0" expanded="true" />
+                <element signature="e#8716#8717#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -4059,8 +4123,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/cache/mode/CCCacheMode.java" />
-        <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCDownloadRequest.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCMultiDownladRequest.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/callback/CCCacheQueryCallback.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/callback/CCCacheSaveCallback.java" />
@@ -4101,19 +4163,21 @@
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCHeadRequest.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCOptionsRequest.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCPutRequest.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/OrdinaryRequestActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/bean/SampleRespBeanWrapper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/bean/SampleResponseBean.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/exception/CCSampleHttpException.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/CCRxNetManager.java" />
-        <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/Utils.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java" />
-        <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/api/CCNetApiService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/UploadRequestActivity.java" />
+        <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/Utils.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCUploadRequest.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/OrdinaryRequestActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/MainActivity.java" />
+        <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/api/CCNetApiService.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
     <option name="width" value="1680" />
     <option name="height" value="955" />
@@ -4133,8 +4197,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -4157,58 +4221,6 @@
             <path>
               <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
               <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="bean" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="democode" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="res" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="EvolvingBase" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
             <path>
@@ -4245,105 +4257,12 @@
               <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
               <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="net" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="net" type="462c0819:PsiDirectoryNode" />
-              <item name="request" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="net" type="462c0819:PsiDirectoryNode" />
-              <item name="request" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="net" type="462c0819:PsiDirectoryNode" />
-              <item name="request" type="462c0819:PsiDirectoryNode" />
-              <item name="base" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="net" type="462c0819:PsiDirectoryNode" />
-              <item name="response" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="net" type="462c0819:PsiDirectoryNode" />
-              <item name="response" type="462c0819:PsiDirectoryNode" />
-              <item name="convert" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="EvolvingNetLib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="EvolvingNetLib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="EvolvingNet" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="net" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -4714,10 +4633,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="955" extended-state="0" />
+    <frame x="0" y="23" width="1680" height="955" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -4732,7 +4651,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23748474" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32855436" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19235365" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -4910,27 +4829,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/EvolvingBase/src/main/java/com/codingcoderscode/evolving/base/CCBaseLazyRxFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4335">
-          <caret line="273" column="0" lean-forward="false" selection-start-line="273" selection-start-column="0" selection-end-line="273" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/NetLogUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="20" column="61" lean-forward="true" selection-start-line="20" selection-start-column="61" selection-end-line="20" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/response/convert/CCConvert.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="12" column="26" lean-forward="false" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-26/javax/net/ssl/X509TrustManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -5084,7 +4982,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
           <caret line="72" column="53" lean-forward="true" selection-start-line="72" selection-start-column="53" selection-end-line="72" selection-end-column="53" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5128,7 +5025,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5136,7 +5032,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="27" lean-forward="false" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5152,20 +5047,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="4" column="26" lean-forward="false" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/EvolvingBase/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -5200,53 +5081,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/UploadRequestActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="742">
-          <caret line="136" column="0" lean-forward="false" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/OrdinaryRequestActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="541">
-          <caret line="87" column="29" lean-forward="false" selection-start-line="87" selection-start-column="29" selection-end-line="87" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/Utils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="35" column="49" lean-forward="false" selection-start-line="35" selection-start-column="43" selection-end-line="35" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCDeleteRequest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
           <caret line="42" column="86" lean-forward="false" selection-start-line="42" selection-start-column="86" selection-end-line="42" selection-end-column="86" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="456" column="0" lean-forward="false" selection-start-line="456" selection-start-column="0" selection-end-line="456" selection-end-column="0" />
-          <folding>
-            <element signature="e#8354#8735#0" expanded="true" />
-            <element signature="e#8734#8735#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCDownloadRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="145" column="89" lean-forward="true" selection-start-line="145" selection-start-column="89" selection-end-line="145" selection-end-column="89" />
           <folding />
         </state>
       </provider>
@@ -5299,18 +5137,106 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/api/CCNetApiService.java">
+    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCDownloadRequest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="87" column="40" lean-forward="false" selection-start-line="87" selection-start-column="40" selection-end-line="87" selection-end-column="40" />
+        <state relative-caret-position="1768">
+          <caret line="145" column="175" lean-forward="false" selection-start-line="145" selection-start-column="175" selection-end-line="145" selection-end-column="175" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/util/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="545">
+          <caret line="48" column="25" lean-forward="false" selection-start-line="48" selection-start-column="25" selection-end-line="48" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/UploadRequestActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="473">
+          <caret line="140" column="48" lean-forward="false" selection-start-line="140" selection-start-column="48" selection-end-line="140" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/democode/OrdinaryRequestActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="68" column="30" lean-forward="false" selection-start-line="68" selection-start-column="24" selection-end-line="68" selection-end-column="30" />
+          <folding>
+            <element signature="e#2973#3016#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="254" column="51" lean-forward="true" selection-start-line="254" selection-start-column="51" selection-end-line="254" selection-end-column="51" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/CCUploadRequest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="241" column="0" lean-forward="true" selection-start-line="241" selection-start-column="0" selection-end-line="241" selection-end-column="0" />
+        <state relative-caret-position="1018">
+          <caret line="252" column="39" lean-forward="false" selection-start-line="252" selection-start-column="39" selection-end-line="252" selection-end-column="39" />
+          <folding>
+            <element signature="e#8682#8683#0" expanded="true" />
+            <element signature="e#8716#8717#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/api/CCNetApiService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2414">
+          <caret line="162" column="40" lean-forward="false" selection-start-line="162" selection-start-column="40" selection-end-line="162" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/base/CCRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="458" column="56" lean-forward="false" selection-start-line="458" selection-start-column="56" selection-end-line="458" selection-end-column="56" />
+          <folding>
+            <element signature="e#14519#14520#0" expanded="true" />
+            <element signature="e#14550#14551#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EvolvingNet/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EvolvingBase/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
