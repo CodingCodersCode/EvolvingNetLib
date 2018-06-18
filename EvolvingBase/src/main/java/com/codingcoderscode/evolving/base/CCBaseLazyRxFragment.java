@@ -76,13 +76,13 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        final Fragment parentFragment = getParentFragment();
+        /*final Fragment parentFragment = getParentFragment();
         if (parentFragment != null && parentFragment instanceof CCBaseLazyRxFragment_V1) {
             mParentFragment = ((CCBaseLazyRxFragment) parentFragment);
             mParentFragment.setOnVisibilityChangedListener(this);
         }
 
-        checkVisibility(true);
+        checkVisibility(true);*/
     }
 
     @Override
@@ -108,7 +108,7 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
 
         this.onStartMethodCalled();
 
-        onActivityVisibilityChanged(true);
+        //onActivityVisibilityChanged(true);
     }
 
     @Override
@@ -123,7 +123,7 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
 
         this.onStopMethodCalled();
 
-        onActivityVisibilityChanged(false);
+        //onActivityVisibilityChanged(false);
     }
 
     @Override
@@ -139,25 +139,25 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
 
     @Override
     public void onDetach() {
-        if (mParentFragment != null) {
+        /*if (mParentFragment != null) {
             mParentFragment.setOnVisibilityChangedListener(null);
-        }
+        }*/
         super.onDetach();
-        checkVisibility(false);
-        mParentFragment = null;
+        /*checkVisibility(false);
+        mParentFragment = null;*/
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        view.addOnAttachStateChangeListener(this);
+        //view.addOnAttachStateChangeListener(this);
         onInitAfterFragmentOnViewCreated(view, savedInstanceState);
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        checkVisibility(!hidden);
+        //checkVisibility(!hidden);
     }
 
     /**
@@ -177,7 +177,7 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
      */
     @Override
     public void onViewAttachedToWindow(View v) {
-        checkVisibility(true);
+        //checkVisibility(true);
     }
 
     /**
@@ -187,8 +187,8 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
      */
     @Override
     public void onViewDetachedFromWindow(View v) {
-        v.removeOnAttachStateChangeListener(this);
-        checkVisibility(false);
+        //v.removeOnAttachStateChangeListener(this);
+        //checkVisibility(false);
     }
 
     /**
@@ -196,7 +196,7 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
      */
     @Override
     public void onParentFragmentVisibilityChanged(boolean visible) {
-        checkVisibility(visible);
+        //checkVisibility(visible);
     }
 
 // ***************************************************************************************************
@@ -211,8 +211,8 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
      * V1版本判断逻辑
      */
     protected void onActivityVisibilityChanged(boolean visible) {
-        mParentActivityVisible = visible;
-        checkVisibility(visible);
+        //mParentActivityVisible = visible;
+        //checkVisibility(visible);
     }
 
     /**
@@ -332,7 +332,7 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
         boolean fragmentVisible = false;
         ViewPager viewPager;
         try {
-            this.mCurrentFragmentVisibility = isVisibleToUser;
+
 
             parentFragment = getParentFragment();
 
@@ -345,14 +345,19 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
                 }
             }
 
-            //处理当前Fragment可见性变化
-            this.onFragmentVisibilityChanged(isVisibleToUser);
+            if (this.mCurrentFragmentVisibility != isVisibleToUser) {
+                this.mCurrentFragmentVisibility = isVisibleToUser;
 
-            //处理嵌套ViewPager情况下的Fragment可见性变化
-            viewPager = this.setNestedViewPagerWithNestedFragment();
-            if (viewPager != null) {
-                this.handleNestedFragmentVisibilityWhenFragmentVisibilityChanged(viewPager, isVisibleToUser, isLifeCycle);
+                //处理当前Fragment可见性变化
+                this.onFragmentVisibilityChanged(isVisibleToUser);
+
+                //处理嵌套ViewPager情况下的Fragment可见性变化
+                viewPager = this.setNestedViewPagerWithNestedFragment();
+                if (viewPager != null) {
+                    this.handleNestedFragmentVisibilityWhenFragmentVisibilityChanged(viewPager, isVisibleToUser, isLifeCycle);
+                }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -415,25 +420,25 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
      * @param isVisible
      */
     protected void onFragmentVisibilityChanged(boolean isVisible) {
-        if (isVisible != this.isCurrentFragmentVisibility()) {
-            if (isVisible) {
-                if (this.isFirstVisible) {
-                    this.isFirstVisible = false;
-                    this.onFirstUserVisible();
-                }
-                this.onUserVisible();
-            } else {
-                if (this.isFirstInvisible) {
-                    this.isFirstInvisible = false;
-                    this.onFirstUserInvisible();
-                }
-                this.onUserInvisible();
+        //if (isVisible != this.isCurrentFragmentVisibility()) {
+        if (isVisible) {
+            if (this.isFirstVisible) {
+                this.isFirstVisible = false;
+                this.onFirstUserVisible();
             }
+            this.onUserVisible();
+        } else {
+            if (this.isFirstInvisible) {
+                this.isFirstInvisible = false;
+                this.onFirstUserInvisible();
+            }
+            this.onUserInvisible();
         }
+        // }
 
-        if (this.mListener != null){
+        /*if (this.mListener != null){
             this.mListener.onParentFragmentVisibilityChanged(isVisible);
-        }
+        }*/
     }
 
     // *******************************************************************************************

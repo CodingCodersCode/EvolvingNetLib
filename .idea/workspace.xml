@@ -11,17 +11,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="232bc718-afda-4b19-8f4f-0240440833a7" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/EvolvingBase/src/main/java/com/codingcoderscode/evolving/base/CCBaseLazyRxFragment_V1.java" />
-      <change beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileHashes.bin" />
-      <change beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileSnapshots.bin" />
-      <change beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.bin" />
-      <change beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.lock" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.lock" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/EvolvingBase/src/main/java/com/codingcoderscode/evolving/base/CCBaseLazyRxFragment.java" afterPath="$PROJECT_DIR$/EvolvingBase/src/main/java/com/codingcoderscode/evolving/base/CCBaseLazyRxFragment.java" />
-      <change beforePath="$PROJECT_DIR$/EvolvingBase/src/main/java/com/codingcoderscode/evolving/base/interfaces/OnFragmentVisibilityChangedListener.java" afterPath="$PROJECT_DIR$/EvolvingBase/src/main/java/com/codingcoderscode/evolving/base/interfaces/OnFragmentVisibilityChangedListener.java" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
     </list>
     <ignored path="EvolvingNetLib.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -77,11 +68,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_choose_demo_code.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="activity_choose_demo_code.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_choose_demo_code.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="530">
-              <caret line="54" column="31" lean-forward="true" selection-start-line="54" selection-start-column="31" selection-end-line="54" selection-end-column="31" />
+              <caret line="54" column="31" lean-forward="false" selection-start-line="54" selection-start-column="31" selection-end-line="54" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -90,27 +81,43 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CCBaseLazyRxFragment.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/EvolvingBase/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="178">
+              <caret line="25" column="18" lean-forward="true" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/EvolvingBase/src/main/AndroidManifest.xml">
+          <provider editor-type-id="android-manifest">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="47" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CCBaseLazyRxFragment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EvolvingBase/src/main/java/com/codingcoderscode/evolving/base/CCBaseLazyRxFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
-              <caret line="416" column="67" lean-forward="false" selection-start-line="416" selection-start-column="67" selection-end-line="416" selection-end-column="67" />
+            <state relative-caret-position="415">
+              <caret line="354" column="72" lean-forward="true" selection-start-line="354" selection-start-column="72" selection-end-line="354" selection-end-column="72" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#3494#3495#0" expanded="true" />
-                <element signature="e#3526#3527#0" expanded="true" />
-                <element signature="e#3743#3744#0" expanded="true" />
-                <element signature="e#3780#3781#0" expanded="true" />
-                <element signature="e#4944#4945#0" expanded="true" />
-                <element signature="e#4981#4982#0" expanded="true" />
-                <element signature="e#15140#15141#0" expanded="true" />
-                <element signature="e#15167#15168#0" expanded="true" />
-                <element signature="e#15310#15311#0" expanded="true" />
-                <element signature="e#15338#15339#0" expanded="true" />
-                <element signature="e#15886#15887#0" expanded="true" />
-                <element signature="e#15935#15936#0" expanded="true" />
-                <element signature="e#16100#16101#0" expanded="true" />
-                <element signature="e#16131#16132#0" expanded="true" />
+                <element signature="e#15248#15249#0" expanded="true" />
+                <element signature="e#15275#15276#0" expanded="true" />
+                <element signature="e#15418#15419#0" expanded="true" />
+                <element signature="e#15446#15447#0" expanded="true" />
+                <element signature="e#15994#15995#0" expanded="true" />
+                <element signature="e#16043#16044#0" expanded="true" />
+                <element signature="e#16208#16209#0" expanded="true" />
+                <element signature="e#16239#16240#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -4146,14 +4153,14 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/MainActivity.java" />
         <option value="$PROJECT_DIR$/EvolvingNet/src/main/java/com/codingcoderscode/evolving/net/request/api/CCNetApiService.java" />
         <option value="$PROJECT_DIR$/EvolvingBase/src/main/java/com/codingcoderscode/evolving/base/CCBaseLazyRxFragment_V1.java" />
-        <option value="$PROJECT_DIR$/EvolvingBase/src/main/java/com/codingcoderscode/evolving/base/CCBaseLazyRxFragment.java" />
         <option value="$PROJECT_DIR$/EvolvingBase/src/main/java/com/codingcoderscode/evolving/base/interfaces/OnFragmentVisibilityChangedListener.java" />
+        <option value="$PROJECT_DIR$/EvolvingBase/src/main/java/com/codingcoderscode/evolving/base/CCBaseLazyRxFragment.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="173" />
-    <option name="y" value="49" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="36" />
+    <option name="y" value="26" />
     <option name="width" value="1680" />
     <option name="height" value="955" />
   </component>
@@ -4621,7 +4628,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="955" extended-state="6" />
+    <frame x="36" y="26" width="1680" height="955" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -4631,7 +4638,7 @@
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25885227" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25885227" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930845" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -4817,28 +4824,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/EvolvingNet/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="60" column="52" lean-forward="true" selection-start-line="60" selection-start-column="52" selection-end-line="60" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/demo/evolving/net/lib/CCApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="416">
@@ -5190,30 +5175,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/EvolvingBase/src/main/java/com/codingcoderscode/evolving/base/CCBaseLazyRxFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="416" column="67" lean-forward="false" selection-start-line="416" selection-start-column="67" selection-end-line="416" selection-end-column="67" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3494#3495#0" expanded="true" />
-            <element signature="e#3526#3527#0" expanded="true" />
-            <element signature="e#3743#3744#0" expanded="true" />
-            <element signature="e#3780#3781#0" expanded="true" />
-            <element signature="e#4944#4945#0" expanded="true" />
-            <element signature="e#4981#4982#0" expanded="true" />
-            <element signature="e#15140#15141#0" expanded="true" />
-            <element signature="e#15167#15168#0" expanded="true" />
-            <element signature="e#15310#15311#0" expanded="true" />
-            <element signature="e#15338#15339#0" expanded="true" />
-            <element signature="e#15886#15887#0" expanded="true" />
-            <element signature="e#15935#15936#0" expanded="true" />
-            <element signature="e#16100#16101#0" expanded="true" />
-            <element signature="e#16131#16132#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/build/generated/source/r/debug/com/lzy/widget/R.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="164">
@@ -5225,12 +5186,48 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_choose_demo_code.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="530">
-          <caret line="54" column="31" lean-forward="true" selection-start-line="54" selection-start-column="31" selection-end-line="54" selection-end-column="31" />
+          <caret line="54" column="31" lean-forward="false" selection-start-line="54" selection-start-column="31" selection-end-line="54" selection-end-column="31" />
           <folding />
         </state>
       </provider>
       <provider editor-type-id="android-designer2">
         <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EvolvingBase/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EvolvingBase/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="25" column="18" lean-forward="true" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EvolvingBase/src/main/java/com/codingcoderscode/evolving/base/CCBaseLazyRxFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="415">
+          <caret line="354" column="72" lean-forward="true" selection-start-line="354" selection-start-column="72" selection-end-line="354" selection-end-column="72" />
+          <folding>
+            <element signature="e#15248#15249#0" expanded="true" />
+            <element signature="e#15275#15276#0" expanded="true" />
+            <element signature="e#15418#15419#0" expanded="true" />
+            <element signature="e#15446#15447#0" expanded="true" />
+            <element signature="e#15994#15995#0" expanded="true" />
+            <element signature="e#16043#16044#0" expanded="true" />
+            <element signature="e#16208#16209#0" expanded="true" />
+            <element signature="e#16239#16240#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
   </component>
