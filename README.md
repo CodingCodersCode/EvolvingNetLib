@@ -5,17 +5,17 @@
 ----
 EvolvingNetLib取名Evolving，意为进化，愿景是通过不断的维护，达到简化网络请求的调用和相关处理，使得开发过程能够将更多注意力放在业务方面。
 
-EvolvingNetLib当前最新版本为v1.0.1。
+EvolvingNetLib当前最新版本为v1.0.1.9。
 
 功能
 ----
-当前Release最新版本为v1.0.1.1版本，包含如下功能：
+当前Release最新版本为v1.0.1.9版本，包含如下功能：
 
- - Http几种基本类型请求，包含：GET、POST、PUT、DELETE、OPTIONS、HEAD。(V1.0.0~至今)
- - 支持Http请求的数据缓存查询和响应的数据保存回调，EvolvingNetLib不负责任何数据缓存逻辑，完全交给开发者自定义，提高灵活性。(V1.0.0~至今)
- - 文件上传，支持上传进度回调。不支持分片和断点上传。(V1.0.0~至今)
- - 文件下载，支持下载进度回调，支持断点下载。(V1.0.0~至今)
- - 多线程文件下载、设置下载优先级，数值越小，优先级越高，则先下载(V1.0.1新增)
+ - Http几种基本类型请求，包含：GET、POST、PUT、DELETE、OPTIONS、HEAD。
+ - 支持Http请求的数据缓存查询和响应的数据保存回调，EvolvingNetLib不负责任何数据缓存逻辑，完全交给开发者自定义，提高灵活性。
+ - 文件上传，支持上传进度回调。不支持分片和断点上传。
+ - 文件下载，支持下载进度回调，支持断点下载。
+ - 多线程文件下载、设置下载优先级，数值越小，优先级越高，则先下载。
  
  计划
  ----
@@ -41,7 +41,7 @@ EvolvingNetLib当前最新版本为v1.0.1。
           <dependency>
               <groupId>com.github.CodingCodersCode</groupId>
               <artifactId>EvolvingNetLib</artifactId>
-              <version>v1.0.1</version>
+              <version>v1.0.1.9</version>
           </dependency>
  
  (2) gradle
@@ -59,19 +59,18 @@ EvolvingNetLib当前最新版本为v1.0.1。
  
           dependencies {
                ......
-               compile 'com.github.CodingCodersCode.EvolvingNetLib:EvolvingNet:vx.x.x' 
+               compile 'com.github.CodingCodersCode.EvolvingNetLib:EvolvingNet:v1.0.1.9' 
              }
 
  - EvolvingNetLib还提供了另外一个类库，与RxLifeCycle结合，方便管理RxJava，避免内存泄漏问题的产生，若要使用，则添加如下依赖：
           
           dependencies {
             ......
-            compile 'com.github.CodingCodersCode.EvolvingNetLib:EvolvingBase:vx.x.x'
+            compile 'com.github.CodingCodersCode.EvolvingNetLib:EvolvingBase:v1.0.1.9'
           }
           
     EvolingBase通过结合RxLifeCycle，提供了网络请求的生命周期管理，也提供了简单的懒加载Fragment。 
-     
- 将`x.x.x`替换成具体的版本号。 
+    
     
   
         
