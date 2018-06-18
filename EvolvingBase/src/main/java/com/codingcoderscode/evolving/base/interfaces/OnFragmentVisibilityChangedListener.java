@@ -7,5 +7,5 @@ package com.codingcoderscode.evolving.base.interfaces;
  */
 
 public interface OnFragmentVisibilityChangedListener {
-    void onFragmentVisibilityChanged(boolean visibility);
+    void onParentFragmentVisibilityChanged(boolean visibility);
 }
