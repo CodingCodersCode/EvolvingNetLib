@@ -76,13 +76,13 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        /*final Fragment parentFragment = getParentFragment();
-        if (parentFragment != null && parentFragment instanceof CCBaseLazyRxFragment_V1) {
+        final Fragment parentFragment = getParentFragment();
+        if (parentFragment != null && parentFragment instanceof CCBaseLazyRxFragment) {
             mParentFragment = ((CCBaseLazyRxFragment) parentFragment);
             mParentFragment.setOnVisibilityChangedListener(this);
         }
 
-        checkVisibility(true);*/
+        checkVisibility(true);
     }
 
     @Override
@@ -108,7 +108,7 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
 
         this.onStartMethodCalled();
 
-        //onActivityVisibilityChanged(true);
+        onActivityVisibilityChanged(true);
     }
 
     @Override
@@ -123,7 +123,7 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
 
         this.onStopMethodCalled();
 
-        //onActivityVisibilityChanged(false);
+        onActivityVisibilityChanged(false);
     }
 
     @Override
@@ -139,25 +139,25 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
 
     @Override
     public void onDetach() {
-        /*if (mParentFragment != null) {
+        if (mParentFragment != null) {
             mParentFragment.setOnVisibilityChangedListener(null);
-        }*/
+        }
         super.onDetach();
-        /*checkVisibility(false);
-        mParentFragment = null;*/
+        checkVisibility(false);
+        mParentFragment = null;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //view.addOnAttachStateChangeListener(this);
+        view.addOnAttachStateChangeListener(this);
         onInitAfterFragmentOnViewCreated(view, savedInstanceState);
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        //checkVisibility(!hidden);
+        checkVisibility(!hidden);
     }
 
     /**
@@ -168,6 +168,8 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
         super.setUserVisibleHint(isVisibleToUser);
 
         this.onSetUserVisibleHintMethodCalled(isVisibleToUser);
+
+        checkVisibility(isVisibleToUser);
     }
 
     /**
@@ -177,7 +179,7 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
      */
     @Override
     public void onViewAttachedToWindow(View v) {
-        //checkVisibility(true);
+        checkVisibility(true);
     }
 
     /**
@@ -187,8 +189,8 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
      */
     @Override
     public void onViewDetachedFromWindow(View v) {
-        //v.removeOnAttachStateChangeListener(this);
-        //checkVisibility(false);
+        v.removeOnAttachStateChangeListener(this);
+        checkVisibility(false);
     }
 
     /**
@@ -196,7 +198,7 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
      */
     @Override
     public void onParentFragmentVisibilityChanged(boolean visible) {
-        //checkVisibility(visible);
+        checkVisibility(visible);
     }
 
 // ***************************************************************************************************
@@ -211,8 +213,8 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
      * V1版本判断逻辑
      */
     protected void onActivityVisibilityChanged(boolean visible) {
-        //mParentActivityVisible = visible;
-        //checkVisibility(visible);
+        mParentActivityVisible = visible;
+        checkVisibility(visible);
     }
 
     /**
@@ -223,7 +225,7 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
      * @param expected 可见性期望的值。只有当前值和expected不同，才需要做判断
      */
     private void checkVisibility(boolean expected) {
-        if (expected == this.mCurrentFragmentVisibility) {
+        if (expected == this.mVisible) {
             return;
         }
         final boolean parentVisible = mParentFragment == null ? mParentActivityVisible : mParentFragment.isFragmentVisible();
@@ -410,6 +412,9 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
         }
     }
 
+
+    private boolean isInRealVisibleToUserStatus = false;
+
     /**
      * Fragment可见性变化时回调
      * <p>
@@ -426,13 +431,21 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
                 this.isFirstVisible = false;
                 this.onFirstUserVisible();
             }
-            this.onUserVisible();
+
+            if (!isInRealVisibleToUserStatus) {
+                isInRealVisibleToUserStatus = isVisible;
+                this.onUserVisible();
+            }
         } else {
             if (this.isFirstInvisible) {
                 this.isFirstInvisible = false;
                 this.onFirstUserInvisible();
             }
-            this.onUserInvisible();
+
+            if (isInRealVisibleToUserStatus) {
+                isInRealVisibleToUserStatus = isVisible;
+                this.onUserInvisible();
+            }
         }
         // }
 
@@ -563,6 +576,7 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
 
     /**
      * V1版本判断逻辑
+     *
      * @param listener
      */
     public void setOnVisibilityChangedListener(OnFragmentVisibilityChangedListener listener) {
