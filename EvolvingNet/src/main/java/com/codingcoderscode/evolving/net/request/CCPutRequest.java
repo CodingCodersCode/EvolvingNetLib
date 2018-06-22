@@ -40,7 +40,13 @@ public class CCPutRequest<T> extends CCRequest<T, CCPutRequest<T>> {
         return Flowable.create(new FlowableOnSubscribe<Call<ResponseBody>>() {
             @Override
             public void subscribe(FlowableEmitter<Call<ResponseBody>> e) throws Exception {
-                Call<ResponseBody> call = CCRxNetManager.getCcNetApiService().executePut(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
+                Call<ResponseBody> call;
+                if (isUseBodyParamStyle()){
+                    call = CCRxNetManager.getCcNetApiService().executePut(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
+                }else {
+                    call = CCRxNetManager.getCcNetApiService().executeBodyPut(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
+                }
+                //Call<ResponseBody> call = CCRxNetManager.getCcNetApiService().executePut(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
 
                 e.onNext(call);
                 e.onComplete();

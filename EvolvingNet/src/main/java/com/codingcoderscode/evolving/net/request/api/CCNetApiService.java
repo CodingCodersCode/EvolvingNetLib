@@ -6,6 +6,7 @@ import java.util.Map;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -65,6 +66,20 @@ public interface CCNetApiService {
             @HeaderMap Map<String, String> headerMap,
             @FieldMap Map<String, Object> paramMap);
 
+    /**
+     * 发送以@Body形式发送参数的Post请求
+     *
+     * @param url
+     * @param headerMap
+     * @param paramMap
+     * @return
+     */
+    @POST
+    Call<ResponseBody> executeBodyPost(
+            @Url String url,
+            @HeaderMap Map<String, String> headerMap,
+            @Body Map<String, Object> paramMap);
+
     /*@FormUrlEncoded
     @POST
     Flowable<ResponseBody> executePost(
@@ -83,6 +98,20 @@ public interface CCNetApiService {
     @FormUrlEncoded
     @PUT
     Call<ResponseBody> executePut(
+            @Url String url,
+            @HeaderMap Map<String, String> headerMap,
+            @FieldMap Map<String, Object> paramMap);
+
+    /**
+     * 发送以@Body形式发送参数的PUT请求
+     *
+     * @param url
+     * @param headerMap
+     * @param paramMap
+     * @return
+     */
+    @PUT
+    Call<ResponseBody> executeBodyPut(
             @Url String url,
             @HeaderMap Map<String, String> headerMap,
             @FieldMap Map<String, Object> paramMap);
@@ -165,6 +194,7 @@ public interface CCNetApiService {
 
     /**
      * 上传文件
+     *
      * @param url
      * @param headerMap
      * @param paramPartList
@@ -180,6 +210,7 @@ public interface CCNetApiService {
 
     /**
      * 下载文件
+     *
      * @param url
      * @param headerMap
      * @param txtParamMap

@@ -94,6 +94,8 @@ public abstract class CCRequest<T, R extends CCRequest> {
     private boolean requestRunning;
     //是否被强制退出
     private boolean forceCanceled;
+    //是否以@Body形式传递参数，用于@POST和@PUT请求
+    private boolean useBodyParamStyle;
 
     protected abstract Flowable<CCBaseResponse<T>> getRequestFlowable();
 
@@ -612,6 +614,17 @@ public abstract class CCRequest<T, R extends CCRequest> {
     @SuppressWarnings("unchecked")
     public R setCacheSaveMode(int cacheSaveMode) {
         this.cacheSaveMode = cacheSaveMode;
+        return (R) this;
+    }
+
+    //useBodyParamStyle
+    public boolean isUseBodyParamStyle() {
+        return useBodyParamStyle;
+    }
+
+    @SuppressWarnings("unchecked")
+    public R setUseBodyParamStyle(boolean useBodyParamStyle) {
+        this.useBodyParamStyle = useBodyParamStyle;
         return (R) this;
     }
 

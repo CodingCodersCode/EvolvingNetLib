@@ -39,7 +39,15 @@ public class CCPostRequest<T> extends CCRequest<T, CCPostRequest<T>> {
         return Flowable.create(new FlowableOnSubscribe<Call<ResponseBody>>() {
             @Override
             public void subscribe(FlowableEmitter<Call<ResponseBody>> e) throws Exception {
-                Call<ResponseBody> call = CCRxNetManager.getCcNetApiService().executePost(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
+
+                Call<ResponseBody> call;
+                if (isUseBodyParamStyle()){
+                    call = CCRxNetManager.getCcNetApiService().executeBodyPost(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
+                }else {
+                    call = CCRxNetManager.getCcNetApiService().executePost(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
+                }
+
+                //Call<ResponseBody> call = CCRxNetManager.getCcNetApiService().executePost(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
 
                 e.onNext(call);
                 e.onComplete();
