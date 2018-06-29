@@ -114,7 +114,7 @@ public interface CCNetApiService {
     Call<ResponseBody> executeBodyPut(
             @Url String url,
             @HeaderMap Map<String, String> headerMap,
-            @FieldMap Map<String, Object> paramMap);
+            @Body Map<String, Object> paramMap);
 
     /*@FormUrlEncoded
     @PUT
