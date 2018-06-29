@@ -82,7 +82,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
             TypeToken typeToken = new TypeToken<SampleRespBeanWrapper<SampleResponseBean>>() {
             };
 
-            CCRxNetManager.<SampleRespBeanWrapper<SampleResponseBean>>post("/{path1}/{path2}/login")
+            CCRxNetManager.<SampleRespBeanWrapper<SampleResponseBean>>put("/{path1}/{path2}/login")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
                     .setParamMap(paramMap)
