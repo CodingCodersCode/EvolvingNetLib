@@ -449,9 +449,9 @@ public abstract class CCBaseLazyRxFragment extends CCBaseRxFragment implements V
         }
         // }
 
-        /*if (this.mListener != null){
+        if (this.mListener != null){
             this.mListener.onParentFragmentVisibilityChanged(isVisible);
-        }*/
+        }
     }
 
     // *******************************************************************************************
