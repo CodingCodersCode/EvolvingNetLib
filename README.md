@@ -5,11 +5,11 @@
 ----
 EvolvingNetLib取名Evolving，意为进化，愿景是通过不断的维护，达到简化网络请求的调用和相关处理，使得开发过程能够将更多注意力放在业务方面。
 
-EvolvingNetLib当前最新版本为v1.0.1.9。
+EvolvingNetLib当前最新版本为v1.0.1.17。
 
 功能
 ----
-当前Release最新版本为v1.0.1.9版本，包含如下功能：
+当前Release最新版本为v1.0.1.17版本，包含如下功能：
 
  - Http几种基本类型请求，包含：GET、POST、PUT、DELETE、OPTIONS、HEAD。
  - 支持Http请求的数据缓存查询和响应的数据保存回调，EvolvingNetLib不负责任何数据缓存逻辑，完全交给开发者自定义，提高灵活性。
