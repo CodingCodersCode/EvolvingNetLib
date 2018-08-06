@@ -378,7 +378,7 @@ public class RepeatTestActivity extends CCBaseRxAppCompactActivity implements Vi
         }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onSubscribe(Subscription s) {
-                s.request(Long.MAX_VALUE);
+                s.request(1);
 
                 NetLogUtil.printLog("e", LOG_TAG, "调用了onSubscribe方法");
             }

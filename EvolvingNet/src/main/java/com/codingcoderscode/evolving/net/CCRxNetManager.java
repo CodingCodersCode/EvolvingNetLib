@@ -207,6 +207,17 @@ public class CCRxNetManager {
         }
 
         /**
+         * Add Network interceptor
+         *
+         * @param interceptor
+         * @return
+         */
+        public Builder netInterceptor(Interceptor interceptor) {
+            this.okHttpClientBuilder.addNetworkInterceptor(interceptor);
+            return this;
+        }
+
+        /**
          * Add SSlSocketFactory for https request
          *
          * @param sslParams
