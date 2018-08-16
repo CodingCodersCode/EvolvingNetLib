@@ -13,7 +13,8 @@ import com.codingcoderscode.evolving.base.swipeback.SwipeBackLayout;
  * <p>
  * author: ghc
  */
-public class SwipeBackPreferenceActivity extends PreferenceActivity implements SwipeBackActivityBase {
+@Deprecated
+public class SwipeBackPreferenceActivity_Deprecated extends PreferenceActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mHelper;
 
     @Override

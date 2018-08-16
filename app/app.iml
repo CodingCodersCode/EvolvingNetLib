@@ -104,6 +104,7 @@
     <orderEntry type="library" exported="" name="Gradle: com.android.support.constraint:constraint-layout-solver:1.0.2@jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="Gradle: com.android.support.test.espresso:espresso-idling-resource-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.github.chrisbanes.photoview:library-1.2.4" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: cn.bingoogolapple:bga-swipebacklayout-1.1.9" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:animated-vector-drawable-26.0.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: pub.devrel:easypermissions-0.4.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.squareup.haha:haha:2.0.3@jar" level="project" />

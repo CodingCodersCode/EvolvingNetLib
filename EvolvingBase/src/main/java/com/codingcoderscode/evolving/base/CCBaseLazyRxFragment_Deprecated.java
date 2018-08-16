@@ -16,8 +16,8 @@ import com.codingcoderscode.evolving.base.interfaces.OnFragmentVisibilityChanged
  * <p>
  * 懒加载Fragment基类
  */
-
-public abstract class CCBaseLazyRxFragment_V1 extends CCBaseRxFragment implements View.OnAttachStateChangeListener, OnFragmentVisibilityChangedListener {
+@Deprecated
+public abstract class CCBaseLazyRxFragment_Deprecated extends CCBaseRxFragment implements View.OnAttachStateChangeListener, OnFragmentVisibilityChangedListener {
 
     private boolean isFirstVisible = true;
     private boolean isFirstInvisible = true;
@@ -33,7 +33,7 @@ public abstract class CCBaseLazyRxFragment_V1 extends CCBaseRxFragment implement
     //是否可见(Activity处于前台、Tab被选中、Fragment被添加、Fragment没有隐藏、Fragment.View已经Attach)
     protected boolean mVisible = false;
 
-    private CCBaseLazyRxFragment_V1 mParentFragment;
+    private CCBaseLazyRxFragment_Deprecated mParentFragment;
 
     private OnFragmentVisibilityChangedListener mListener;
 
@@ -45,8 +45,8 @@ public abstract class CCBaseLazyRxFragment_V1 extends CCBaseRxFragment implement
     public void onAttach(Context context) {
         super.onAttach(context);
         final Fragment parentFragment = getParentFragment();
-        if (parentFragment != null && parentFragment instanceof CCBaseLazyRxFragment_V1) {
-            mParentFragment = ((CCBaseLazyRxFragment_V1) parentFragment);
+        if (parentFragment != null && parentFragment instanceof CCBaseLazyRxFragment_Deprecated) {
+            mParentFragment = ((CCBaseLazyRxFragment_Deprecated) parentFragment);
             mParentFragment.setOnVisibilityChangedListener(this);
         }
         checkVisibility(true);
@@ -272,9 +272,9 @@ public abstract class CCBaseLazyRxFragment_V1 extends CCBaseRxFragment implement
      */
     private static class OnFragVisibilityChangeListener implements OnFragmentVisibilityChangedListener {
 
-        private CCBaseLazyRxFragment_V1 lazyFragment;
+        private CCBaseLazyRxFragment_Deprecated lazyFragment;
 
-        private OnFragVisibilityChangeListener(CCBaseLazyRxFragment_V1 lazyFragment) {
+        private OnFragVisibilityChangeListener(CCBaseLazyRxFragment_Deprecated lazyFragment) {
             this.lazyFragment = lazyFragment;
         }
 
