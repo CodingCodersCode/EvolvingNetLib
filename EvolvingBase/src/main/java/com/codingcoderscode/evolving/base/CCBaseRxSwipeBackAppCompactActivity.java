@@ -2,7 +2,6 @@ package com.codingcoderscode.evolving.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
 
 import com.codingcoderscode.evolving.base.util.NetLogUtil;
 
@@ -11,12 +10,13 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
 /**
  * Date：2018/8/16 11:33
  * <p>
- * author: ghc
+ * author: CodingCodersCode
+ * <p>
+ * 滑动返回效果
  */
 public class CCBaseRxSwipeBackAppCompactActivity extends CCBaseRxAppCompactActivity implements BGASwipeBackHelper.Delegate {
 
     protected BGASwipeBackHelper mSwipeBackHelper;
-    protected Toolbar mToolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

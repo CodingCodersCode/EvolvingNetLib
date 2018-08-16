@@ -11,8 +11,9 @@ import com.codingcoderscode.evolving.base.R;
 /**
  * Date：2018/8/14 15:29
  * <p>
- * author: ghc
+ * author: CodingCodersCode
  */
+@Deprecated
 public class SwipeBackActivityHelper {
     private Activity mActivity;
 

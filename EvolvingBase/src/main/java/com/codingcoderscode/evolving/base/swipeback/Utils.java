@@ -9,8 +9,9 @@ import java.lang.reflect.Method;
 /**
  * Date：2018/8/14 15:31
  * <p>
- * author: ghc
+ * author: CodingCodersCode
  */
+@Deprecated
 public class Utils {
     private Utils() {
     }

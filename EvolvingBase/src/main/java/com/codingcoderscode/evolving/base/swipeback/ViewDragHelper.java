@@ -17,7 +17,7 @@ import java.util.Arrays;
 /**
  * Date：2018/8/14 15:31
  * <p>
- * author: ghc
+ * author: CodingCodersCode
  */
 
 /**
@@ -25,6 +25,7 @@ import java.util.Arrays;
  * number of useful operations and state tracking for allowing a user to drag
  * and reposition views within their parent ViewGroup.
  */
+@Deprecated
 public class ViewDragHelper {
     private static final String TAG = "ViewDragHelper";
 

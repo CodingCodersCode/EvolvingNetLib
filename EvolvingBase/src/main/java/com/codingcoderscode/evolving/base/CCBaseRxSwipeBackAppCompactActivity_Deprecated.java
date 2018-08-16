@@ -11,7 +11,7 @@ import com.codingcoderscode.evolving.base.swipeback.Utils;
 /**
  * Date：2018/8/14 15:27
  * <p>
- * author: ghc
+ * author: CodingCodersCode
  * <p>
  * 包含功能：滑动关闭
  * <p>

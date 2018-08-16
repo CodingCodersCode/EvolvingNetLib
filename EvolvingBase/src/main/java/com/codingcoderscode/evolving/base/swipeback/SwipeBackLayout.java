@@ -21,8 +21,9 @@ import java.util.List;
 /**
  * Date：2018/8/14 15:30
  * <p>
- * author: ghc
+ * author: CodingCodersCode
  */
+@Deprecated
 public class SwipeBackLayout extends FrameLayout {
     /**
      * Minimum velocity that will be detected as a fling

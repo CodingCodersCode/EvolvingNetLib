@@ -11,7 +11,7 @@ import com.codingcoderscode.evolving.base.swipeback.SwipeBackLayout;
 /**
  * Date：2018/8/14 15:30
  * <p>
- * author: ghc
+ * author: CodingCodersCode
  */
 @Deprecated
 public class SwipeBackPreferenceActivity_Deprecated extends PreferenceActivity implements SwipeBackActivityBase {
