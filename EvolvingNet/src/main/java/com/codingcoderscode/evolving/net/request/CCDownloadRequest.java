@@ -129,7 +129,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
                     onFileSaveCheck(isSupportRage());
 
-                    File fileToSave = new File(getFileSavePath() + getFileSaveName());
+                    File fileToSave = new File(getFileSavePath(), getFileSaveName());
 
                     long fileNowSize = fileToSave.length();
 
@@ -324,7 +324,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                 */
             }
 
-            fileToSave = new File(getFileSavePath() + getFileSaveName());
+            fileToSave = new File(getFileSavePath(), getFileSaveName());
 
             rafFile = new RandomAccessFile(fileToSave, "rw");
             if (isSupportRage()) {
@@ -498,7 +498,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                 setFileSavePath(Environment.getExternalStorageDirectory() + File.separator + "DownLoads" + File.separator);
             }
 
-            file = new File(getFileSavePath() + getFileSaveName());
+            file = new File(getFileSavePath(), getFileSaveName());
 
             if (file.exists() && file.isFile() && !supportRage) {
                 CCFileUtils.deleteFile(file);
