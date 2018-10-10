@@ -18,6 +18,8 @@ public class CCBaseResponse<T> {
     private boolean fromMemoryCache;
     private boolean fromDiskCache;
 
+    private boolean netInBadCondition = false;
+
     public CCBaseResponse(T realResponse, boolean fromCache, boolean fromMemoryCache, boolean fromDiskCache) {
         this.realResponse = realResponse;
         this.headers = null;
@@ -32,6 +34,15 @@ public class CCBaseResponse<T> {
         this.fromCache = fromCache;
         this.fromMemoryCache = fromMemoryCache;
         this.fromDiskCache = fromDiskCache;
+    }
+
+    public CCBaseResponse(T realResponse, Headers headers, boolean fromCache, boolean fromMemoryCache, boolean fromDiskCache, boolean netInBadCondition) {
+        this.realResponse = realResponse;
+        this.headers = headers;
+        this.fromCache = fromCache;
+        this.fromMemoryCache = fromMemoryCache;
+        this.fromDiskCache = fromDiskCache;
+        this.netInBadCondition = netInBadCondition;
     }
 
     public T getRealResponse() {
@@ -74,5 +85,13 @@ public class CCBaseResponse<T> {
 
     public void setHeaders(Headers headers) {
         this.headers = headers;
+    }
+
+    public boolean isNetInBadCondition() {
+        return netInBadCondition;
+    }
+
+    public void setNetInBadCondition(boolean netInBadCondition) {
+        this.netInBadCondition = netInBadCondition;
     }
 }
