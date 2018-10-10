@@ -5,7 +5,7 @@
 ----
 EvolvingNetLib取名Evolving，意为进化，愿景是通过不断的维护，达到简化网络请求的调用和相关处理，使得开发过程能够将更多注意力放在业务方面。
 
-EvolvingNetLib当前最新版本为v1.0.1.17。
+EvolvingNetLib当前最新版本为v1.0.1.24。
 
 功能
 ----
