@@ -313,7 +313,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
                     .setParamMap(paramMap)
                     .setRetryCount(3)
                     .setRetryDelayTimeMillis(3000)
-                    .setCacheQueryMode(CCCacheMode.QueryMode.MODE_MEMORY_THEN_DISK_THEN_NET)
+                    .setCacheQueryMode(CCCacheMode.QueryMode.MODE_MEMORY_AND_DISK_AND_NET)
                     .setCacheSaveMode(CCCacheMode.SaveMode.MODE_SAVE_MEMORY_AND_DISK)
                     .setReqTag("test_login_req_tag")
                     .setCacheKey("test_login_req_cache_key")
