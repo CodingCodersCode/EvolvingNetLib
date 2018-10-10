@@ -135,5 +135,10 @@ public abstract class CCNetCallback {
     public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
     }
 
+    /**
+     * 提示网络较差
+     */
+    public void onToastNetBadCondition() {
 
+    }
 }

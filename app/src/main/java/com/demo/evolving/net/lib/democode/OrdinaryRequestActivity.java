@@ -3,6 +3,7 @@ package com.demo.evolving.net.lib.democode;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
 import com.codingcoderscode.evolving.net.CCRxNetManager;
@@ -27,7 +28,7 @@ import java.util.Map;
  * Created by CodingCodersCode on 2017/11/30.
  */
 
-public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implements View.OnClickListener{
+public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implements View.OnClickListener {
 
     private final String LOG_TAG = getClass().getCanonicalName();
 
@@ -41,22 +42,22 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
         initView();
     }
 
-    private void initView(){
-        this.tv_btn_1 = (TextView)findViewById(R.id.tv_btn_1);
+    private void initView() {
+        this.tv_btn_1 = (TextView) findViewById(R.id.tv_btn_1);
         this.tv_btn_1.setOnClickListener(this);
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_btn_1:
                 onStartRequest();
                 break;
         }
     }
 
-    private void onStartRequest(){
+    private void onStartRequest() {
         try {
 
             //指定的Http请求所独有的header信息
@@ -67,9 +68,9 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
 
             //请求参数信息
             Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("name", "亚洲文化");
-            paramMap.put("password", "a1111111");
-            paramMap.put("mobile", "18910248213");
+            paramMap.put("name", "account name");
+            paramMap.put("password", "password");
+            paramMap.put("mobile", "15200000000");
             paramMap.put("appId", "00000000000000002:00:00:00:00:00");
             paramMap.put("appType", "android");
 
@@ -82,14 +83,18 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
             TypeToken typeToken = new TypeToken<SampleRespBeanWrapper<SampleResponseBean>>() {
             };
 
-            CCRxNetManager.<SampleRespBeanWrapper<SampleResponseBean>>put("/{path1}/{path2}/login")
+            CCRxNetManager.<SampleRespBeanWrapper<SampleResponseBean>>post("/zuul/{path1}/{path2}/biz/v1/login")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
                     .setParamMap(paramMap)
                     .setRetryCount(0)
                     .setRetryDelayTimeMillis(3000)
-                    .setCacheQueryMode(CCCacheMode.QueryMode.MODE_MEMORY_THEN_DISK_THEN_NET)
+                    .setCacheQueryMode(CCCacheMode.QueryMode.MODE_MEMORY_AND_DISK_AND_NET)
                     .setCacheSaveMode(CCCacheMode.SaveMode.MODE_SAVE_MEMORY_AND_DISK)
+
+                    .setNeedToCheckNetCondition(true)
+                    .setNetConditionCheckInterval(5)
+
                     .setReqTag("test_login_req_tag")
                     .setCacheKey("test_login_req_cache_key")
                     .setCCNetCallback(new RxNetManagerCallback())
@@ -213,6 +218,11 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
 
 
         }
+
+        @Override
+        public void onToastNetBadCondition() {
+            Toast.makeText(OrdinaryRequestActivity.this, "网络状态较差", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -271,6 +281,12 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
             testRespObj.setStatusCode(220);
             testRespObj.setContent("data is queryed from memory");
 
+            try {
+                Thread.sleep(2000);
+            } catch (Exception e) {
+
+            }
+
             return (T) testRespObj;
         }
 
@@ -283,6 +299,11 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
             testRespObj.setStatusCode(221);
             testRespObj.setContent("data is queryed from disk");
 
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+
+            }
 
             return (T) testRespObj;
         }
