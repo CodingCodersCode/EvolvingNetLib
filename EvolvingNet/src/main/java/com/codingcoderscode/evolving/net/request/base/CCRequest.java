@@ -97,6 +97,13 @@ public abstract class CCRequest<T, R extends CCRequest> {
     //是否以@Body形式传递参数，用于@POST和@PUT请求
     private boolean useBodyParamStyle;
 
+    //内存缓存是否已经返回
+    private boolean hasMemoryRequestResped = false;
+    //磁盘缓存是否已经返回
+    private boolean hasDiskRequestResped = false;
+    //网络请求是否已经返回
+    private boolean hasNetRequestResped = false;
+
     protected abstract Flowable<CCBaseResponse<T>> getRequestFlowable();
 
     protected abstract int getHttpMethod();
@@ -236,16 +243,16 @@ public abstract class CCRequest<T, R extends CCRequest> {
                 resultFlowable = getNetworkQueryFlowable();
                 break;
             case CCCacheMode.QueryMode.MODE_MEMORY_THEN_DISK:
-                resultFlowable = Flowable.concat(getMemoryCacheQueryFlowable(), getDiskCacheQueryFlowable());
+                resultFlowable = Flowable.merge(getMemoryCacheQueryFlowable(), getDiskCacheQueryFlowable());
                 break;
             case CCCacheMode.QueryMode.MODE_DISK_THEN_NET:
-                resultFlowable = Flowable.concat(getDiskCacheQueryFlowable(), getNetworkQueryFlowable());
+                resultFlowable = Flowable.merge(getDiskCacheQueryFlowable(), getNetworkQueryFlowable());
                 break;
             case CCCacheMode.QueryMode.MODE_MEMORY_THEN_NET:
-                resultFlowable = Flowable.concat(getMemoryCacheQueryFlowable(), getNetworkQueryFlowable());
+                resultFlowable = Flowable.merge(getMemoryCacheQueryFlowable(), getNetworkQueryFlowable());
                 break;
             case CCCacheMode.QueryMode.MODE_MEMORY_THEN_DISK_THEN_NET:
-                resultFlowable = Flowable.concat(getMemoryCacheQueryFlowable(), getDiskCacheQueryFlowable(), getNetworkQueryFlowable());
+                resultFlowable = Flowable.merge(getMemoryCacheQueryFlowable(), getDiskCacheQueryFlowable(), getNetworkQueryFlowable());
                 break;
             default:
                 resultFlowable = getNetworkQueryFlowable();
@@ -367,7 +374,8 @@ public abstract class CCRequest<T, R extends CCRequest> {
      *
      * @param tccBaseResponse 响应结果包装对象
      */
-    private void onDealWithResponse(CCBaseResponse<T> tccBaseResponse) {
+    private synchronized void onDealWithResponse(CCBaseResponse<T> tccBaseResponse) {
+        boolean isRespFromCache = false;
         try {
             if (ccNetCallback != null) {
 
@@ -376,26 +384,52 @@ public abstract class CCRequest<T, R extends CCRequest> {
                 if (tccBaseResponse != null) {
 
                     if (tccBaseResponse.isFromCache()) {
+
+                        isRespFromCache = true;
+
                         if (tccBaseResponse.isFromMemoryCache()) {
+
+                            //设置 内存缓存返回标识
+                            setHasMemoryRequestResped(true);
 
                             ccNetCallback.<T>onMemoryCacheQuerySuccess(reqTag, realResponse);
 
+                            if (!isHasDiskRequestResped() || !isHasNetRequestResped()){
+                                ccNetCallback.<T>onCacheQuerySuccess(reqTag, realResponse);
+                            }
+
                         } else if (tccBaseResponse.isFromDiskCache()) {
 
+                            //设置 磁盘缓存返回标识
+                            setHasDiskRequestResped(true);
+
                             ccNetCallback.<T>onDiskCacheQuerySuccess(reqTag, realResponse);
+
+                            if (!isHasNetRequestResped()){
+                                ccNetCallback.<T>onCacheQuerySuccess(reqTag, realResponse);
+                            }
                         }
 
-                        ccNetCallback.<T>onCacheQuerySuccess(reqTag, realResponse);
+                        //ccNetCallback.<T>onCacheQuerySuccess(reqTag, realResponse);
 
                     } else {
+
+                        //设置 网络请求返回标识
+                        setHasNetRequestResped(true);
+
                         ccNetCallback.<T>onNetSuccess(reqTag, realResponse);
                     }
 
                 }
 
-                ccNetCallback.<T>onSuccess(reqTag, realResponse);
-            }
+                if (isRespFromCache && isHasNetRequestResped()){
 
+                }else {
+                    ccNetCallback.<T>onSuccess(reqTag, realResponse);
+                }
+
+                //ccNetCallback.<T>onSuccess(reqTag, realResponse);
+            }
         } catch (Exception e) {
             if (ccNetCallback != null) {
                 ccNetCallback.onError(reqTag, e);
@@ -664,5 +698,29 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
     public void setForceCanceled(boolean forceCanceled) {
         this.forceCanceled = forceCanceled;
+    }
+
+    public boolean isHasMemoryRequestResped() {
+        return hasMemoryRequestResped;
+    }
+
+    public void setHasMemoryRequestResped(boolean hasMemoryRequestResped) {
+        this.hasMemoryRequestResped = hasMemoryRequestResped;
+    }
+
+    public boolean isHasDiskRequestResped() {
+        return hasDiskRequestResped;
+    }
+
+    public void setHasDiskRequestResped(boolean hasDiskRequestResped) {
+        this.hasDiskRequestResped = hasDiskRequestResped;
+    }
+
+    public boolean isHasNetRequestResped() {
+        return hasNetRequestResped;
+    }
+
+    public void setHasNetRequestResped(boolean hasNetRequestResped) {
+        this.hasNetRequestResped = hasNetRequestResped;
     }
 }

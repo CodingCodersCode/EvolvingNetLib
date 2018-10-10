@@ -82,7 +82,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
             TypeToken typeToken = new TypeToken<SampleRespBeanWrapper<SampleResponseBean>>() {
             };
 
-            CCRxNetManager.<SampleRespBeanWrapper<SampleResponseBean>>put("/{path1}/{path2}/login")
+            CCRxNetManager.<SampleRespBeanWrapper<SampleResponseBean>>put("/zuul/{path1}/{path2}/biz/v1/login")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
                     .setParamMap(paramMap)
@@ -271,6 +271,12 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
             testRespObj.setStatusCode(220);
             testRespObj.setContent("data is queryed from memory");
 
+            try {
+                Thread.sleep(2000);
+            }catch (Exception e){
+
+            }
+
             return (T) testRespObj;
         }
 
@@ -283,6 +289,11 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
             testRespObj.setStatusCode(221);
             testRespObj.setContent("data is queryed from disk");
 
+            try {
+                Thread.sleep(1000);
+            }catch (Exception e){
+
+            }
 
             return (T) testRespObj;
         }
