@@ -21,6 +21,8 @@ import com.demo.evolving.net.lib.bean.SampleResponseBean;
 import com.google.gson.reflect.TypeToken;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,6 +85,20 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
             TypeToken typeToken = new TypeToken<SampleRespBeanWrapper<SampleResponseBean>>() {
             };
 
+
+            //SampleRespBeanWrapper<SampleResponseBean>
+
+            //Type   TypeToken Class<?>
+
+            Type typeToken1 = this.<SampleRespBeanWrapper<SampleResponseBean>>getTypeToken();
+
+            //TypeToken typeToken2 = TypeToken.<SampleRespBeanWrapper<SampleResponseBean>>get();
+
+            TestTypeTokenClass testTypeTokenClass = new TestTypeTokenClass<SampleRespBeanWrapper<SampleResponseBean>>();
+
+            Class typeToken3 = testTypeTokenClass.getClass();
+
+
             CCRxNetManager.<SampleRespBeanWrapper<SampleResponseBean>>post("/zuul/{path1}/{path2}/biz/v1/login")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
@@ -93,7 +109,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
                     .setCacheSaveMode(CCCacheMode.SaveMode.MODE_SAVE_MEMORY_AND_DISK)
 
                     .setNeedToCheckNetCondition(true)
-                    .setNetConditionCheckInterval(5)
+                    .setNetConditionCheckInterval(5000)
 
                     .setReqTag("test_login_req_tag")
                     .setCacheKey("test_login_req_cache_key")
@@ -106,6 +122,24 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private <T> Type getTypeToken(){
+        /*
+        Type mySuperClass = new TestTypeTokenClass<T>(){}.getClass().getGenericSuperclass();
+        Type type = ((ParameterizedType) mySuperClass).getActualTypeArguments()[0];
+
+        return type;
+        */
+        return new TypeToken<T>() {}.getRawType();
+    }
+
+    private static class TestTypeTokenClass<T>{
+        //private Class<T> typeClass;
+
+        public TestTypeTokenClass() {
+            //typeClass = (Class<T>)getClass();
         }
     }
 

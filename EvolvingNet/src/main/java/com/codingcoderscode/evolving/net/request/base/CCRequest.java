@@ -108,8 +108,8 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
     //是否在网络请求返回前，以固定时间间隔发送网络较差的回调
     private boolean mNeedToCheckNetCondition = false;
-    //发送网络较差回调的时间间隔
-    private int mNetConditionCheckInterval = 5;
+    //发送网络较差回调的时间间隔 单位：毫秒
+    private int mNetConditionCheckInterval = 5000;
 
     protected abstract Flowable<CCBaseResponse<T>> getRequestFlowable();
 
@@ -203,7 +203,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
      * @return
      */
     private Flowable<CCBaseResponse<T>> getNetConditionIntervalCheck() {
-        return Flowable.intervalRange(0, 1, getNetConditionCheckInterval(), getNetConditionCheckInterval(), TimeUnit.SECONDS, Schedulers.trampoline())
+        return Flowable.intervalRange(0, 1, getNetConditionCheckInterval(), getNetConditionCheckInterval(), TimeUnit.MILLISECONDS, Schedulers.trampoline())
                 .repeatUntil(new BooleanSupplier() {
                     @Override
                     public boolean getAsBoolean() throws Exception {
@@ -802,6 +802,12 @@ public abstract class CCRequest<T, R extends CCRequest> {
         return mNeedToCheckNetCondition;
     }
 
+    /**
+     * 设置是否检测网络状态
+     *
+     * @param needToCheckNetCondition
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public R setNeedToCheckNetCondition(boolean needToCheckNetCondition) {
         this.mNeedToCheckNetCondition = needToCheckNetCondition;
@@ -812,6 +818,12 @@ public abstract class CCRequest<T, R extends CCRequest> {
         return mNetConditionCheckInterval;
     }
 
+    /**
+     * 网络状态检测间隔 单位：毫秒
+     *
+     * @param netConditionCheckInterval
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public R setNetConditionCheckInterval(int netConditionCheckInterval) {
         this.mNetConditionCheckInterval = netConditionCheckInterval;
