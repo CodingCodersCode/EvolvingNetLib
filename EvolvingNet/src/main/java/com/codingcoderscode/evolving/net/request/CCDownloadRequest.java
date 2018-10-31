@@ -7,11 +7,11 @@ import android.os.Looper;
 import android.text.TextUtils;
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
+import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
 import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCDownloadFileWritterCallback;
 //import com.codingcoderscode.evolving.net.request.callback.CCDownloadProgressCallback;
-import com.codingcoderscode.evolving.net.request.entity.CCDownloadPiece;
 import com.codingcoderscode.evolving.net.request.exception.NoEnoughSpaceException;
 import com.codingcoderscode.evolving.net.request.exception.NoResponseBodyDataException;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
@@ -28,7 +28,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
-import java.util.Arrays;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -110,21 +109,6 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
         return Flowable.create(new FlowableOnSubscribe<Call<ResponseBody>>() {
             @Override
             public void subscribe(FlowableEmitter<Call<ResponseBody>> e) throws Exception {
-
-                /*if (ccDownloadProgressCallback != null) {
-
-                    requireNonNullUICallbackHandler();
-
-                    uiCallbackHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            ccDownloadProgressCallback.onStart(getReqTag());
-                        }
-                    });
-                }*/
-
-
-
                 if (isSupportRage()) {
 
                     onFileSaveCheck(isSupportRage());
@@ -190,7 +174,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
                         } catch (Exception exception) {
 
-                            throw exception;
+                            throw new CCUnExpectedException(exception);
 
                         }
 

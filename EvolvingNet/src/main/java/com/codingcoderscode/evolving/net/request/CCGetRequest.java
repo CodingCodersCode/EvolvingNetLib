@@ -2,17 +2,15 @@ package com.codingcoderscode.evolving.net.request;
 
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
+import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.exception.CCSampleHttpException;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
 import com.codingcoderscode.evolving.net.request.retry.FlowableRetryWithDelay;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
-import com.codingcoderscode.evolving.net.response.convert.CCDefaultResponseBodyConvert;
 import com.codingcoderscode.evolving.net.util.CCNetUtil;
 
 import org.reactivestreams.Publisher;
-
-import java.io.IOException;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -23,7 +21,6 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.Headers;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Converter;
 import retrofit2.Response;
 
 /**
@@ -70,11 +67,11 @@ public class CCGetRequest<T> extends CCRequest<T, CCGetRequest<T>> {
                                 //realResponse = CCDefaultResponseBodyConvert.<T>convertResponse(retrofitResponse.body(), responseBeanType);
                                 realResponse = convertResponse(retrofitResponse.body());
                             }else {
-                                throw new Exception(new CCSampleHttpException(retrofitResponse, retrofitResponse.errorBody()));
+                                throw new CCSampleHttpException(retrofitResponse, retrofitResponse.errorBody());
                             }
 
                         } catch (Exception exception) {
-                            throw exception;
+                            throw new CCUnExpectedException(exception);
                         }
 
 

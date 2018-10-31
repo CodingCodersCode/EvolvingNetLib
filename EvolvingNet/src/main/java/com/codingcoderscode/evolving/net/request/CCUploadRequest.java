@@ -5,14 +5,13 @@ import android.text.TextUtils;
 import com.codingcoderscode.evolving.net.CCRxNetManager;
 import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
-import com.codingcoderscode.evolving.net.request.callback.CCUploadProgressCallback;
 import com.codingcoderscode.evolving.net.request.entity.CCFile;
 import com.codingcoderscode.evolving.net.request.exception.CCSampleHttpException;
+import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
 import com.codingcoderscode.evolving.net.request.requestbody.CCSimpleUploadRequestBody;
 import com.codingcoderscode.evolving.net.request.retry.FlowableRetryWithDelay;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
-import com.codingcoderscode.evolving.net.response.convert.CCDefaultResponseBodyConvert;
 import com.codingcoderscode.evolving.net.util.CCNetUtil;
 
 import org.reactivestreams.Publisher;
@@ -59,15 +58,12 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
         return Flowable.create(new FlowableOnSubscribe<Call<ResponseBody>>() {
             @Override
             public void subscribe(FlowableEmitter<Call<ResponseBody>> e) throws Exception {
-
                 RequestBody requestBody;
                 ArrayList<MultipartBody.Part> paramPartList = new ArrayList<>();
                 CCFile fileValue;
                 MultipartBody.Part partBody;
                 File uploadFile;
-
                 try {
-
                     if (txtParamMap != null) {
                         for (Map.Entry<String, ?> entry : txtParamMap.entrySet()) {
 
@@ -83,7 +79,7 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
 
                             fileValue = entry.getValue();
 
-                            if (fileValue == null || TextUtils.isEmpty(fileValue.getUrl())){
+                            if (fileValue == null || TextUtils.isEmpty(fileValue.getUrl())) {
                                 continue;
                             }
 
@@ -121,91 +117,22 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
                         try {
                             retrofitResponse = responseBodyCall.clone().execute();
 
-                            if (retrofitResponse.isSuccessful()){
+                            if (retrofitResponse.isSuccessful()) {
                                 headers = retrofitResponse.headers();
 
                                 //realResponse = CCDefaultResponseBodyConvert.<T>convertResponse(retrofitResponse.body(), responseBeanType);
                                 realResponse = convertResponse(retrofitResponse.body());
-                            }else {
-                                throw new Exception(new CCSampleHttpException(retrofitResponse, retrofitResponse.errorBody()));
+                            } else {
+                                throw new CCSampleHttpException(retrofitResponse, retrofitResponse.errorBody());
                             }
 
                         } catch (Exception exception) {
-                            throw exception;
+                            throw new CCUnExpectedException(exception);
                         }
 
                         return Flowable.just(new CCBaseResponse<T>(realResponse, headers, false, false, false));
                     }
                 }).retryWhen(new FlowableRetryWithDelay(getRetryCount(), getRetryDelayTimeMillis())).onBackpressureLatest();
-
-        /*
-        RequestBody requestBody;
-        ArrayList<MultipartBody.Part> paramPartList = new ArrayList<>();
-        CCFile fileValue;
-        MultipartBody.Part partBody;
-        File uploadFile;
-
-        try {
-
-            if (txtParamMap != null) {
-                for (Map.Entry<String, String> entry : txtParamMap.entrySet()) {
-
-                    partBody = MultipartBody.Part.createFormData(entry.getKey(), entry.getValue());
-
-                    paramPartList.add(partBody);
-
-                }
-            }
-
-            if (fileParamMap != null) {
-                for (Map.Entry<String, CCFile> entry : fileParamMap.entrySet()) {
-
-                    fileValue = entry.getValue();
-
-                    uploadFile = new File(fileValue.getUrl());
-
-                    requestBody = new CCSimpleUploadRequestBody(entry.getKey(), MediaType.parse(fileValue.getMimeType()), uploadFile, ccUploadProgressCallback);
-
-                    partBody = MultipartBody.Part.createFormData(entry.getKey(), uploadFile.getName(), requestBody);
-
-                    paramPartList.add(partBody);
-
-                }
-            }
-        } catch (Exception exception) {
-
-        }
-
-        Call<ResponseBody> call = CCRxNetManager.getCcNetApiService().executeUpload(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), paramPartList);
-
-        return Flowable.just(call)
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .retry(retryCount)
-                .flatMap(new Function<Call<ResponseBody>, Publisher<CCBaseResponse<T>>>() {
-                    @Override
-                    public Publisher<CCBaseResponse<T>> apply(Call<ResponseBody> responseBodyCall) throws Exception {
-
-                        T realResponse = null;
-                        Response<ResponseBody> retrofitResponse;
-                        Headers headers = null;
-                        try {
-                            retrofitResponse = responseBodyCall.clone().execute();
-
-                            headers = retrofitResponse.headers();
-
-                            //realResponse = CCDefaultResponseBodyConvert.<T>convertResponse(retrofitResponse.body(), responseBeanType);
-                            realResponse = convertResponse(retrofitResponse.body());
-
-                        } catch (Exception exception) {
-                            throw exception;
-                        }
-
-                        return Flowable.just(new CCBaseResponse<T>(realResponse, headers, false, false, false));
-                    }
-                }).onBackpressureLatest();
-        */
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.codingcoderscode.evolving.net.cache.exception.CCDiskCacheQueryException;
+import com.codingcoderscode.evolving.net.cache.exception.CCMemoryCacheQueryException;
 import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
 import com.codingcoderscode.evolving.net.request.callback.CCCacheQueryCallback;
 import com.codingcoderscode.evolving.net.request.callback.CCCacheSaveCallback;
@@ -143,7 +144,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
                     switch (cacheQueryMode) {
                         case CCCacheMode.QueryMode.MODE_ONLY_MEMORY:
-                            e.onError(new CCDiskCacheQueryException(exception));
+                            e.onError(new CCMemoryCacheQueryException(exception));
                             break;
                         default:
                             e.onComplete();

@@ -1,6 +1,7 @@
 package com.codingcoderscode.evolving.net.request;
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
+import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.exception.CCSampleHttpException;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
@@ -41,9 +42,9 @@ public class CCPostRequest<T> extends CCRequest<T, CCPostRequest<T>> {
             public void subscribe(FlowableEmitter<Call<ResponseBody>> e) throws Exception {
 
                 Call<ResponseBody> call;
-                if (isUseBodyParamStyle()){
+                if (isUseBodyParamStyle()) {
                     call = CCRxNetManager.getCcNetApiService().executeBodyPost(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
-                }else {
+                } else {
                     call = CCRxNetManager.getCcNetApiService().executePost(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
                 }
 
@@ -66,17 +67,17 @@ public class CCPostRequest<T> extends CCRequest<T, CCPostRequest<T>> {
                         try {
                             retrofitResponse = responseBodyCall.clone().execute();
 
-                            if (retrofitResponse.isSuccessful()){
+                            if (retrofitResponse.isSuccessful()) {
                                 headers = retrofitResponse.headers();
 
                                 //realResponse = CCDefaultResponseBodyConvert.<T>convertResponse(retrofitResponse.body(), responseBeanType);
                                 realResponse = convertResponse(retrofitResponse.body());
-                            }else {
-                                throw new Exception(new CCSampleHttpException(retrofitResponse, retrofitResponse.errorBody()));
+                            } else {
+                                throw new CCSampleHttpException(retrofitResponse, retrofitResponse.errorBody());
                             }
 
                         } catch (Exception exception) {
-                            throw exception;
+                            throw new CCUnExpectedException(exception);
                         }
 
 

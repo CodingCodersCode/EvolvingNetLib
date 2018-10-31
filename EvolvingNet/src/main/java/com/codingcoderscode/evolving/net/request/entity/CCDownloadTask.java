@@ -48,6 +48,28 @@ public class CCDownloadTask {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CCDownloadTask)) return false;
+
+        CCDownloadTask that = (CCDownloadTask) o;
+
+        if (getSourceUrl() != null ? !getSourceUrl().equals(that.getSourceUrl()) : that.getSourceUrl() != null)
+            return false;
+        if (getSavePath() != null ? !getSavePath().equals(that.getSavePath()) : that.getSavePath() != null)
+            return false;
+        return getSaveName() != null ? getSaveName().equals(that.getSaveName()) : that.getSaveName() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getSourceUrl() != null ? getSourceUrl().hashCode() : 0;
+        result = 31 * result + (getSavePath() != null ? getSavePath().hashCode() : 0);
+        result = 31 * result + (getSaveName() != null ? getSaveName().hashCode() : 0);
+        return result;
+    }
+
+    /*@Override
     public int hashCode() {
         return super.hashCode();
     }
@@ -79,7 +101,7 @@ public class CCDownloadTask {
                 return false;
             }
         }
-    }
+    }*/
 
 
 
