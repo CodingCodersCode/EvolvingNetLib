@@ -14,11 +14,15 @@ import com.codingcoderscode.evolving.net.CCRxNetManager;
 import com.codingcoderscode.evolving.net.request.CCMultiDownladRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
+import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
 import com.demo.evolving.net.lib.CCDownloadTask2;
 import com.demo.evolving.net.lib.DownloadListTestActivity2;
 import com.demo.evolving.net.lib.R;
+import com.demo.evolving.net.lib.bean.SampleRespBeanWrapper;
+import com.demo.evolving.net.lib.bean.SampleResponseBean;
 import com.demo.evolving.net.lib.downloadmanager.CCDownloadStatus;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,9 +144,11 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
 
             List<CCDownloadTask2> taskList2 = new ArrayList<>();
 
+            //http://24810.xc.wenpie.com/xiaz/dpkentool.dll%E6%96%87%E4%BB%B6@560_402379.exe
+
             for (; tmpTaskCount < taskKeyCount; tmpTaskCount++){
 
-                task = new CCDownloadTask2(this, "taskKey-" + tmpTaskCount, "sw-search-sp/software/16d5a98d3e034/QQ_8.9.5.22062_setup.exe", null, "QQ_download_test_file_" + tmpTaskCount + ".apk", 1, 0, 0);
+                task = new CCDownloadTask2(this, "taskKey-" + tmpTaskCount, "/xiaz/dpkentool.dll%E6%96%87%E4%BB%B6@560_402379.exe", null, "QQ_download_test_file_" + tmpTaskCount + ".apk", 1, 0, 0);
 
                 taskList.add(task);
                 taskList2.add(task);
@@ -154,7 +160,7 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
 
 
             if (ccMultiDownladRequest == null){
-                ccMultiDownladRequest = CCRxNetManager.<Void>multiDownload("").setMaxTaskCount(2).setCCNetCallback(new RxNetDownloadCalback());
+                ccMultiDownladRequest = CCRxNetManager.<Void>multiDownload("").setMaxTaskCount(2).setCCNetCallback(new RxNetDownloadCalback()).setNetLifecycleComposer(this.<CCBaseResponse<Void>>bindUntilEvent(ActivityEvent.DESTROY)).setReqTag("Tag_Outer_MultiDownload");
             }
 
             ccMultiDownladRequest.startAll(taskList);

@@ -119,7 +119,7 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
 
                         onCreateAndStartTask();
 
-                        return Flowable.just(new CCBaseResponse<T>(null, null, false, false, false));
+                        return Flowable.never();
                     }
                 });
     }
