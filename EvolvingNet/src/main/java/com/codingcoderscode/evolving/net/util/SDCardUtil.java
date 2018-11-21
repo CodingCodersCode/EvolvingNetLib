@@ -1,7 +1,11 @@
 package com.codingcoderscode.evolving.net.util;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Environment;
+import android.os.StatFs;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -9,11 +13,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.StatFs;
 
 /**
  * Created by CodingCodersCode on 2017/11/9.
@@ -149,13 +148,21 @@ public class SDCardUtil {
             String baseDir = getSDCardBaseDir();
             //获取文件的路径
             String file = baseDir + File.separator + type + File.separator + filename;
+            OutputStream os = null;
             try {
-                OutputStream os = new FileOutputStream(file);
+                os = new FileOutputStream(file);
                 os.write(bys);
-                os.close();
                 return true;
             } catch (Exception e) {
-                e.printStackTrace();
+                NetLogUtil.printLog("e", e);
+            } finally {
+                if (os != null) {
+                    try {
+                        os.close();
+                    } catch (Exception e) {
+                        NetLogUtil.printLog("e", e);
+                    }
+                }
             }
         }
         return false;
@@ -182,13 +189,21 @@ public class SDCardUtil {
             }
             //获取文件的路径
             String file = baseDir + File.separator + dir + File.separator + filename;
+            OutputStream os = null;
             try {
-                OutputStream os = new FileOutputStream(file);
+                os = new FileOutputStream(file);
                 os.write(bys);
-                os.close();
                 return true;
             } catch (Exception e) {
-                e.printStackTrace();
+                NetLogUtil.printLog("e", e);
+            } finally {
+                if (os != null) {
+                    try {
+                        os.close();
+                    } catch (Exception e) {
+                        NetLogUtil.printLog("e", e);
+                    }
+                }
             }
         }
         return false;
@@ -210,13 +225,21 @@ public class SDCardUtil {
                 path.mkdir();
             }
             String file = path.getAbsolutePath() + File.separator + filename;
+            OutputStream os = null;
             try {
-                OutputStream os = new FileOutputStream(file);
+                os = new FileOutputStream(file);
                 os.write(data);
-                os.close();
                 return true;
             } catch (Exception e) {
-                e.printStackTrace();
+                NetLogUtil.printLog("e", e);
+            } finally {
+                if (os != null) {
+                    try {
+                        os.close();
+                    } catch (Exception e) {
+                        NetLogUtil.printLog("e", e);
+                    }
+                }
             }
         }
         return false;
@@ -237,13 +260,21 @@ public class SDCardUtil {
                 path.mkdir();
             }
             String file = path.getAbsolutePath() + File.separator + filename;
+            OutputStream os = null;
             try {
-                OutputStream os = new FileOutputStream(file);
+                os = new FileOutputStream(file);
                 os.write(data);
-                os.close();
                 return true;
             } catch (Exception e) {
-                e.printStackTrace();
+                NetLogUtil.printLog("e", e);
+            } finally {
+                if (os != null) {
+                    try {
+                        os.close();
+                    } catch (Exception e) {
+                        NetLogUtil.printLog("e", e);
+                    }
+                }
             }
         }
         return false;
@@ -264,8 +295,9 @@ public class SDCardUtil {
                 path.mkdir();
             }
             String file = path.getAbsolutePath() + File.separator + filename;
+            OutputStream os = null;
             try {
-                OutputStream os = new FileOutputStream(file);
+                os = new FileOutputStream(file);
                 //把图片转成byte[]
                 //os.write();
                 //判断图片格式
@@ -274,10 +306,17 @@ public class SDCardUtil {
                 } else if (filename.endsWith(".PNG") || filename.endsWith(".png")) {
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
                 }
-                os.close();
                 return true;
             } catch (Exception e) {
-                e.printStackTrace();
+                NetLogUtil.printLog("e", e);
+            } finally {
+                if (os != null) {
+                    try {
+                        os.close();
+                    } catch (Exception e) {
+                        NetLogUtil.printLog("e", e);
+                    }
+                }
             }
         }
         return false;
@@ -293,9 +332,11 @@ public class SDCardUtil {
         if (isSDCardMounted()) {
             String path = getSDCardBaseDir();
             String file = path + File.separator + filePath;
+            InputStream is = null;
+            ByteArrayOutputStream baos = null;
             try {
-                InputStream is = new FileInputStream(file);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                is = new FileInputStream(file);
+                baos = new ByteArrayOutputStream();
                 byte[] bys = new byte[1024];
                 int len = 0;
                 while ((len = is.read(bys)) != -1) {
@@ -303,7 +344,15 @@ public class SDCardUtil {
                 }
                 return baos.toByteArray();
             } catch (Exception e) {
-                e.printStackTrace();
+                NetLogUtil.printLog("e", e);
+            } finally {
+                if (is != null) {
+                    try {
+                        is.close();
+                    } catch (Exception e) {
+                        NetLogUtil.printLog("e", e);
+                    }
+                }
             }
         }
         return null;
@@ -318,19 +367,32 @@ public class SDCardUtil {
     public static Bitmap loadBitmapFromSDCard(String filePath) {
         if (isSDCardMounted()) {
             //filePath就是全路径
+
+            InputStream is = null;
+            ByteArrayOutputStream baos = null;
+            Bitmap bitmap = null;
             try {
-                InputStream is = new FileInputStream(filePath);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                is = new FileInputStream(filePath);
+                baos = new ByteArrayOutputStream();
                 byte[] bys = new byte[1024];
                 int len = 0;
                 while ((len = is.read(bys)) != -1) {
                     baos.write(bys, 0, len);
                 }
                 byte[] data = baos.toByteArray();
-                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+                bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                 return bitmap;
             } catch (Exception e) {
-                e.printStackTrace();
+                NetLogUtil.printLog("e", e);
+            } finally {
+                if (is != null) {
+                    try {
+                        is.close();
+                    } catch (Exception e) {
+                        NetLogUtil.printLog("e", e);
+                    }
+                }
             }
         }
         return null;

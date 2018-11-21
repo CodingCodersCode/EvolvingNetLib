@@ -24,10 +24,20 @@ public class NetLogUtil {
         printLog(window, tag, msg);
     }
 
+    public static void printLog(String window, String msg) {
+
+        printLog(window, NetLogUtil.class.getCanonicalName(), msg, null);
+
+    }
+
     public static void printLog(String window, String tag, String msg) {
 
         printLog(window, tag, msg, null);
 
+    }
+
+    public static void printLog(String window, Throwable tr) {
+        printLog(window, NetLogUtil.class.getCanonicalName(), "— —", tr);
     }
 
     public static void printLog(String window, String tag, Throwable tr) {
