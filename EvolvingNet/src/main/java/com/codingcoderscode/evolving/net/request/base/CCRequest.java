@@ -326,7 +326,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
             @Override
             public void onSubscribe(Subscription s) {
                 s.request(Long.MAX_VALUE);
-                if (ccNetCallback != null) {
+                if (ccNetCallback != null && !isForceCanceled()) {
 
                     netCancelSubscription = s;
 
@@ -334,8 +334,10 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
                     ccNetCallback.<T>onStartRequest(reqTag, netCCCanceler);
                 }
+                /*
                 setRequestRunning(true);
                 setForceCanceled(false);
+                */
             }
 
             @Override
@@ -347,7 +349,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
             @Override
             public void onError(Throwable t) {
-                if (ccNetCallback != null) {
+                if (ccNetCallback != null && !isForceCanceled()) {
                     ccNetCallback.onError(reqTag, t);
                 }
                 setRequestRunning(false);
@@ -356,7 +358,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
             @Override
             public void onComplete() {
-                if (ccNetCallback != null) {
+                if (ccNetCallback != null && !isForceCanceled()) {
                     ccNetCallback.onComplete(reqTag);
                 }
                 setRequestRunning(false);
@@ -372,6 +374,10 @@ public abstract class CCRequest<T, R extends CCRequest> {
      */
     private void onSaveToCache(CCBaseResponse<T> tccBaseResponse) {
         try {
+            if (isForceCanceled()) {
+                return;
+            }
+
             if (tccBaseResponse == null) {
                 return;
             }
@@ -426,6 +432,10 @@ public abstract class CCRequest<T, R extends CCRequest> {
     private synchronized void onDealWithResponse(CCBaseResponse<T> tccBaseResponse) {
         boolean isRespFromCache = false;
         try {
+
+            if (isForceCanceled()) {
+                return;
+            }
 
             if (ifNeedToToastNetCondition(tccBaseResponse)) {
                 return;
