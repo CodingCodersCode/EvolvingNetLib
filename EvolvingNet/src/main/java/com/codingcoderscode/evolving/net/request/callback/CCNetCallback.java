@@ -23,18 +23,6 @@ public abstract class CCNetCallback {
     }
 
     /**
-     * 内存缓存查询成功回调
-     * <p>
-     * 回调线程：UI线程
-     *
-     * @param reqTag
-     * @param response
-     * @param <T>
-     */
-    public <T> void onMemoryCacheQuerySuccess(Object reqTag, T response) {
-    }
-
-    /**
      * 磁盘缓存查询成功回调
      * <p>
      * 回调线程：UI线程
@@ -47,15 +35,15 @@ public abstract class CCNetCallback {
     }
 
     /**
-     * 缓存查询成功回调
+     * 磁盘缓存查询成功回调
      * <p>
      * 回调线程：UI线程
      *
      * @param reqTag
-     * @param response
+     * @param t
      * @param <T>
      */
-    public <T> void onCacheQuerySuccess(Object reqTag, T response) {
+    public <T> void onDiskCacheQueryFail(Object reqTag, Throwable t) {
     }
 
     /**
@@ -71,19 +59,7 @@ public abstract class CCNetCallback {
     }
 
     /**
-     * 请求成功回调
-     * <p>
-     * 回调线程：UI线程
-     *
-     * @param reqTag
-     * @param response
-     * @param <T>
-     */
-    public <T> void onSuccess(Object reqTag, T response) {
-    }
-
-    /**
-     * 请求失败回调
+     * 网络请求成功回调
      * <p>
      * 回调线程：UI线程
      *
@@ -91,7 +67,31 @@ public abstract class CCNetCallback {
      * @param t
      * @param <T>
      */
-    public <T> void onError(Object reqTag, Throwable t) {
+    public <T> void onNetFail(Object reqTag, Throwable t) {
+    }
+
+    /**
+     * 请求成功回调
+     * <p>
+     * 回调线程：UI线程
+     *
+     * @param <T>
+     * @param reqTag
+     * @param response
+     */
+    public <T> void onRequestSuccess(Object reqTag, T response) {
+    }
+
+    /**
+     * 请求失败回调
+     * <p>
+     * 回调线程：UI线程
+     *
+     * @param <T>
+     * @param reqTag
+     * @param t
+     */
+    public <T> void onRequestFail(Object reqTag, Throwable t) {
     }
 
     /**
@@ -136,9 +136,9 @@ public abstract class CCNetCallback {
     }
 
     /**
-     * 提示网络较差
+     * 周期回调
      */
-    public void onToastNetBadCondition() {
+    public void onIntervalCallback() {
 
     }
 }

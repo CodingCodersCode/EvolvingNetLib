@@ -3,7 +3,7 @@ package com.codingcoderscode.evolving.net.request;
 import android.text.TextUtils;
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
+import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.entity.CCFile;
 import com.codingcoderscode.evolving.net.request.exception.CCSampleHttpException;
@@ -130,7 +130,7 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
                             throw new CCUnExpectedException(exception);
                         }
 
-                        return Flowable.just(new CCBaseResponse<T>(realResponse, headers, false, false, false));
+                        return Flowable.just(new CCBaseResponse<T>(realResponse, headers, false, false, true, null));
                     }
                 }).retryWhen(new FlowableRetryWithDelay(getRetryCount(), getRetryDelayTimeMillis())).onBackpressureLatest();
     }
@@ -142,12 +142,12 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
 
     @Override
     public int getCacheQueryMode() {
-        return CCCacheMode.QueryMode.MODE_ONLY_NET;
+        return CCCMode.QueryMode.MODE_NET;
     }
 
     @Override
     public int getCacheSaveMode() {
-        return CCCacheMode.SaveMode.MODE_NO_CACHE;
+        return CCCMode.SaveMode.MODE_NONE;
     }
 
     @Deprecated

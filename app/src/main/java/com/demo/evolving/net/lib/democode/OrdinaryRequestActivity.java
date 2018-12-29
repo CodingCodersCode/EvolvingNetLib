@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
 import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
+import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.callback.CCCacheQueryCallback;
 import com.codingcoderscode.evolving.net.request.callback.CCCacheSaveCallback;
 import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
@@ -21,7 +21,6 @@ import com.demo.evolving.net.lib.bean.SampleResponseBean;
 import com.google.gson.reflect.TypeToken;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
@@ -105,11 +104,11 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
                     .setParamMap(paramMap)
                     .setRetryCount(0)
                     .setRetryDelayTimeMillis(3000)
-                    .setCacheQueryMode(CCCacheMode.QueryMode.MODE_MEMORY_AND_DISK_AND_NET)
-                    .setCacheSaveMode(CCCacheMode.SaveMode.MODE_SAVE_MEMORY_AND_DISK)
+                    .setCacheQueryMode(CCCMode.QueryMode.MODE_DISK_AND_NET)
+                    .setCacheSaveMode(CCCMode.SaveMode.MODE_DISK)
 
-                    .setNeedToCheckNetCondition(true)
-                    .setNetConditionCheckInterval(5000)
+                    .setNeedIntervalCallback(true)
+                    .setIntervalMilliSeconds(5000)
 
                     .setReqTag("test_login_req_tag")
                     .setCacheKey("test_login_req_cache_key")
@@ -156,41 +155,6 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
         }
 
         @Override
-        public <T> void onCacheQuerySuccess(Object reqTag, T response) {
-
-
-            if (response != null) {
-
-                if (response instanceof TestRespObj) {
-                    NetLogUtil.printLog("d", LOG_TAG, "调用了onCacheSuccess方法，调用者reqTag=" + reqTag + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
-                } else {
-                    NetLogUtil.printLog("d", LOG_TAG, "调用了onCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据不是TestRespObj类型");
-                }
-
-            } else {
-                NetLogUtil.printLog("d", LOG_TAG, "调用了onCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据response == null");
-            }
-        }
-
-        @Override
-        public <T> void onMemoryCacheQuerySuccess(Object reqTag, T response) {
-
-            if (response != null) {
-
-                if (response instanceof TestRespObj) {
-                    NetLogUtil.printLog("d", LOG_TAG, "调用了onMemoryCacheSuccess方法，调用者reqTag=" + reqTag + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
-                } else {
-                    NetLogUtil.printLog("d", LOG_TAG, "调用了onMemoryCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据不是TestRespObj类型");
-                }
-
-            } else {
-                NetLogUtil.printLog("d", LOG_TAG, "调用了onMemoryCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据response == null");
-            }
-
-
-        }
-
-        @Override
         public <T> void onDiskCacheQuerySuccess(Object reqTag, T response) {
 
             if (response != null) {
@@ -226,7 +190,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
         }
 
         @Override
-        public <T> void onSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response) {
 
             if (response != null) {
 
@@ -242,7 +206,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
         }
 
         @Override
-        public <T> void onError(Object reqTag, Throwable t) {
+        public <T> void onRequestFail(Object reqTag, Throwable t) {
             NetLogUtil.printLog("d", LOG_TAG, "调用了onError方法，调用者reqTag=" + reqTag, t);
         }
 
@@ -254,7 +218,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
         }
 
         @Override
-        public void onToastNetBadCondition() {
+        public void onIntervalCallback() {
             Toast.makeText(OrdinaryRequestActivity.this, "网络状态较差", Toast.LENGTH_SHORT).show();
         }
     }

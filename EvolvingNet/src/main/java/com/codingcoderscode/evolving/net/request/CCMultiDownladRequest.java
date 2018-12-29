@@ -1,7 +1,7 @@
 package com.codingcoderscode.evolving.net.request;
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
+import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
@@ -154,7 +154,7 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
                     NoEnoughSpaceException noEnoughSpaceException = new NoEnoughSpaceException("write failed: ENOSPC (No space left on device)");
 
                     if (ccNetCallback != null) {
-                        ccNetCallback.onError(toDownloadTask, noEnoughSpaceException);
+                        ccNetCallback.onRequestFail(toDownloadTask, noEnoughSpaceException);
                     }
 
                     return;
@@ -169,8 +169,8 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
                                 .setFileSavePath(toDownloadTask.getSavePath())
                                 .setFileSaveName(toDownloadTask.getSaveName())
                                 .setRetryCount(DEFAULT_RETRY_COUNT)
-                                .setCacheQueryMode(CCCacheMode.QueryMode.MODE_ONLY_NET)
-                                .setCacheSaveMode(CCCacheMode.SaveMode.MODE_NO_CACHE)
+                                .setCacheQueryMode(CCCMode.QueryMode.MODE_NET)
+                                .setCacheSaveMode(CCCMode.SaveMode.MODE_NONE)
                                 .setReqTag(toDownloadTask)
                                 .setSupportRage(true)
                                 .setCCNetCallback(new MultiDownloadNetCallback<T>(this))
@@ -186,8 +186,8 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
                             .setFileSavePath(toDownloadTask.getSavePath())
                             .setFileSaveName(toDownloadTask.getSaveName())
                             .setRetryCount(DEFAULT_RETRY_COUNT)
-                            .setCacheQueryMode(CCCacheMode.QueryMode.MODE_ONLY_NET)
-                            .setCacheSaveMode(CCCacheMode.SaveMode.MODE_NO_CACHE)
+                            .setCacheQueryMode(CCCMode.QueryMode.MODE_NET)
+                            .setCacheSaveMode(CCCMode.SaveMode.MODE_NONE)
                             .setReqTag(toDownloadTask)
                             .setSupportRage(true)
                             .setCCNetCallback(new MultiDownloadNetCallback<T>(this))
@@ -211,7 +211,7 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
             this.existTaskCount.getAndDecrement();
 
             if (ccNetCallback != null) {
-                ccNetCallback.onError(toDownloadTask, e);
+                ccNetCallback.onRequestFail(toDownloadTask, e);
             }
 
         }
@@ -470,12 +470,12 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
 
     @Override
     public int getCacheQueryMode() {
-        return CCCacheMode.QueryMode.MODE_ONLY_NET;
+        return CCCMode.QueryMode.MODE_NET;
     }
 
     @Override
     public int getCacheSaveMode() {
-        return CCCacheMode.SaveMode.MODE_NO_CACHE;
+        return CCCMode.SaveMode.MODE_NONE;
     }
 
     private static class MultiDownloadNetCallback<M> extends CCNetCallback {
@@ -492,7 +492,7 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
         }
 
         @Override
-        public <T> void onSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response) {
             if (reqTag != null && reqTag instanceof CCDownloadTask) {
                 CCDownloadTask task = (CCDownloadTask) reqTag;
                 multiDownladRequest.taskDownloading.remove(task);
@@ -500,12 +500,12 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
             }
 
             if (multiDownladRequest.ccNetCallback != null) {
-                multiDownladRequest.ccNetCallback.onSuccess(reqTag, response);
+                multiDownladRequest.ccNetCallback.onRequestSuccess(reqTag, response);
             }
         }
 
         @Override
-        public <T> void onError(Object reqTag, Throwable t) {
+        public <T> void onRequestFail(Object reqTag, Throwable t) {
             if (reqTag != null && reqTag instanceof CCDownloadTask) {
                 CCDownloadTask task = (CCDownloadTask) reqTag;
                 CCDownloadRequestWrapper requestWrapper = multiDownladRequest.taskDownloading.remove(task);
@@ -519,7 +519,7 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
             }
 
             if (multiDownladRequest.ccNetCallback != null) {
-                multiDownladRequest.ccNetCallback.onError(reqTag, t);
+                multiDownladRequest.ccNetCallback.onRequestFail(reqTag, t);
             }
         }
 

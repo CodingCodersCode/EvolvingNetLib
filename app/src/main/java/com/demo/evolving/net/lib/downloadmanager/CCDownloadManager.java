@@ -2,7 +2,7 @@ package com.demo.evolving.net.lib.downloadmanager;
 
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
+import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
@@ -14,13 +14,11 @@ import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.reactivex.BackpressureStrategy;
@@ -392,7 +390,7 @@ public class CCDownloadManager extends CCNetCallback {
                     NoEnoughSpaceException noEnoughSpaceException = new NoEnoughSpaceException("write failed: ENOSPC (No space left on device)");
 
                     if (ccNetCallback != null){
-                        ccNetCallback.onError(toDownloadTask, noEnoughSpaceException);
+                        ccNetCallback.onRequestFail(toDownloadTask, noEnoughSpaceException);
                     }
 
                     return;
@@ -409,8 +407,8 @@ public class CCDownloadManager extends CCNetCallback {
                                 .setFileSavePath(toDownloadTask.getSavePath())
                                 .setFileSaveName(toDownloadTask.getSaveName())
                                 .setRetryCount(DEFAULT_RETRY_COUNT)
-                                .setCacheQueryMode(CCCacheMode.QueryMode.MODE_ONLY_NET)
-                                .setCacheSaveMode(CCCacheMode.SaveMode.MODE_NO_CACHE)
+                                .setCacheQueryMode(CCCMode.QueryMode.MODE_NET)
+                                .setCacheSaveMode(CCCMode.SaveMode.MODE_NONE)
                                 .setReqTag(toDownloadTask)
                                 .setSupportRage(true)
                                 .setCCNetCallback(this)
@@ -426,8 +424,8 @@ public class CCDownloadManager extends CCNetCallback {
                             .setFileSavePath(toDownloadTask.getSavePath())
                             .setFileSaveName(toDownloadTask.getSaveName())
                             .setRetryCount(DEFAULT_RETRY_COUNT)
-                            .setCacheQueryMode(CCCacheMode.QueryMode.MODE_ONLY_NET)
-                            .setCacheSaveMode(CCCacheMode.SaveMode.MODE_NO_CACHE)
+                            .setCacheQueryMode(CCCMode.QueryMode.MODE_NET)
+                            .setCacheSaveMode(CCCMode.SaveMode.MODE_NONE)
                             .setReqTag(toDownloadTask)
                             .setSupportRage(true)
                             .setCCNetCallback(this)
@@ -452,7 +450,7 @@ public class CCDownloadManager extends CCNetCallback {
             this.existTaskCount.getAndDecrement();
 
             if (ccNetCallback != null){
-                ccNetCallback.onError(toDownloadTask, e);
+                ccNetCallback.onRequestFail(toDownloadTask, e);
             }
 
         }
@@ -474,7 +472,7 @@ public class CCDownloadManager extends CCNetCallback {
     }
 
     @Override
-    public <T> void onSuccess(Object reqTag, T response) {
+    public <T> void onRequestSuccess(Object reqTag, T response) {
 
         if (reqTag != null && reqTag instanceof CCDownloadTask){
             CCDownloadTask task = (CCDownloadTask)reqTag;
@@ -486,12 +484,12 @@ public class CCDownloadManager extends CCNetCallback {
         }
 
         if (ccNetCallback != null) {
-            ccNetCallback.onSuccess(reqTag, response);
+            ccNetCallback.onRequestSuccess(reqTag, response);
         }
     }
 
     @Override
-    public <T> void onError(Object reqTag, Throwable t) {
+    public <T> void onRequestFail(Object reqTag, Throwable t) {
 
         if (reqTag != null && reqTag instanceof CCDownloadTask){
             CCDownloadTask task = (CCDownloadTask)reqTag;
@@ -508,7 +506,7 @@ public class CCDownloadManager extends CCNetCallback {
         }
 
         if (ccNetCallback != null) {
-            ccNetCallback.onError(reqTag, t);
+            ccNetCallback.onRequestFail(reqTag, t);
         }
     }
 

@@ -7,18 +7,12 @@ import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
 import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
-import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
-import com.codingcoderscode.evolving.net.response.CCBaseResponse;
-import com.codingcoderscode.evolving.net.util.CCNetUtil;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
 import com.demo.evolving.net.lib.downloadmanager.CCDownloadManager;
 import com.demo.evolving.net.lib.downloadmanager.CCDownloadTask;
-import com.demo.evolving.net.lib.downloadmanager.CCDownloadTaskWrapper;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
@@ -38,7 +32,6 @@ import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
@@ -267,12 +260,12 @@ public class RepeatTestActivity extends CCBaseRxAppCompactActivity implements Vi
         }
 
         @Override
-        public <T> void onSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onSuccess方法，调用者reqTag=" + reqTag);
         }
 
         @Override
-        public <T> void onError(Object reqTag, Throwable t) {
+        public <T> void onRequestFail(Object reqTag, Throwable t) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onError方法，调用者reqTag=" + reqTag, t);
         }
 

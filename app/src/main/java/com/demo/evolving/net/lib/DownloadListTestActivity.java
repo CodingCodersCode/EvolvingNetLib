@@ -197,7 +197,7 @@ public class DownloadListTestActivity  extends CCBaseRxAppCompactActivity implem
         }
 
         @Override
-        public <T> void onSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onSuccess方法，调用者reqTag=" + reqTag);
             if (reqTag instanceof CCDownloadTask){
 
@@ -214,7 +214,7 @@ public class DownloadListTestActivity  extends CCBaseRxAppCompactActivity implem
         }
 
         @Override
-        public <T> void onError(Object reqTag, Throwable t) {
+        public <T> void onRequestFail(Object reqTag, Throwable t) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onError方法，调用者reqTag=" + reqTag, t);
         }
 

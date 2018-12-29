@@ -2,14 +2,13 @@ package com.demo.evolving.net.lib;
 
 import android.Manifest;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
 import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
+import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCCacheQueryCallback;
 import com.codingcoderscode.evolving.net.request.callback.CCCacheSaveCallback;
@@ -18,31 +17,19 @@ import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.request.entity.CCFile;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
-import com.demo.evolving.net.lib.downloadmanager.CCDownloadTask;
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.squareup.leakcanary.RefWatcher;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
-import org.reactivestreams.Subscription;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
-import io.reactivex.FlowableSubscriber;
-import io.reactivex.annotations.NonNull;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks {
 
@@ -198,8 +185,8 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
                         .setPathMap(pathMap)
                         .setFileSaveName("test_OkGo_apk_file_download.apk")
                         .setRetryCount(3)
-                        .setCacheQueryMode(CCCacheMode.QueryMode.MODE_ONLY_NET)
-                        .setCacheSaveMode(CCCacheMode.SaveMode.MODE_NO_CACHE)
+                        .setCacheQueryMode(CCCMode.QueryMode.MODE_NET)
+                        .setCacheSaveMode(CCCMode.SaveMode.MODE_NONE)
                         .setReqTag("test_login_req_tag")
                         .setCacheKey("test_login_req_cache_key")
                         .setSupportRage(true)
@@ -264,8 +251,8 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
                     .setTxtParamMap(txtParamMap)
                     .setFileParamMap(fileParamMap)
                     .setRetryCount(0)
-                    .setCacheQueryMode(CCCacheMode.QueryMode.MODE_ONLY_NET)
-                    .setCacheSaveMode(CCCacheMode.SaveMode.MODE_NO_CACHE)
+                    .setCacheQueryMode(CCCMode.QueryMode.MODE_NET)
+                    .setCacheSaveMode(CCCMode.SaveMode.MODE_NONE)
                     .setReqTag("test_login_req_tag")
                     .setCacheKey("test_login_req_cache_key")
                     .setCCNetCallback(new RxNetUploadProgressCallback())
@@ -313,8 +300,8 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
                     .setParamMap(paramMap)
                     .setRetryCount(3)
                     .setRetryDelayTimeMillis(3000)
-                    .setCacheQueryMode(CCCacheMode.QueryMode.MODE_MEMORY_AND_DISK_AND_NET)
-                    .setCacheSaveMode(CCCacheMode.SaveMode.MODE_SAVE_MEMORY_AND_DISK)
+                    .setCacheQueryMode(CCCMode.QueryMode.MODE_DISK_AND_NET)
+                    .setCacheSaveMode(CCCMode.SaveMode.MODE_DISK)
                     .setReqTag("test_login_req_tag")
                     .setCacheKey("test_login_req_cache_key")
                     .setCCNetCallback(new RxNetManagerCallback())
@@ -338,41 +325,6 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
 
             NetLogUtil.printLog("e", LOG_TAG, "调用了onStartRequest方法，调用者reqTag=" + reqTag);
-
-        }
-
-        @Override
-        public <T> void onCacheQuerySuccess(Object reqTag, T response) {
-
-
-            if (response != null) {
-
-                if (response instanceof TestRespObj) {
-                    NetLogUtil.printLog("e", LOG_TAG, "调用了onCacheSuccess方法，调用者reqTag=" + reqTag + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
-                } else {
-                    NetLogUtil.printLog("e", LOG_TAG, "调用了onCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据不是TestRespObj类型");
-                }
-
-            } else {
-                NetLogUtil.printLog("e", LOG_TAG, "调用了onCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据response == null");
-            }
-        }
-
-        @Override
-        public <T> void onMemoryCacheQuerySuccess(Object reqTag, T response) {
-
-            if (response != null) {
-
-                if (response instanceof TestRespObj) {
-                    NetLogUtil.printLog("e", LOG_TAG, "调用了onMemoryCacheSuccess方法，调用者reqTag=" + reqTag + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
-                } else {
-                    NetLogUtil.printLog("e", LOG_TAG, "调用了onMemoryCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据不是TestRespObj类型");
-                }
-
-            } else {
-                NetLogUtil.printLog("e", LOG_TAG, "调用了onMemoryCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据response == null");
-            }
-
 
         }
 
@@ -412,7 +364,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         }
 
         @Override
-        public <T> void onSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response) {
 
             if (response != null) {
 
@@ -428,7 +380,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         }
 
         @Override
-        public <T> void onError(Object reqTag, Throwable t) {
+        public <T> void onRequestFail(Object reqTag, Throwable t) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了onError方法，调用者reqTag=" + reqTag, t);
         }
 
@@ -524,7 +476,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         }
 
         @Override
-        public <T> void onSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response) {
             if (response != null) {
 
                 if (response instanceof TestRespObj) {
@@ -539,7 +491,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         }
 
         @Override
-        public <T> void onError(Object reqTag, Throwable t) {
+        public <T> void onRequestFail(Object reqTag, Throwable t) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetUploadProgressCallback.onError方法，调用者reqTag=" + reqTag, t);
         }
 
@@ -565,12 +517,12 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         }
 
         @Override
-        public <T> void onSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onSuccess方法，调用者reqTag=" + reqTag);
         }
 
         @Override
-        public <T> void onError(Object reqTag, Throwable t) {
+        public <T> void onRequestFail(Object reqTag, Throwable t) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onError方法，调用者reqTag=" + reqTag, t);
         }
 

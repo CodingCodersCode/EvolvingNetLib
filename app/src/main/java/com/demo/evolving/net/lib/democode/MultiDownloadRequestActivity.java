@@ -17,10 +17,7 @@ import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
 import com.demo.evolving.net.lib.CCDownloadTask2;
-import com.demo.evolving.net.lib.DownloadListTestActivity2;
 import com.demo.evolving.net.lib.R;
-import com.demo.evolving.net.lib.bean.SampleRespBeanWrapper;
-import com.demo.evolving.net.lib.bean.SampleResponseBean;
 import com.demo.evolving.net.lib.downloadmanager.CCDownloadStatus;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -269,7 +266,7 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
         }
 
         @Override
-        public <T> void onSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response) {
             NetLogUtil.printLog("d", LOG_TAG, "调用了RxNetDownloadCalback.onSuccess方法，调用者reqTag=" + reqTag);
             if (reqTag instanceof CCDownloadTask2){
 
@@ -285,7 +282,7 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
         }
 
         @Override
-        public <T> void onError(Object reqTag, Throwable t) {
+        public <T> void onRequestFail(Object reqTag, Throwable t) {
             NetLogUtil.printLog("d", LOG_TAG, "调用了RxNetDownloadCalback.onError方法，调用者reqTag=" + reqTag, t);
 
             if (reqTag instanceof CCDownloadTask2){

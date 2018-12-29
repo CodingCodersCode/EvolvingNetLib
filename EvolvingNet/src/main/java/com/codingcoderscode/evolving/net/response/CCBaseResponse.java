@@ -15,34 +15,45 @@ public class CCBaseResponse<T> {
     private Headers headers;
     private boolean fromCache;
 
-    private boolean fromMemoryCache;
-    private boolean fromDiskCache;
+    private boolean intervalCallback = false;
 
-    private boolean netInBadCondition = false;
+    private boolean successful = true;
+    private Throwable throwable;
 
-    public CCBaseResponse(T realResponse, boolean fromCache, boolean fromMemoryCache, boolean fromDiskCache) {
+    public CCBaseResponse(T realResponse, boolean fromCache) {
         this.realResponse = realResponse;
         this.headers = null;
         this.fromCache = fromCache;
-        this.fromMemoryCache = fromMemoryCache;
-        this.fromDiskCache = fromDiskCache;
     }
 
-    public CCBaseResponse(T realResponse, Headers headers, boolean fromCache, boolean fromMemoryCache, boolean fromDiskCache) {
+    public CCBaseResponse(T realResponse, boolean fromCache, boolean successful, Throwable t) {
+        this.realResponse = realResponse;
+        this.headers = null;
+        this.fromCache = fromCache;
+        this.successful = successful;
+        this.throwable = t;
+    }
+
+    public CCBaseResponse(T realResponse, Headers headers, boolean fromCache) {
         this.realResponse = realResponse;
         this.headers = headers;
         this.fromCache = fromCache;
-        this.fromMemoryCache = fromMemoryCache;
-        this.fromDiskCache = fromDiskCache;
     }
 
-    public CCBaseResponse(T realResponse, Headers headers, boolean fromCache, boolean fromMemoryCache, boolean fromDiskCache, boolean netInBadCondition) {
+    public CCBaseResponse(T realResponse, Headers headers, boolean fromCache, boolean intervalCallback) {
         this.realResponse = realResponse;
         this.headers = headers;
         this.fromCache = fromCache;
-        this.fromMemoryCache = fromMemoryCache;
-        this.fromDiskCache = fromDiskCache;
-        this.netInBadCondition = netInBadCondition;
+        this.intervalCallback = intervalCallback;
+    }
+
+    public CCBaseResponse(T realResponse, Headers headers, boolean fromCache, boolean intervalCallback, boolean successful, Throwable t) {
+        this.realResponse = realResponse;
+        this.headers = headers;
+        this.fromCache = fromCache;
+        this.intervalCallback = intervalCallback;
+        this.successful = successful;
+        this.throwable = t;
     }
 
     public T getRealResponse() {
@@ -61,24 +72,6 @@ public class CCBaseResponse<T> {
         this.fromCache = fromCache;
     }
 
-    public boolean isFromMemoryCache() {
-        return fromMemoryCache;
-    }
-
-    public void setFromMemoryCache(boolean fromMemoryCache) {
-        this.fromMemoryCache = fromMemoryCache;
-        this.fromCache = this.fromMemoryCache | this.fromDiskCache;
-    }
-
-    public boolean isFromDiskCache() {
-        return fromDiskCache;
-    }
-
-    public void setFromDiskCache(boolean fromDiskCache) {
-        this.fromDiskCache = fromDiskCache;
-        this.fromCache = this.fromMemoryCache | this.fromDiskCache;
-    }
-
     public Headers getHeaders() {
         return headers;
     }
@@ -87,11 +80,27 @@ public class CCBaseResponse<T> {
         this.headers = headers;
     }
 
-    public boolean isNetInBadCondition() {
-        return netInBadCondition;
+    public boolean isIntervalCallback() {
+        return intervalCallback;
     }
 
-    public void setNetInBadCondition(boolean netInBadCondition) {
-        this.netInBadCondition = netInBadCondition;
+    public void setIntervalCallback(boolean intervalCallback) {
+        this.intervalCallback = intervalCallback;
+    }
+
+    public boolean isSuccessful() {
+        return successful;
+    }
+
+    public void setSuccessful(boolean successful) {
+        this.successful = successful;
+    }
+
+    public Throwable getThrowable() {
+        return throwable;
+    }
+
+    public void setThrowable(Throwable t) {
+        this.throwable = t;
     }
 }

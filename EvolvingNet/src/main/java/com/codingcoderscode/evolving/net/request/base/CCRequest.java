@@ -5,12 +5,12 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.codingcoderscode.evolving.net.cache.exception.CCDiskCacheQueryException;
-import com.codingcoderscode.evolving.net.cache.exception.CCMemoryCacheQueryException;
-import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
+import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.callback.CCCacheQueryCallback;
 import com.codingcoderscode.evolving.net.request.callback.CCCacheSaveCallback;
 import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
+import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.response.convert.CCConvert;
 import com.codingcoderscode.evolving.net.response.convert.CCDefaultResponseBodyConvert;
@@ -59,18 +59,10 @@ public abstract class CCRequest<T, R extends CCRequest> {
     protected int retryCount;
     //每次重试前的延迟时间，单位：毫秒
     private int retryDelayTimeMillis;
-    //缓存模式
-    //private int cacheMode;
     //请求标识
     private Object reqTag;
     //缓存标识
     private String cacheKey;
-    //缓存有效期
-    //private long cacheValidTimeLen;
-
-    //private String baseUrl;
-
-    //private String baseUrl_backup;
     //api url
     protected String apiUrl;
     //网络结果回调
@@ -100,126 +92,98 @@ public abstract class CCRequest<T, R extends CCRequest> {
     //是否以@Body形式传递参数，用于@POST和@PUT请求
     private boolean useBodyParamStyle;
 
-    //内存缓存是否已经返回
-    private boolean hasMemoryRequestResped = false;
     //磁盘缓存是否已经返回
     private boolean hasDiskRequestResped = false;
     //网络请求是否已经返回
     private boolean hasNetRequestResped = false;
 
-    //是否在网络请求返回前，以固定时间间隔发送网络较差的回调
-    private boolean mNeedToCheckNetCondition = false;
+    //是否在网络请求返回前，以固定时间间隔发送回调
+    private boolean mNeedIntervalCallback = false;
     //发送网络较差回调的时间间隔 单位：毫秒
-    private int mNetConditionCheckInterval = 5000;
+    private int mIntervalMilliSeconds = 5000;
 
     protected abstract Flowable<CCBaseResponse<T>> getRequestFlowable();
 
     protected abstract int getHttpMethod();
 
     /**
-     * 获取内存缓存请求Flowable对象
-     *
-     * @return 内存缓存查询Flowable对象
-     */
-    private Flowable<CCBaseResponse<T>> getMemoryCacheQueryFlowable() {
-        //内存缓存数据获取
-        return Flowable.create(new FlowableOnSubscribe<CCBaseResponse<T>>() {
-            @Override
-            public void subscribe(@NonNull FlowableEmitter<CCBaseResponse<T>> e) throws Exception {
-
-                T response = null;
-
-                try {
-
-                    if (ccCacheQueryCallback != null) {
-                        response = ccCacheQueryCallback.<T>onQueryFromMemory(cacheKey);
-                    }
-
-                    CCBaseResponse<T> tccBaseResponse = new CCBaseResponse<T>(response, true, true, false);
-
-                    e.onNext(tccBaseResponse);
-                    e.onComplete();
-
-                } catch (Exception exception) {
-
-                    switch (cacheQueryMode) {
-                        case CCCacheMode.QueryMode.MODE_ONLY_MEMORY:
-                            e.onError(new CCMemoryCacheQueryException(exception));
-                            break;
-                        default:
-                            e.onComplete();
-                            break;
-                    }
-
-                }
-            }
-        }, BackpressureStrategy.LATEST).subscribeOn(Schedulers.io());
-
-    }
-
-    /**
      * 获取磁盘缓存请求Flowable对象
      *
      * @return 磁盘缓存查询Flowable对象
      */
-    private Flowable<CCBaseResponse<T>> getDiskCacheQueryFlowable() {
+    private Flowable<CCBaseResponse<T>> getDiskQueryFlowable() {
         //磁盘缓存获取，包括任何形式的磁盘缓存
         return Flowable.create(new FlowableOnSubscribe<CCBaseResponse<T>>() {
             @Override
             public void subscribe(@NonNull FlowableEmitter<CCBaseResponse<T>> e) throws Exception {
                 T response = null;
-
+                CCBaseResponse<T> tccBaseResponse;
+                Throwable t = null;
                 try {
-
                     if (ccCacheQueryCallback != null) {
                         response = ccCacheQueryCallback.<T>onQueryFromDisk(cacheKey);
                     }
+                } catch (Exception exception) {
+                    t = new CCDiskCacheQueryException(exception);
+                }
 
-                    CCBaseResponse<T> tccBaseResponse = new CCBaseResponse<T>(response, true, false, true);
-
+                if (response != null) {
+                    tccBaseResponse = new CCBaseResponse<T>(response, null, true, true, true, null);
                     e.onNext(tccBaseResponse);
                     e.onComplete();
-
-                } catch (Exception exception) {
-
-                    switch (cacheQueryMode) {
-                        case CCCacheMode.QueryMode.MODE_ONLY_DISK:
-                        case CCCacheMode.QueryMode.MODE_MEMORY_AND_DISK:
-                            e.onError(new CCDiskCacheQueryException(exception));
-                            break;
-                        default:
-                            e.onComplete();
-                            break;
+                } else {
+                    t = (t != null) ? t : new CCDiskCacheQueryException("data is empty");
+                    if (CCCMode.QueryMode.MODE_DISK == cacheQueryMode) {
+                        e.onError(t);
+                    } else {
+                        tccBaseResponse = new CCBaseResponse<T>(null, null, true, true, false, t);
+                        e.onNext(tccBaseResponse);
+                        e.onComplete();
                     }
-
                 }
             }
         }, BackpressureStrategy.LATEST).subscribeOn(Schedulers.io());
-
     }
 
     /**
-     * 按照固定时间间隔发送网络状态差检测信号
+     * 按照固定时间间隔发送信号
      *
      * @return
      */
-    private Flowable<CCBaseResponse<T>> getNetConditionIntervalCheck() {
-        return Flowable.intervalRange(0, 1, getNetConditionCheckInterval(), getNetConditionCheckInterval(), TimeUnit.MILLISECONDS, Schedulers.trampoline())
+    private Flowable<CCBaseResponse<T>> getIntervalFlowable() {
+        return Flowable.intervalRange(0, 1, getIntervalMilliSeconds(), getIntervalMilliSeconds(), TimeUnit.MILLISECONDS, Schedulers.trampoline())
                 .repeatUntil(new BooleanSupplier() {
                     @Override
                     public boolean getAsBoolean() throws Exception {
-                        return isHasNetRequestResped() || !isRequestRunning();
+                        switch (cacheQueryMode) {
+                            case CCCMode.QueryMode.MODE_DISK:
+                                return isHasDiskRequestResped() || !isRequestRunning();
+                            case CCCMode.QueryMode.MODE_NET:
+                            case CCCMode.QueryMode.MODE_DISK_AND_NET:
+                            default:
+                                return isHasNetRequestResped() || !isRequestRunning();
+                        }
                     }
                 }).flatMap(new Function<Long, Publisher<CCBaseResponse<T>>>() {
                     @Override
                     public Publisher<CCBaseResponse<T>> apply(Long aLong) throws Exception {
-
-                        if (isHasNetRequestResped() || !isRequestRunning()) {
-                            return Flowable.empty();
-                        } else {
-                            return Flowable.just(new CCBaseResponse<T>(null, null, false, false, false, true));
-
+                        switch (cacheQueryMode) {
+                            case CCCMode.QueryMode.MODE_DISK:
+                                if (isHasDiskRequestResped() || !isRequestRunning()) {
+                                    return Flowable.empty();
+                                } else {
+                                    return Flowable.just(new CCBaseResponse<T>(null, null, false, false, false, null));
+                                }
+                            case CCCMode.QueryMode.MODE_NET:
+                            case CCCMode.QueryMode.MODE_DISK_AND_NET:
+                            default:
+                                if (isHasNetRequestResped() || !isRequestRunning()) {
+                                    return Flowable.empty();
+                                } else {
+                                    return Flowable.just(new CCBaseResponse<T>(null, null, false, false, false, null));
+                                }
                         }
+
                     }
                 })/*.takeUntil(new Predicate<CCBaseResponse<T>>() {
                     @Override
@@ -227,7 +191,6 @@ public abstract class CCRequest<T, R extends CCRequest> {
                         return false;
                     }
                 })*/;
-
     }
 
     /**
@@ -235,18 +198,15 @@ public abstract class CCRequest<T, R extends CCRequest> {
      *
      * @return 网络请求Flowable对象
      */
-    private Flowable<CCBaseResponse<T>> getNetworkQueryFlowable() {
-
+    private Flowable<CCBaseResponse<T>> getNetQueryFlowable() {
         //网络数据获取
         return getRequestFlowable();
-
     }
 
     /**
      * 执行请求
      */
     public synchronized void executeAsync() {
-
         if (isRequestRunning()) {
             return;
         }
@@ -272,36 +232,23 @@ public abstract class CCRequest<T, R extends CCRequest> {
         }
 
         switch (getCacheQueryMode()) {
-
-            case CCCacheMode.QueryMode.MODE_ONLY_MEMORY:
-                resultFlowable = getMemoryCacheQueryFlowable();
+            case CCCMode.QueryMode.MODE_DISK:
+                resultFlowable = getDiskQueryFlowable();
                 break;
-            case CCCacheMode.QueryMode.MODE_ONLY_DISK:
-                resultFlowable = getDiskCacheQueryFlowable();
+            case CCCMode.QueryMode.MODE_NET:
+                resultFlowable = getNetQueryFlowable();
                 break;
-            case CCCacheMode.QueryMode.MODE_ONLY_NET:
-                resultFlowable = getNetworkQueryFlowable();
-                break;
-            case CCCacheMode.QueryMode.MODE_MEMORY_AND_DISK:
-                resultFlowable = Flowable.merge(getMemoryCacheQueryFlowable(), getDiskCacheQueryFlowable());
-                break;
-            case CCCacheMode.QueryMode.MODE_DISK_THEN_NET:
-                resultFlowable = Flowable.merge(getDiskCacheQueryFlowable(), getNetworkQueryFlowable());
-                break;
-            case CCCacheMode.QueryMode.MODE_MEMORY_THEN_NET:
-                resultFlowable = Flowable.merge(getMemoryCacheQueryFlowable(), getNetworkQueryFlowable());
-                break;
-            case CCCacheMode.QueryMode.MODE_MEMORY_AND_DISK_AND_NET:
-                resultFlowable = Flowable.merge(getMemoryCacheQueryFlowable(), getDiskCacheQueryFlowable(), getNetworkQueryFlowable());
+            case CCCMode.QueryMode.MODE_DISK_AND_NET:
+                resultFlowable = Flowable.merge(getDiskQueryFlowable(), getNetQueryFlowable());
                 break;
             default:
-                resultFlowable = getNetworkQueryFlowable();
+                setCacheQueryMode(CCCMode.QueryMode.MODE_NET);
+                resultFlowable = getNetQueryFlowable();
                 break;
-
         }
 
-        if (isNeedToCheckNetCondition()) {
-            resultFlowable = Flowable.merge(resultFlowable, getNetConditionIntervalCheck());
+        if (isNeedIntervalCallback()) {
+            resultFlowable = Flowable.merge(resultFlowable, getIntervalFlowable());
         }
 
         resultFlowable = resultFlowable
@@ -326,7 +273,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
             @Override
             public void onSubscribe(Subscription s) {
                 s.request(Long.MAX_VALUE);
-                if (ccNetCallback != null && !isForceCanceled()) {
+                if (ccNetCallback != null && isRequestRunning() && !isForceCanceled()) {
 
                     netCancelSubscription = s;
 
@@ -334,23 +281,17 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
                     ccNetCallback.<T>onStartRequest(reqTag, netCCCanceler);
                 }
-                /*
-                setRequestRunning(true);
-                setForceCanceled(false);
-                */
             }
 
             @Override
             public void onNext(CCBaseResponse<T> tccBaseResponse) {
-
                 onDealWithResponse(tccBaseResponse);
-
             }
 
             @Override
             public void onError(Throwable t) {
-                if (ccNetCallback != null && !isForceCanceled()) {
-                    ccNetCallback.onError(reqTag, t);
+                if (ccNetCallback != null && isRequestRunning() && !isForceCanceled()) {
+                    ccNetCallback.onRequestFail(reqTag, t);
                 }
                 setRequestRunning(false);
                 setForceCanceled(false);
@@ -358,7 +299,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
             @Override
             public void onComplete() {
-                if (ccNetCallback != null && !isForceCanceled()) {
+                if (ccNetCallback != null && isRequestRunning() && !isForceCanceled()) {
                     ccNetCallback.onComplete(reqTag);
                 }
                 setRequestRunning(false);
@@ -373,7 +314,12 @@ public abstract class CCRequest<T, R extends CCRequest> {
      * @param tccBaseResponse 响应结果包装对象
      */
     private void onSaveToCache(CCBaseResponse<T> tccBaseResponse) {
+        T realResponse;
         try {
+            if (!isRequestRunning()) {
+                return;
+            }
+
             if (isForceCanceled()) {
                 return;
             }
@@ -382,7 +328,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
                 return;
             }
 
-            if (tccBaseResponse.isNetInBadCondition()) {
+            if (tccBaseResponse.isIntervalCallback()) {
                 return;
             }
 
@@ -390,32 +336,15 @@ public abstract class CCRequest<T, R extends CCRequest> {
                 return;
             }
 
-            T realResponse = tccBaseResponse.getRealResponse();
+            realResponse = tccBaseResponse.getRealResponse();
 
             switch (getCacheSaveMode()) {
-                case CCCacheMode.SaveMode.MODE_SAVE_MEMORY:
-                    if (ccCacheSaveCallback != null && !tccBaseResponse.isFromMemoryCache()) {
-                        ccCacheSaveCallback.onSaveToMemory(cacheKey, realResponse);
-                    }
-                    break;
-                case CCCacheMode.SaveMode.MODE_SAVE_DISK:
-                    if (ccCacheSaveCallback != null && !tccBaseResponse.isFromDiskCache()) {
+                case CCCMode.SaveMode.MODE_DISK:
+                    if (ccCacheSaveCallback != null) {
                         ccCacheSaveCallback.onSaveToDisk(cacheKey, realResponse);
                     }
                     break;
-                case CCCacheMode.SaveMode.MODE_SAVE_MEMORY_AND_DISK:
-                    if (ccCacheSaveCallback != null) {
-
-                        if (!tccBaseResponse.isFromMemoryCache()) {
-                            ccCacheSaveCallback.onSaveToMemory(cacheKey, realResponse);
-                        }
-
-                        if (!tccBaseResponse.isFromDiskCache()) {
-                            ccCacheSaveCallback.onSaveToDisk(cacheKey, realResponse);
-                        }
-                    }
-                    break;
-                case CCCacheMode.SaveMode.MODE_NO_CACHE:
+                case CCCMode.SaveMode.MODE_NONE:
                 default:
                     break;
             }
@@ -430,74 +359,111 @@ public abstract class CCRequest<T, R extends CCRequest> {
      * @param tccBaseResponse 响应结果包装对象
      */
     private synchronized void onDealWithResponse(CCBaseResponse<T> tccBaseResponse) {
-        boolean isRespFromCache = false;
+        if (!isRequestRunning()) {
+            return;
+        }
+
+        if (isForceCanceled()) {
+            return;
+        }
+
+        if (ifNeedIntervalCallback(tccBaseResponse)) {
+            return;
+        }
+
+        if (ccNetCallback == null) {
+            return;
+        }
+
+        if (tccBaseResponse == null) {
+            ccNetCallback.onRequestFail(reqTag, new CCUnExpectedException("response is null"));
+            return;
+        }
+
+        //判断响应是否是缓存返回
+        if (tccBaseResponse.isFromCache()) {
+            onDealWithDiskResponse(tccBaseResponse);
+        } else {
+            onDealWithNetResponse(tccBaseResponse);
+        }
+    }
+
+    /**
+     * 处理磁盘响应
+     *
+     * @param tccBaseResponse
+     */
+    private void onDealWithDiskResponse(CCBaseResponse<T> tccBaseResponse) {
+        T realResponse;
         try {
+            //设置 磁盘缓存返回标识
+            setHasDiskRequestResped(true);
 
-            if (isForceCanceled()) {
-                return;
-            }
+            realResponse = tccBaseResponse.getRealResponse();
 
-            if (ifNeedToToastNetCondition(tccBaseResponse)) {
-                return;
-            }
-
-            if (ccNetCallback != null) {
-
-                T realResponse = (tccBaseResponse == null) ? null : tccBaseResponse.getRealResponse();
-
-                if (tccBaseResponse != null) {
-
-                    if (tccBaseResponse.isFromCache()) {
-
-                        isRespFromCache = true;
-
-                        if (tccBaseResponse.isFromMemoryCache()) {
-
-                            //设置 内存缓存返回标识
-                            setHasMemoryRequestResped(true);
-
-                            ccNetCallback.<T>onMemoryCacheQuerySuccess(reqTag, realResponse);
-
-                            if (!isHasDiskRequestResped() || !isHasNetRequestResped()) {
-                                ccNetCallback.<T>onCacheQuerySuccess(reqTag, realResponse);
-                            }
-
-                        } else if (tccBaseResponse.isFromDiskCache()) {
-
-                            //设置 磁盘缓存返回标识
-                            setHasDiskRequestResped(true);
-
+            switch (this.cacheQueryMode) {
+                case CCCMode.QueryMode.MODE_DISK:
+                    if (isRequestRunning()) {
+                        if (tccBaseResponse.isSuccessful()) {
                             ccNetCallback.<T>onDiskCacheQuerySuccess(reqTag, realResponse);
-
-                            if (!isHasNetRequestResped()) {
-                                ccNetCallback.<T>onCacheQuerySuccess(reqTag, realResponse);
-                            }
+                            ccNetCallback.<T>onRequestSuccess(reqTag, realResponse);
+                        } else {
+                            ccNetCallback.<T>onDiskCacheQueryFail(reqTag, tccBaseResponse.getThrowable());
+                            ccNetCallback.<T>onRequestFail(reqTag, tccBaseResponse.getThrowable());
                         }
-
-                        //ccNetCallback.<T>onCacheQuerySuccess(reqTag, realResponse);
-
-                    } else {
-
-                        //设置 网络请求返回标识
-                        setHasNetRequestResped(true);
-
-                        ccNetCallback.<T>onNetSuccess(reqTag, realResponse);
                     }
-
-                }
-
-                if (isRespFromCache && isHasNetRequestResped()) {
-
-                } else {
-                    ccNetCallback.<T>onSuccess(reqTag, realResponse);
-                }
-
-                //ccNetCallback.<T>onSuccess(reqTag, realResponse);
+                    break;
+                case CCCMode.QueryMode.MODE_DISK_AND_NET:
+                    if (isRequestRunning()) {
+                        if (tccBaseResponse.isSuccessful()) {
+                            ccNetCallback.<T>onDiskCacheQuerySuccess(reqTag, realResponse);
+                        } else {
+                            ccNetCallback.<T>onDiskCacheQueryFail(reqTag, tccBaseResponse.getThrowable());
+                        }
+                    }
+                    if (!isHasNetRequestResped()) {
+                        if (tccBaseResponse.isSuccessful()) {
+                            ccNetCallback.<T>onRequestSuccess(reqTag, realResponse);
+                        } else {
+                            ccNetCallback.<T>onRequestFail(reqTag, tccBaseResponse.getThrowable());
+                        }
+                    }
+                    break;
             }
         } catch (Exception e) {
-            if (ccNetCallback != null) {
-                ccNetCallback.onError(reqTag, e);
+            NetLogUtil.printLog("e", getClass().getCanonicalName(), "处理磁盘数据响应发生异常", e);
+        }
+    }
+
+    /**
+     * 处理网络响应
+     *
+     * @param tccBaseResponse
+     */
+    private void onDealWithNetResponse(CCBaseResponse<T> tccBaseResponse) {
+        T realResponse;
+        try {
+            //设置 网络返回标识
+            setHasNetRequestResped(true);
+
+            realResponse = tccBaseResponse.getRealResponse();
+
+            switch (this.cacheQueryMode) {
+                case CCCMode.QueryMode.MODE_NET:
+                case CCCMode.QueryMode.MODE_DISK_AND_NET:
+                    if (isRequestRunning()) {
+                        if (tccBaseResponse.isSuccessful()) {
+                            ccNetCallback.<T>onNetSuccess(reqTag, realResponse);
+                            ccNetCallback.<T>onRequestSuccess(reqTag, realResponse);
+                        } else {
+                            ccNetCallback.<T>onNetFail(reqTag, tccBaseResponse.getThrowable());
+                            ccNetCallback.<T>onRequestFail(reqTag, tccBaseResponse.getThrowable());
+                        }
+                    }
+                    break;
             }
+        } catch (Exception e) {
+            NetLogUtil.printLog("e", getClass().getCanonicalName(), "处理磁盘数据响应发生异常", e);
         }
     }
 
@@ -506,14 +472,14 @@ public abstract class CCRequest<T, R extends CCRequest> {
      *
      * @param tccBaseResponse
      */
-    private boolean ifNeedToToastNetCondition(CCBaseResponse<T> tccBaseResponse) {
+    private boolean ifNeedIntervalCallback(CCBaseResponse<T> tccBaseResponse) {
         try {
             if (tccBaseResponse == null) {
                 return false;
             }
 
-            if (tccBaseResponse.isNetInBadCondition() && ccNetCallback != null) {
-                ccNetCallback.onToastNetBadCondition();
+            if (tccBaseResponse.isIntervalCallback() && ccNetCallback != null) {
+                ccNetCallback.onIntervalCallback();
                 return true;
             }
         } catch (Exception e) {
@@ -612,16 +578,6 @@ public abstract class CCRequest<T, R extends CCRequest> {
         return (R) this;
     }
 
-    /*public int getCacheMode() {
-        return cacheMode;
-    }
-
-    @SuppressWarnings("unchecked")
-    public R setCacheMode(int cacheMode) {
-        this.cacheMode = cacheMode;
-        return (R) this;
-    }*/
-
     public Object getReqTag() {
         return reqTag;
     }
@@ -641,36 +597,6 @@ public abstract class CCRequest<T, R extends CCRequest> {
         this.cacheKey = cacheKey;
         return (R) this;
     }
-
-    /*public long getCacheValidTimeLen() {
-        return cacheValidTimeLen;
-    }
-
-    @SuppressWarnings("unchecked")
-    public R setCacheValidTimeLen(long cacheValidTimeLen) {
-        this.cacheValidTimeLen = cacheValidTimeLen;
-        return (R) this;
-    }*/
-
-    /*public String getBaseUrl() {
-        return baseUrl;
-    }
-
-    @SuppressWarnings("unchecked")
-    public R setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
-        return (R) this;
-    }
-
-    public String getBaseUrl_backup() {
-        return baseUrl_backup;
-    }
-
-    @SuppressWarnings("unchecked")
-    public R setBaseUrl_backup(String baseUrl_backup) {
-        this.baseUrl_backup = baseUrl_backup;
-        return (R) this;
-    }*/
 
     public String getApiUrl() {
         return apiUrl;
@@ -755,10 +681,6 @@ public abstract class CCRequest<T, R extends CCRequest> {
         return netCCCanceler;
     }
 
-    protected void setNetCCCanceler(CCCanceler netCCCanceler) {
-        this.netCCCanceler = netCCCanceler;
-    }
-
     public CCConvert getCcConvert() {
         return ccConvert;
     }
@@ -785,14 +707,6 @@ public abstract class CCRequest<T, R extends CCRequest> {
         this.forceCanceled = forceCanceled;
     }
 
-    public boolean isHasMemoryRequestResped() {
-        return hasMemoryRequestResped;
-    }
-
-    public void setHasMemoryRequestResped(boolean hasMemoryRequestResped) {
-        this.hasMemoryRequestResped = hasMemoryRequestResped;
-    }
-
     public boolean isHasDiskRequestResped() {
         return hasDiskRequestResped;
     }
@@ -809,8 +723,8 @@ public abstract class CCRequest<T, R extends CCRequest> {
         this.hasNetRequestResped = hasNetRequestResped;
     }
 
-    public boolean isNeedToCheckNetCondition() {
-        return mNeedToCheckNetCondition;
+    public boolean isNeedIntervalCallback() {
+        return mNeedIntervalCallback;
     }
 
     /**
@@ -820,24 +734,24 @@ public abstract class CCRequest<T, R extends CCRequest> {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public R setNeedToCheckNetCondition(boolean needToCheckNetCondition) {
-        this.mNeedToCheckNetCondition = needToCheckNetCondition;
+    public R setNeedIntervalCallback(boolean needToCheckNetCondition) {
+        this.mNeedIntervalCallback = needToCheckNetCondition;
         return (R) this;
     }
 
-    public int getNetConditionCheckInterval() {
-        return mNetConditionCheckInterval;
+    public int getIntervalMilliSeconds() {
+        return mIntervalMilliSeconds;
     }
 
     /**
      * 网络状态检测间隔 单位：毫秒
      *
-     * @param netConditionCheckInterval
+     * @param intervalMilliSeconds
      * @return
      */
     @SuppressWarnings("unchecked")
-    public R setNetConditionCheckInterval(int netConditionCheckInterval) {
-        this.mNetConditionCheckInterval = netConditionCheckInterval;
+    public R setIntervalMilliSeconds(int intervalMilliSeconds) {
+        this.mIntervalMilliSeconds = intervalMilliSeconds;
         return (R) this;
     }
 }

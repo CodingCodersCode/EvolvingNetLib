@@ -8,7 +8,7 @@ import android.text.TextUtils;
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
 import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
-import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
+import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCDownloadFileWritterCallback;
 //import com.codingcoderscode.evolving.net.request.callback.CCDownloadProgressCallback;
@@ -178,7 +178,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
                         }
 
-                        return Flowable.just(new CCBaseResponse<T>(null, headers, false, false, false));
+                        return Flowable.just(new CCBaseResponse<T>(null, headers, false, false, true, null));
                     }
                 }).retryWhen(new FlowableRetryWithDelay(getRetryCount(), getRetryDelayTimeMillis())).onBackpressureLatest();
 
@@ -234,12 +234,12 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
     @Override
     public int getCacheQueryMode() {
-        return CCCacheMode.QueryMode.MODE_ONLY_NET;
+        return CCCMode.QueryMode.MODE_NET;
     }
 
     @Override
     public int getCacheSaveMode() {
-        return CCCacheMode.SaveMode.MODE_NO_CACHE;
+        return CCCMode.SaveMode.MODE_NONE;
     }
 
     /*private void refreshRangeInfo(){

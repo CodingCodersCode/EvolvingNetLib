@@ -73,7 +73,7 @@ public class CCHeadRequest<T> extends CCRequest<T, CCHeadRequest<T>> {
                         }
 
 
-                        return Flowable.just(new CCBaseResponse<T>(realResponse, headers, false, false, false));
+                        return Flowable.just(new CCBaseResponse<T>(realResponse, headers, false, false, true, null));
                     }
                 }).retryWhen(new FlowableRetryWithDelay(getRetryCount(), getRetryDelayTimeMillis())).onBackpressureLatest();
 

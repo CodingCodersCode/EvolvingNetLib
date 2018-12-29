@@ -15,7 +15,6 @@ import com.codingcoderscode.evolving.net.request.CCMultiDownladRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
-import com.demo.evolving.net.lib.downloadmanager.CCDownloadManager;
 import com.demo.evolving.net.lib.downloadmanager.CCDownloadStatus;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
@@ -206,7 +205,7 @@ public class DownloadListTestActivity2  extends CCBaseRxAppCompactActivity imple
         }
 
         @Override
-        public <T> void onSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onSuccess方法，调用者reqTag=" + reqTag);
             if (reqTag instanceof CCDownloadTask2){
 
@@ -222,7 +221,7 @@ public class DownloadListTestActivity2  extends CCBaseRxAppCompactActivity imple
         }
 
         @Override
-        public <T> void onError(Object reqTag, Throwable t) {
+        public <T> void onRequestFail(Object reqTag, Throwable t) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onError方法，调用者reqTag=" + reqTag, t);
 
             if (reqTag instanceof CCDownloadTask2){
