@@ -3,10 +3,8 @@ package com.demo.evolving.net.lib;
 import android.app.Application;
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.request.ssl.HttpsUtil;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
 import java.util.HashMap;
