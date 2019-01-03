@@ -143,9 +143,11 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
 
             //http://24810.xc.wenpie.com/xiaz/dpkentool.dll%E6%96%87%E4%BB%B6@560_402379.exe
 
+            String downloadUrl = "/16891/371C7C353C7B87011FB3DE8B12BCBCA5.apk?fsname=com.tencent.mm_7.0.0_1380.apk&csr=1bbd";
+
             for (; tmpTaskCount < taskKeyCount; tmpTaskCount++){
 
-                task = new CCDownloadTask2(this, "taskKey-" + tmpTaskCount, "/xiaz/dpkentool.dll%E6%96%87%E4%BB%B6@560_402379.exe", null, "QQ_download_test_file_" + tmpTaskCount + ".apk", 1, 0, 0);
+                task = new CCDownloadTask2(this, "taskKey-" + tmpTaskCount, downloadUrl, null, "QQ_download_test_file_" + tmpTaskCount + ".apk", 1, 0, 0);
 
                 taskList.add(task);
                 taskList2.add(task);
@@ -266,7 +268,7 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
         }
 
         @Override
-        public <T> void onRequestSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
             NetLogUtil.printLog("d", LOG_TAG, "调用了RxNetDownloadCalback.onSuccess方法，调用者reqTag=" + reqTag);
             if (reqTag instanceof CCDownloadTask2){
 
@@ -298,7 +300,7 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
         }
 
         @Override
-        public <T> void onComplete(Object reqTag) {
+        public <T> void onRequestComplete(Object reqTag) {
             NetLogUtil.printLog("d", LOG_TAG, "调用了RxNetDownloadCalback.onComplete方法，调用者reqTag=" + reqTag);
         }
 

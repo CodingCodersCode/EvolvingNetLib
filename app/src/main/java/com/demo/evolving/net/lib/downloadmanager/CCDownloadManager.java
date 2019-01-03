@@ -472,7 +472,7 @@ public class CCDownloadManager extends CCNetCallback {
     }
 
     @Override
-    public <T> void onRequestSuccess(Object reqTag, T response) {
+    public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
 
         if (reqTag != null && reqTag instanceof CCDownloadTask){
             CCDownloadTask task = (CCDownloadTask)reqTag;
@@ -484,7 +484,7 @@ public class CCDownloadManager extends CCNetCallback {
         }
 
         if (ccNetCallback != null) {
-            ccNetCallback.onRequestSuccess(reqTag, response);
+            ccNetCallback.onRequestSuccess(reqTag, response, dataSourceMode);
         }
     }
 
@@ -511,9 +511,9 @@ public class CCDownloadManager extends CCNetCallback {
     }
 
     @Override
-    public <T> void onComplete(Object reqTag) {
+    public <T> void onRequestComplete(Object reqTag) {
         if (ccNetCallback != null) {
-            ccNetCallback.onComplete(reqTag);
+            ccNetCallback.onRequestComplete(reqTag);
         }
     }
 

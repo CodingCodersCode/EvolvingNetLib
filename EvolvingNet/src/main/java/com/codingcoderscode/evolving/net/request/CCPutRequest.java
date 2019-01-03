@@ -1,9 +1,9 @@
 package com.codingcoderscode.evolving.net.request;
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.exception.CCSampleHttpException;
+import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
 import com.codingcoderscode.evolving.net.request.retry.FlowableRetryWithDelay;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
@@ -41,12 +41,11 @@ public class CCPutRequest<T> extends CCRequest<T, CCPutRequest<T>> {
             @Override
             public void subscribe(FlowableEmitter<Call<ResponseBody>> e) throws Exception {
                 Call<ResponseBody> call;
-                if (isUseBodyParamStyle()){
+                if (isUseBodyParamStyle()) {
                     call = CCRxNetManager.getCcNetApiService().executeBodyPut(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
-                }else {
+                } else {
                     call = CCRxNetManager.getCcNetApiService().executePut(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
                 }
-                //Call<ResponseBody> call = CCRxNetManager.getCcNetApiService().executePut(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
 
                 e.onNext(call);
                 e.onComplete();
@@ -66,12 +65,11 @@ public class CCPutRequest<T> extends CCRequest<T, CCPutRequest<T>> {
                         try {
                             retrofitResponse = responseBodyCall.clone().execute();
 
-                            if (retrofitResponse.isSuccessful()){
+                            if (retrofitResponse.isSuccessful()) {
                                 headers = retrofitResponse.headers();
 
-                                //realResponse = CCDefaultResponseBodyConvert.<T>convertResponse(retrofitResponse.body(), responseBeanType);
                                 realResponse = convertResponse(retrofitResponse.body());
-                            }else {
+                            } else {
                                 throw new CCSampleHttpException(retrofitResponse, retrofitResponse.errorBody());
                             }
 
@@ -83,39 +81,6 @@ public class CCPutRequest<T> extends CCRequest<T, CCPutRequest<T>> {
                         return Flowable.just(new CCBaseResponse<T>(realResponse, headers, false, false, true, null));
                     }
                 }).retryWhen(new FlowableRetryWithDelay(getRetryCount(), getRetryDelayTimeMillis())).onBackpressureLatest();
-
-        /*
-        Call<ResponseBody> call = CCRxNetManager.getCcNetApiService().executePut(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
-
-        return Flowable.just(call)
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .retry(retryCount)
-                .flatMap(new Function<Call<ResponseBody>, Publisher<CCBaseResponse<T>>>() {
-                    @Override
-                    public Publisher<CCBaseResponse<T>> apply(Call<ResponseBody> responseBodyCall) throws Exception {
-
-                        T realResponse = null;
-                        Response<ResponseBody> retrofitResponse;
-                        Headers headers = null;
-                        try {
-                            retrofitResponse = responseBodyCall.clone().execute();
-
-                            headers = retrofitResponse.headers();
-
-                            //realResponse = CCDefaultResponseBodyConvert.<T>convertResponse(retrofitResponse.body(), responseBeanType);
-                            realResponse = convertResponse(retrofitResponse.body());
-
-                        } catch (Exception exception) {
-                            throw exception;
-                        }
-
-
-                        return Flowable.just(new CCBaseResponse<T>(realResponse, headers, false, false, false));
-                    }
-                }).retryWhen(new FlowableRetryWithDelay(getRetryCount(), getRetryDelayTimeMillis())).onBackpressureLatest();
-        */
     }
 
     @Override

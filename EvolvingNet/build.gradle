@@ -28,13 +28,13 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //添加RxJava依赖
-    api 'io.reactivex.rxjava2:rxjava:2.1.12'
+    api 'io.reactivex.rxjava2:rxjava:2.2.5'
     //添加RxAndroid依赖
-    api 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    api 'io.reactivex.rxjava2:rxandroid:2.1.0'
     //添加RxJava/Android的Retrofit数据解析适配器
     api 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     //添加Retrofit依赖
-    api 'com.squareup.retrofit2:retrofit:2.3.0'
+    api 'com.squareup.retrofit2:retrofit:2.5.0'
     //添加Gson依赖
     api 'com.google.code.gson:gson:2.8.2'
     //添加Retrofit的Gson转换器依赖

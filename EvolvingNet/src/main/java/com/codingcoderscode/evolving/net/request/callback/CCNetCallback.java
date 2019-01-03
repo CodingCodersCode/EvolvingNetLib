@@ -74,20 +74,19 @@ public abstract class CCNetCallback {
      * 请求成功回调
      * <p>
      * 回调线程：UI线程
-     *
-     * @param <T>
+     *  @param <T>
      * @param reqTag
      * @param response
+     * @param dataSourceMode
      */
-    public <T> void onRequestSuccess(Object reqTag, T response) {
+    public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
     }
 
     /**
      * 请求失败回调
      * <p>
      * 回调线程：UI线程
-     *
-     * @param <T>
+     *  @param <T>
      * @param reqTag
      * @param t
      */
@@ -99,10 +98,10 @@ public abstract class CCNetCallback {
      * <p>
      * 回调线程：UI线程
      *
-     * @param reqTag
      * @param <T>
+     * @param reqTag
      */
-    public <T> void onComplete(Object reqTag) {
+    public <T> void onRequestComplete(Object reqTag) {
     }
 
     /**

@@ -191,7 +191,7 @@ public class UploadRequestActivity extends CCBaseRxAppCompactActivity implements
         }
 
         @Override
-        public <T> void onRequestSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
             if (response != null) {
 
                 if (response instanceof TestRespObj) {
@@ -215,7 +215,7 @@ public class UploadRequestActivity extends CCBaseRxAppCompactActivity implements
         }
 
         @Override
-        public <T> void onComplete(Object reqTag) {
+        public <T> void onRequestComplete(Object reqTag) {
             tv_file_upload_status.setText("上传完成");
             tv_file_upload_progress.setText("文件标识：" + "" + "\n上传进度：" + 0 + "%\n上传速度：" + "0B/s" + "\n已上传大小：" + 0 + "B\n文件大小：" + 0 + "B");
             NetLogUtil.printLog("d", LOG_TAG, "调用了RxNetUploadProgressCallback.onComplete方法，调用者reqTag=" + reqTag);

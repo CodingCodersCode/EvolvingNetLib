@@ -45,12 +45,6 @@ public interface CCNetApiService {
             @HeaderMap Map<String, String> headerMap,
             @QueryMap Map<String, Object> paramMap);
 
-    /*@GET
-    Flowable<ResponseBody> executeGet(
-            @Url String url,
-            @HeaderMap Map<String, String> headerMap,
-            @QueryMap Map<String, String> paramMap);*/
-
     /**
      * 发起POST类型请求
      *
@@ -79,13 +73,6 @@ public interface CCNetApiService {
             @Url String url,
             @HeaderMap Map<String, String> headerMap,
             @Body Map<String, Object> paramMap);
-
-    /*@FormUrlEncoded
-    @POST
-    Flowable<ResponseBody> executePost(
-            @Url String url,
-            @HeaderMap Map<String, String> headerMap,
-            @FieldMap Map<String, String> paramMap);*/
 
     /**
      * 发起PUT类型请求
@@ -116,13 +103,6 @@ public interface CCNetApiService {
             @HeaderMap Map<String, String> headerMap,
             @Body Map<String, Object> paramMap);
 
-    /*@FormUrlEncoded
-    @PUT
-    Flowable<ResponseBody> executePut(
-            @Url String url,
-            @HeaderMap Map<String, String> headerMap,
-            @FieldMap Map<String, String> paramMap);*/
-
     /**
      * 发起DELETE类型请求
      *
@@ -136,12 +116,6 @@ public interface CCNetApiService {
             @Url String url,
             @HeaderMap Map<String, String> headerMap,
             @QueryMap Map<String, Object> paramMap);
-
-    /*@DELETE
-    Flowable<ResponseBody> executeDelete(
-            @Url String url,
-            @HeaderMap Map<String, String> headerMap,
-            @QueryMap Map<String, String> paramMap);*/
 
     /**
      * 发起HEAD类型请求
@@ -170,12 +144,6 @@ public interface CCNetApiService {
             @Url String url,
             @HeaderMap Map<String, String> headerMap,
             @QueryMap Map<String, Object> paramMap);
-
-    /*@OPTIONS
-    Flowable<ResponseBody> executeOptions(
-            @Url String url,
-            @HeaderMap Map<String, String> headerMap,
-            @QueryMap Map<String, String> paramMap);*/
 
     /**
      * 发起PATCH类型请求

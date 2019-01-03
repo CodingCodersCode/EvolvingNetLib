@@ -85,9 +85,7 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
         return Flowable.create(new FlowableOnSubscribe<Integer>() {
             @Override
             public void subscribe(FlowableEmitter<Integer> e) throws Exception {
-
                 while (true) {
-
                     if (!isRequestRunning()) {
                         break;
                     }
@@ -492,7 +490,7 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
         }
 
         @Override
-        public <T> void onRequestSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
             if (reqTag != null && reqTag instanceof CCDownloadTask) {
                 CCDownloadTask task = (CCDownloadTask) reqTag;
                 multiDownladRequest.taskDownloading.remove(task);
@@ -500,7 +498,7 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
             }
 
             if (multiDownladRequest.ccNetCallback != null) {
-                multiDownladRequest.ccNetCallback.onRequestSuccess(reqTag, response);
+                multiDownladRequest.ccNetCallback.onRequestSuccess(reqTag, response, dataSourceMode);
             }
         }
 
@@ -524,9 +522,9 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
         }
 
         @Override
-        public <T> void onComplete(Object reqTag) {
+        public <T> void onRequestComplete(Object reqTag) {
             if (multiDownladRequest.ccNetCallback != null) {
-                multiDownladRequest.ccNetCallback.onComplete(reqTag);
+                multiDownladRequest.ccNetCallback.onRequestComplete(reqTag);
             }
         }
 

@@ -45,7 +45,7 @@ public class CCApplication extends Application {
 
             //CCRxNetManager测试代码
             CCRxNetManager ccRxNetManager = new CCRxNetManager.Builder()
-                    .baseUrl("http://24810.xc.wenpie.com")
+                    .baseUrl("https://imtt.dd.qq.com")
                     .callAdapterFactory(RxJava2CallAdapterFactory.create())
                     .converterFactory(GsonConverterFactory.create())
                     .commonHeaders(commonHeaderMap)

@@ -13,12 +13,12 @@ public class CCCMode {
         public static final int MODE_DISK = 1;
         //先从磁盘获取并返回，然后从网络获取并返回
         public static final int MODE_DISK_AND_NET = 2;
-
     }
 
+    @Deprecated
     public static class SaveMode {
-        //磁盘缓存数据
-        public static final int MODE_DISK = 0;
+        //默认缓存策略——OkHttp负责缓存
+        public static final int MODE_DEFAULT = 0;
         //不缓存数据
         public static final int MODE_NONE = 1;
     }
