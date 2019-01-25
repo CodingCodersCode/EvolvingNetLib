@@ -114,7 +114,9 @@ public class SingleDownloadRequestActivity extends CCBaseRxAppCompactActivity im
                 pathMap.put("{path4}", "path1_value4");
                 pathMap.put("{path5}", "path1_value5");
 
-                downloadRequest = CCRxNetManager.<Void>download("download")//创建指定下载路径的下载请求
+                String downloadUrl = "/16891/371C7C353C7B87011FB3DE8B12BCBCA5.apk?fsname=com.tencent.mm_7.0.0_1380.apk&csr=1bbd";
+
+                downloadRequest = CCRxNetManager.<Void>download(downloadUrl)//创建指定下载路径的下载请求
                         .setHeaderMap(specifyHeaderMap)//设置当前请求的特别header信息
                         .setPathMap(pathMap)//设置restful api的路径替换信息，作用同Retrofit的@Path
                         .setFileSaveName("test_OkGo_apk_file_download.apk")//设置下载文件本地保存名称
@@ -174,7 +176,7 @@ public class SingleDownloadRequestActivity extends CCBaseRxAppCompactActivity im
         }
 
         @Override
-        public <T> void onRequestSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
             tv_file_download_status.setText("下载成功");
             tv_file_download_progress.setText("下载进度：" + gProgress + "%\n下载速度：0B/s\n文件大小：" + gFileSize + "B\n已下载大小：" + gCompletedSize + "B");
         }
@@ -187,7 +189,7 @@ public class SingleDownloadRequestActivity extends CCBaseRxAppCompactActivity im
         }
 
         @Override
-        public <T> void onComplete(Object reqTag) {
+        public <T> void onRequestComplete(Object reqTag) {
             tv_file_download_status.setText("下载完成");
             tv_file_download_progress.setText("下载进度：" + gProgress + "%\n下载速度：0B/s\n文件大小：" + gFileSize + "B\n已下载大小：" + gCompletedSize + "B");
         }

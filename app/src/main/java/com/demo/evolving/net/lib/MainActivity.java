@@ -301,7 +301,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
                     .setRetryCount(3)
                     .setRetryDelayTimeMillis(3000)
                     .setCacheQueryMode(CCCMode.QueryMode.MODE_DISK_AND_NET)
-                    .setCacheSaveMode(CCCMode.SaveMode.MODE_DISK)
+                    .setCacheSaveMode(CCCMode.SaveMode.MODE_DEFAULT)
                     .setReqTag("test_login_req_tag")
                     .setCacheKey("test_login_req_cache_key")
                     .setCCNetCallback(new RxNetManagerCallback())
@@ -364,7 +364,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         }
 
         @Override
-        public <T> void onRequestSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
 
             if (response != null) {
 
@@ -385,7 +385,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         }
 
         @Override
-        public <T> void onComplete(Object reqTag) {
+        public <T> void onRequestComplete(Object reqTag) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了onComplete方法，调用者reqTag=" + reqTag);
 
 
@@ -476,7 +476,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         }
 
         @Override
-        public <T> void onRequestSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
             if (response != null) {
 
                 if (response instanceof TestRespObj) {
@@ -496,7 +496,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         }
 
         @Override
-        public <T> void onComplete(Object reqTag) {
+        public <T> void onRequestComplete(Object reqTag) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetUploadProgressCallback.onComplete方法，调用者reqTag=" + reqTag);
         }
 
@@ -517,7 +517,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         }
 
         @Override
-        public <T> void onRequestSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onSuccess方法，调用者reqTag=" + reqTag);
         }
 
@@ -527,7 +527,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         }
 
         @Override
-        public <T> void onComplete(Object reqTag) {
+        public <T> void onRequestComplete(Object reqTag) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onComplete方法，调用者reqTag=" + reqTag);
         }
 

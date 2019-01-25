@@ -105,7 +105,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
                     .setRetryCount(0)
                     .setRetryDelayTimeMillis(3000)
                     .setCacheQueryMode(CCCMode.QueryMode.MODE_DISK_AND_NET)
-                    .setCacheSaveMode(CCCMode.SaveMode.MODE_DISK)
+                    .setCacheSaveMode(CCCMode.SaveMode.MODE_DEFAULT)
 
                     .setNeedIntervalCallback(true)
                     .setIntervalMilliSeconds(5000)
@@ -190,7 +190,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
         }
 
         @Override
-        public <T> void onRequestSuccess(Object reqTag, T response) {
+        public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
 
             if (response != null) {
 
@@ -211,7 +211,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
         }
 
         @Override
-        public <T> void onComplete(Object reqTag) {
+        public <T> void onRequestComplete(Object reqTag) {
             NetLogUtil.printLog("d", LOG_TAG, "调用了onComplete方法，调用者reqTag=" + reqTag);
 
 

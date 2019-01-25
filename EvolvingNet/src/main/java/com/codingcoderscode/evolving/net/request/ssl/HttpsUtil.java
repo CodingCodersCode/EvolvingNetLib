@@ -123,8 +123,10 @@ public class HttpsUtil {
             sslParams.x509TrustManager = manager;
             return sslParams;
         } catch (NoSuchAlgorithmException e) {
+            NetLogUtil.printLog("e", HttpsUtil.class.getCanonicalName(), "发生异常", e);
             throw new AssertionError(e);
         } catch (KeyManagementException e) {
+            NetLogUtil.printLog("e", HttpsUtil.class.getCanonicalName(), "发生异常", e);
             throw new AssertionError(e);
         }
     }
@@ -138,7 +140,7 @@ public class HttpsUtil {
             kmf.init(clientKeyStore, password.toCharArray());
             return kmf.getKeyManagers();
         } catch (Exception e) {
-            NetLogUtil.printLog("e", e);
+            NetLogUtil.printLog("e", HttpsUtil.class.getCanonicalName(), "发生异常", e);
         }
         return null;
     }
@@ -170,7 +172,7 @@ public class HttpsUtil {
             //通过tmf获取TrustManager数组，TrustManager也会信任keyStore中的证书
             return tmf.getTrustManagers();
         } catch (Exception e) {
-            e.printStackTrace();
+            NetLogUtil.printLog("e", HttpsUtil.class.getCanonicalName(), "发生异常", e);
         }
         return null;
     }

@@ -120,7 +120,6 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
                             if (retrofitResponse.isSuccessful()) {
                                 headers = retrofitResponse.headers();
 
-                                //realResponse = CCDefaultResponseBodyConvert.<T>convertResponse(retrofitResponse.body(), responseBeanType);
                                 realResponse = convertResponse(retrofitResponse.body());
                             } else {
                                 throw new CCSampleHttpException(retrofitResponse, retrofitResponse.errorBody());
@@ -162,15 +161,6 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
         this.txtParamMap = paramMap;
         return super.setParamMap(paramMap);
     }
-
-    /*public CCUploadProgressCallback getCcUploadProgressCallback() {
-        return ccUploadProgressCallback;
-    }
-
-    public CCUploadRequest<T> setCcUploadProgressCallback(CCUploadProgressCallback ccUploadProgressCallback) {
-        this.ccUploadProgressCallback = ccUploadProgressCallback;
-        return this;
-    }*/
 
     public Map<String, Object> getTxtParamMap() {
         return txtParamMap;

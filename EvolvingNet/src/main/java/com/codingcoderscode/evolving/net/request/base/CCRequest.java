@@ -259,7 +259,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
                     @Override
                     public Publisher<CCBaseResponse<T>> apply(@NonNull CCBaseResponse<T> tccBaseResponse) throws Exception {
 
-                        onSaveToCache(tccBaseResponse);
+                        //onSaveToCache(tccBaseResponse);
 
                         return Flowable.just(tccBaseResponse);
                     }
@@ -300,7 +300,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
             @Override
             public void onComplete() {
                 if (ccNetCallback != null && isRequestRunning() && !isForceCanceled()) {
-                    ccNetCallback.onComplete(reqTag);
+                    ccNetCallback.onRequestComplete(reqTag);
                 }
                 setRequestRunning(false);
                 setForceCanceled(false);
@@ -313,6 +313,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
      *
      * @param tccBaseResponse 响应结果包装对象
      */
+    @Deprecated
     private void onSaveToCache(CCBaseResponse<T> tccBaseResponse) {
         T realResponse;
         try {
@@ -339,7 +340,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
             realResponse = tccBaseResponse.getRealResponse();
 
             switch (getCacheSaveMode()) {
-                case CCCMode.SaveMode.MODE_DISK:
+                case CCCMode.SaveMode.MODE_DEFAULT:
                     if (ccCacheSaveCallback != null) {
                         ccCacheSaveCallback.onSaveToDisk(cacheKey, realResponse);
                     }
@@ -406,7 +407,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
                     if (isRequestRunning()) {
                         if (tccBaseResponse.isSuccessful()) {
                             ccNetCallback.<T>onDiskCacheQuerySuccess(reqTag, realResponse);
-                            ccNetCallback.<T>onRequestSuccess(reqTag, realResponse);
+                            ccNetCallback.<T>onRequestSuccess(reqTag, realResponse, CCCMode.DataMode.MODE_DISK);
                         } else {
                             ccNetCallback.<T>onDiskCacheQueryFail(reqTag, tccBaseResponse.getThrowable());
                             ccNetCallback.<T>onRequestFail(reqTag, tccBaseResponse.getThrowable());
@@ -423,7 +424,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
                     }
                     if (!isHasNetRequestResped()) {
                         if (tccBaseResponse.isSuccessful()) {
-                            ccNetCallback.<T>onRequestSuccess(reqTag, realResponse);
+                            ccNetCallback.<T>onRequestSuccess(reqTag, realResponse, CCCMode.DataMode.MODE_DISK);
                         } else {
                             ccNetCallback.<T>onRequestFail(reqTag, tccBaseResponse.getThrowable());
                         }
@@ -454,7 +455,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
                     if (isRequestRunning()) {
                         if (tccBaseResponse.isSuccessful()) {
                             ccNetCallback.<T>onNetSuccess(reqTag, realResponse);
-                            ccNetCallback.<T>onRequestSuccess(reqTag, realResponse);
+                            ccNetCallback.<T>onRequestSuccess(reqTag, realResponse, CCCMode.DataMode.MODE_NET);
                         } else {
                             ccNetCallback.<T>onNetFail(reqTag, tccBaseResponse.getThrowable());
                             ccNetCallback.<T>onRequestFail(reqTag, tccBaseResponse.getThrowable());
@@ -504,7 +505,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
             }
         } catch (Exception e) {
             /*response = null;*/
-            throw e;
+            throw new CCUnExpectedException(e);
         }
         return response;
     }
@@ -656,6 +657,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
         return cacheQueryMode;
     }
 
+    @Deprecated
     @SuppressWarnings("unchecked")
     public R setCacheSaveMode(int cacheSaveMode) {
         this.cacheSaveMode = cacheSaveMode;
