@@ -1,10 +1,9 @@
 package com.codingcoderscode.evolving.net.request;
 
-import com.codingcoderscode.evolving.net.CCRxNetManager;
 import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
-import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
+import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.request.comparator.CCDownloadTaskComparator;
 import com.codingcoderscode.evolving.net.request.entity.CCDownloadTask;
@@ -52,7 +51,7 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
     //已经存在的任务数量
     private AtomicInteger existTaskCount;
     //下载状态回调
-    private CCNetCallback ccNetCallback;
+    private CCNetResultListener CCNetResultListener;
     //最大重试次数
     private final int DEFAULT_RETRY_COUNT = 3;
 
@@ -152,8 +151,8 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
 
                     NoEnoughSpaceException noEnoughSpaceException = new NoEnoughSpaceException("write failed: ENOSPC (No space left on device)");
 
-                    if (ccNetCallback != null) {
-                        ccNetCallback.onRequestFail(toDownloadTask, noEnoughSpaceException);
+                    if (CCNetResultListener != null) {
+                        CCNetResultListener.onRequestFail(toDownloadTask, noEnoughSpaceException);
                     }
 
                     return;
@@ -209,8 +208,8 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
 
             this.existTaskCount.getAndDecrement();
 
-            if (ccNetCallback != null) {
-                ccNetCallback.onRequestFail(toDownloadTask, e);
+            if (CCNetResultListener != null) {
+                CCNetResultListener.onRequestFail(toDownloadTask, e);
             }
 
         }
@@ -477,7 +476,7 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
         return CCCMode.SaveMode.MODE_NONE;
     }
 
-    private static class MultiDownloadNetCallback<M> extends CCNetCallback {
+    private static class MultiDownloadNetCallback<M> implements CCNetResultListener {
 
         private CCMultiDownladRequest<M> multiDownladRequest;
 
@@ -487,7 +486,27 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
 
         @Override
         public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
-            multiDownladRequest.ccNetCallback.onStartRequest(reqTag, canceler);
+            multiDownladRequest.CCNetResultListener.onStartRequest(reqTag, canceler);
+        }
+
+        @Override
+        public <T> void onDiskCacheQuerySuccess(Object reqTag, T response) {
+
+        }
+
+        @Override
+        public <T> void onDiskCacheQueryFail(Object reqTag, Throwable t) {
+
+        }
+
+        @Override
+        public <T> void onNetSuccess(Object reqTag, T response) {
+
+        }
+
+        @Override
+        public <T> void onNetFail(Object reqTag, Throwable t) {
+
         }
 
         @Override
@@ -498,8 +517,8 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
                 multiDownladRequest.existTaskCount.getAndDecrement();
             }
 
-            if (multiDownladRequest.ccNetCallback != null) {
-                multiDownladRequest.ccNetCallback.onRequestSuccess(reqTag, response, dataSourceMode);
+            if (multiDownladRequest.CCNetResultListener != null) {
+                multiDownladRequest.CCNetResultListener.onRequestSuccess(reqTag, response, dataSourceMode);
             }
         }
 
@@ -517,41 +536,46 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
                 multiDownladRequest.existTaskCount.getAndDecrement();
             }
 
-            if (multiDownladRequest.ccNetCallback != null) {
-                multiDownladRequest.ccNetCallback.onRequestFail(reqTag, t);
+            if (multiDownladRequest.CCNetResultListener != null) {
+                multiDownladRequest.CCNetResultListener.onRequestFail(reqTag, t);
             }
         }
 
         @Override
         public <T> void onRequestComplete(Object reqTag) {
-            if (multiDownladRequest.ccNetCallback != null) {
-                multiDownladRequest.ccNetCallback.onRequestComplete(reqTag);
+            if (multiDownladRequest.CCNetResultListener != null) {
+                multiDownladRequest.CCNetResultListener.onRequestComplete(reqTag);
             }
         }
 
         @Override
         public <T> void onProgress(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
-            if (multiDownladRequest.ccNetCallback != null) {
-                multiDownladRequest.ccNetCallback.onProgress(reqTag, progress, netSpeed, completedSize, fileSize);
+            if (multiDownladRequest.CCNetResultListener != null) {
+                multiDownladRequest.CCNetResultListener.onProgress(reqTag, progress, netSpeed, completedSize, fileSize);
             }
         }
 
         @Override
         public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
-            if (multiDownladRequest.ccNetCallback != null) {
-                multiDownladRequest.ccNetCallback.onProgressSave(reqTag, progress, netSpeed, completedSize, fileSize);
+            if (multiDownladRequest.CCNetResultListener != null) {
+                multiDownladRequest.CCNetResultListener.onProgressSave(reqTag, progress, netSpeed, completedSize, fileSize);
             }
+        }
+
+        @Override
+        public void onIntervalCallback() {
+
         }
     }
 
     @SuppressWarnings("unchecked")
-    public CCMultiDownladRequest<T> setCCNetCallback(CCNetCallback ccNetCallback) {
-        this.ccNetCallback = ccNetCallback;
+    public CCMultiDownladRequest<T> setCCNetCallback(CCNetResultListener CCNetResultListener) {
+        this.CCNetResultListener = CCNetResultListener;
         return this;
     }
 
-    public CCNetCallback getCcNetCallback() {
-        return ccNetCallback;
+    public CCNetResultListener getCCNetResultListener() {
+        return CCNetResultListener;
     }
 
     public int getMaxTaskCount() {

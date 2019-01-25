@@ -9,9 +9,9 @@ import android.widget.TextView;
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
 import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
-import com.codingcoderscode.evolving.net.request.callback.CCCacheQueryCallback;
-import com.codingcoderscode.evolving.net.request.callback.CCCacheSaveCallback;
-import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
+import com.codingcoderscode.evolving.net.request.callback.CCCacheQueryListener;
+import com.codingcoderscode.evolving.net.request.callback.CCCacheSaveListener;
+import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.request.entity.CCFile;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
@@ -304,8 +304,8 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
                     .setReqTag("test_login_req_tag")
                     .setCacheKey("test_login_req_cache_key")
                     .setCCNetCallback(new RxNetManagerCallback())
-                    .setCCCacheSaveCallback(new RxNetCacheSaveCallback())
-                    .setCCCacheQueryCallback(new RxNetCacheQueryCallback())
+                    .setCCCacheSaveCallback(new RxNetCacheSaveListener())
+                    .setCCCacheQueryCallback(new RxNetCacheQueryListener())
                     .setNetLifecycleComposer(this.<CCBaseResponse<TestRespObj>>bindUntilEvent(ActivityEvent.DESTROY))
                     .setResponseBeanType(TestRespObj.class)
                     .executeAsync();
@@ -318,7 +318,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
     /**
      * 数据请求结果回调
      */
-    private class RxNetManagerCallback extends CCNetCallback {
+    private class RxNetManagerCallback implements CCNetResultListener {
 
         @Override
         public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
@@ -345,6 +345,11 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         }
 
         @Override
+        public <T> void onDiskCacheQueryFail(Object reqTag, Throwable t) {
+
+        }
+
+        @Override
         public <T> void onNetSuccess(Object reqTag, T response) {
 
 
@@ -359,6 +364,11 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
             } else {
                 NetLogUtil.printLog("e", LOG_TAG, "调用了onNetSuccess方法，调用者reqTag=" + reqTag + ",但响应数据response == null");
             }
+
+        }
+
+        @Override
+        public <T> void onNetFail(Object reqTag, Throwable t) {
 
         }
 
@@ -389,12 +399,27 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
 
 
         }
+
+        @Override
+        public <T> void onProgress(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
+
+        }
+
+        @Override
+        public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
+
+        }
+
+        @Override
+        public void onIntervalCallback() {
+
+        }
     }
 
     /**
      * 缓存保存回调，用户实现，实现自己的缓存存储策略
      */
-    private class RxNetCacheSaveCallback implements CCCacheSaveCallback {
+    private class RxNetCacheSaveListener implements CCCacheSaveListener {
 
         @Override
         public <T> void onSaveToMemory(String cacheKey, T response) {
@@ -436,7 +461,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
     /**
      * 缓存查询回调，用户实现，实现自己的缓存查询策略，与缓存存储策略配合，实现自己的缓存机制
      */
-    private class RxNetCacheQueryCallback implements CCCacheQueryCallback {
+    private class RxNetCacheQueryListener implements CCCacheQueryListener {
 
         @Override
         public <T> T onQueryFromMemory(String cacheKey) {
@@ -468,10 +493,30 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
     /**
      * 上传进度回调
      */
-    private class RxNetUploadProgressCallback extends CCNetCallback {
+    private class RxNetUploadProgressCallback implements CCNetResultListener {
         @Override
         public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetUploadProgressCallback.onStartRequest方法，调用者reqTag=" + reqTag);
+        }
+
+        @Override
+        public <T> void onDiskCacheQuerySuccess(Object reqTag, T response) {
+
+        }
+
+        @Override
+        public <T> void onDiskCacheQueryFail(Object reqTag, Throwable t) {
+
+        }
+
+        @Override
+        public <T> void onNetSuccess(Object reqTag, T response) {
+
+        }
+
+        @Override
+        public <T> void onNetFail(Object reqTag, Throwable t) {
+
         }
 
         @Override
@@ -503,16 +548,46 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         public <T> void onProgress(Object tag, int progress, long netSpeed, long completedSize, long fileSize) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetUploadProgressCallback.onProgress方法，调用者tag=" + tag + ",progress=" + progress + ",netSpeed=" + netSpeed + ",completedSize=" + completedSize + ",fileSize=" + fileSize);
         }
+
+        @Override
+        public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
+
+        }
+
+        @Override
+        public void onIntervalCallback() {
+
+        }
     }
 
 
     /**
      * 下载进度回调
      */
-    private class RxNetDownloadCalback extends CCNetCallback {
+    private class RxNetDownloadCalback implements CCNetResultListener {
         @Override
         public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onStart方法，调用者reqTag=" + reqTag);
+        }
+
+        @Override
+        public <T> void onDiskCacheQuerySuccess(Object reqTag, T response) {
+
+        }
+
+        @Override
+        public <T> void onDiskCacheQueryFail(Object reqTag, Throwable t) {
+
+        }
+
+        @Override
+        public <T> void onNetSuccess(Object reqTag, T response) {
+
+        }
+
+        @Override
+        public <T> void onNetFail(Object reqTag, Throwable t) {
+
         }
 
         @Override
@@ -533,6 +608,16 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         @Override
         public <T> void onProgress(Object tag, int progress, long netSpeed, long completedSize, long fileSize) {
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onProgress方法，调用者tag=" + tag + ",progress=" + progress + "，netSpeed=" + netSpeed + "，completedSize=" + completedSize + "，fileSize=" + fileSize);
+        }
+
+        @Override
+        public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
+
+        }
+
+        @Override
+        public void onIntervalCallback() {
+
         }
     }
 }

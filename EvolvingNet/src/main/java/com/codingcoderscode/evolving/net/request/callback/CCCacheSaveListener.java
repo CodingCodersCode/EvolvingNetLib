@@ -4,7 +4,7 @@ package com.codingcoderscode.evolving.net.request.callback;
  * Created by CodingCodersCode on 2017/10/27.
  */
 
-public interface CCCacheSaveCallback {
+public interface CCCacheSaveListener {
 
     /**
      * 将数据保存到缓存回调

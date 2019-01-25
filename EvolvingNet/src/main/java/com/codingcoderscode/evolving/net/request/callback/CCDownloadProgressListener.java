@@ -6,7 +6,7 @@ package com.codingcoderscode.evolving.net.request.callback;
  * 下载进度回调类
  */
 
-public abstract class CCDownloadProgressCallback {
+public interface CCDownloadProgressListener {
 
     /**
      * 开始下载
@@ -14,9 +14,7 @@ public abstract class CCDownloadProgressCallback {
      * @param tag      文件标识
      * @param <T>
      */
-    public <T> void onStart(T tag) {
-
-    }
+    public <T> void onStart(T tag);
 
     /**
      * 进度更新
@@ -28,13 +26,9 @@ public abstract class CCDownloadProgressCallback {
      * @param fileSize       文件大小
      * @param <T>
      */
-    public <T> void onProgress(T tag, int progress, long netSpeed, long downloadedSize, long fileSize) {
+    public <T> void onProgress(T tag, int progress, long netSpeed, long downloadedSize, long fileSize);
 
-    }
-
-    public <T> void onSuccess(T tag){
-
-    }
+    public <T> void onSuccess(T tag);
 
     /**
      * 下载出错
@@ -43,9 +37,7 @@ public abstract class CCDownloadProgressCallback {
      * @param t   异常信息
      * @param <T>
      */
-    public <T> void onError(T tag, Throwable t) {
-
-    }
+    public <T> void onError(T tag, Throwable t);
 
     /**
      * 下载完成
@@ -53,8 +45,6 @@ public abstract class CCDownloadProgressCallback {
      * @param tag 文件标识
      * @param <T>
      */
-    public <T> void onComplete(T tag) {
-
-    }
+    public <T> void onComplete(T tag);
 
 }

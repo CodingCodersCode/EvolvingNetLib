@@ -5,8 +5,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
-import com.codingcoderscode.evolving.net.request.callback.CCUploadProgressCallback;
+import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,18 +30,18 @@ public class CCSimpleUploadRequestBody extends RequestBody {
     private String requestBodyTag;
     private RequestBody requestBody;
     private long previousTime;
-    protected CCNetCallback callback;
+    protected CCNetResultListener callback;
     protected CountingSink countingSink;
     private Handler uiHandler;
 
-    public CCSimpleUploadRequestBody(@Nullable String requestBodyTag, @Nullable RequestBody requestBody, CCNetCallback callback) {
+    public CCSimpleUploadRequestBody(@Nullable String requestBodyTag, @Nullable RequestBody requestBody, CCNetResultListener callback) {
         this.requestBodyTag = requestBodyTag;
         this.requestBody = requestBody;
         this.callback = callback;
         this.uiHandler = new Handler(Looper.getMainLooper());
     }
 
-    public CCSimpleUploadRequestBody(@Nullable String requestBodyTag, @Nullable MediaType contentType, String content, CCNetCallback callback) {
+    public CCSimpleUploadRequestBody(@Nullable String requestBodyTag, @Nullable MediaType contentType, String content, CCNetResultListener callback) {
         this.requestBodyTag = requestBodyTag;
         this.requestBody = RequestBody.create(contentType, content);
         this.callback = callback;
@@ -50,7 +49,7 @@ public class CCSimpleUploadRequestBody extends RequestBody {
 
     }
 
-    public CCSimpleUploadRequestBody(@Nullable String requestBodyTag, final @Nullable MediaType contentType, final ByteString content, CCNetCallback callback) {
+    public CCSimpleUploadRequestBody(@Nullable String requestBodyTag, final @Nullable MediaType contentType, final ByteString content, CCNetResultListener callback) {
         this.requestBodyTag = requestBodyTag;
         requestBody = RequestBody.create(contentType, content);
         this.callback = callback;
@@ -59,7 +58,7 @@ public class CCSimpleUploadRequestBody extends RequestBody {
     }
 
 
-    public CCSimpleUploadRequestBody(@Nullable String requestBodyTag, final @Nullable MediaType contentType, final byte[] content, CCNetCallback callback) {
+    public CCSimpleUploadRequestBody(@Nullable String requestBodyTag, final @Nullable MediaType contentType, final byte[] content, CCNetResultListener callback) {
         this.requestBodyTag = requestBodyTag;
         requestBody = RequestBody.create(contentType, content);
         this.callback = callback;
@@ -67,14 +66,14 @@ public class CCSimpleUploadRequestBody extends RequestBody {
     }
 
     public CCSimpleUploadRequestBody(@Nullable String requestBodyTag, final @Nullable MediaType contentType, final byte[] content,
-                                     final int offset, final int byteCount, CCNetCallback callback) {
+                                     final int offset, final int byteCount, CCNetResultListener callback) {
         this.requestBodyTag = requestBodyTag;
         requestBody = RequestBody.create(contentType, content, offset, byteCount);
         this.callback = callback;
         this.uiHandler = new Handler(Looper.getMainLooper());
     }
 
-    public CCSimpleUploadRequestBody(@Nullable String requestBodyTag, final @Nullable MediaType contentType, final File file, CCNetCallback callback) {
+    public CCSimpleUploadRequestBody(@Nullable String requestBodyTag, final @Nullable MediaType contentType, final File file, CCNetResultListener callback) {
         this.requestBodyTag = requestBodyTag;
         requestBody = RequestBody.create(contentType, file);
         this.callback = callback;

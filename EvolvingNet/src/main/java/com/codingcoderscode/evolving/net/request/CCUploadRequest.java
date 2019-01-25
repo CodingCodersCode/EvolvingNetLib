@@ -2,7 +2,6 @@ package com.codingcoderscode.evolving.net.request;
 
 import android.text.TextUtils;
 
-import com.codingcoderscode.evolving.net.CCRxNetManager;
 import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
@@ -43,7 +42,7 @@ import retrofit2.Response;
 
 public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
 
-    //private CCUploadProgressCallback ccUploadProgressCallback;
+    //private CCUploadProgressListener ccUploadProgressCallback;
 
     private Map<String, Object> txtParamMap;
 
@@ -86,7 +85,7 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
 
                             uploadFile = new File(fileValue.getUrl());
 
-                            requestBody = new CCSimpleUploadRequestBody(entry.getKey(), MediaType.parse(fileValue.getMimeType()), uploadFile, getCcNetCallback());
+                            requestBody = new CCSimpleUploadRequestBody(entry.getKey(), MediaType.parse(fileValue.getMimeType()), uploadFile, getCCNetResultListener());
 
                             partBody = MultipartBody.Part.createFormData(entry.getKey(), uploadFile.getName(), requestBody);
 

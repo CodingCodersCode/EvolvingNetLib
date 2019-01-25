@@ -10,9 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
-import com.codingcoderscode.evolving.net.CCRxNetManager;
 import com.codingcoderscode.evolving.net.request.CCMultiDownladRequest;
-import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
+import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
@@ -262,10 +261,30 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
     /**
      * 下载进度回调
      */
-    private class RxNetDownloadCalback extends CCNetCallback {
+    private class RxNetDownloadCalback implements CCNetResultListener {
         @Override
         public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
             NetLogUtil.printLog("d", LOG_TAG, "调用了RxNetDownloadCalback.onStart方法，调用者reqTag=" + reqTag);
+        }
+
+        @Override
+        public <T> void onDiskCacheQuerySuccess(Object reqTag, T response) {
+
+        }
+
+        @Override
+        public <T> void onDiskCacheQueryFail(Object reqTag, Throwable t) {
+
+        }
+
+        @Override
+        public <T> void onNetSuccess(Object reqTag, T response) {
+
+        }
+
+        @Override
+        public <T> void onNetFail(Object reqTag, Throwable t) {
+
         }
 
         @Override
@@ -320,6 +339,16 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
                 rv_task.getAdapter().notifyItemChanged(index);
 
             }
+
+        }
+
+        @Override
+        public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
+
+        }
+
+        @Override
+        public void onIntervalCallback() {
 
         }
     }

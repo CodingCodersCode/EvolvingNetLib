@@ -8,7 +8,7 @@ import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
  * 网络请求回调
  */
 
-public abstract class CCNetCallback {
+public interface CCNetResultListener {
 
     /**
      * 可以调用canceler的cancel()方法取消请求，但建议通过具体Request对象的cancel()方法取消
@@ -19,8 +19,7 @@ public abstract class CCNetCallback {
      * @param canceler
      * @param <T>
      */
-    public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
-    }
+    public <T> void onStartRequest(Object reqTag, CCCanceler canceler);
 
     /**
      * 磁盘缓存查询成功回调
@@ -31,8 +30,7 @@ public abstract class CCNetCallback {
      * @param response
      * @param <T>
      */
-    public <T> void onDiskCacheQuerySuccess(Object reqTag, T response) {
-    }
+    public <T> void onDiskCacheQuerySuccess(Object reqTag, T response);
 
     /**
      * 磁盘缓存查询成功回调
@@ -43,8 +41,7 @@ public abstract class CCNetCallback {
      * @param t
      * @param <T>
      */
-    public <T> void onDiskCacheQueryFail(Object reqTag, Throwable t) {
-    }
+    public <T> void onDiskCacheQueryFail(Object reqTag, Throwable t);
 
     /**
      * 网络请求成功回调
@@ -55,8 +52,7 @@ public abstract class CCNetCallback {
      * @param response
      * @param <T>
      */
-    public <T> void onNetSuccess(Object reqTag, T response) {
-    }
+    public <T> void onNetSuccess(Object reqTag, T response);
 
     /**
      * 网络请求成功回调
@@ -67,31 +63,30 @@ public abstract class CCNetCallback {
      * @param t
      * @param <T>
      */
-    public <T> void onNetFail(Object reqTag, Throwable t) {
-    }
+    public <T> void onNetFail(Object reqTag, Throwable t);
 
     /**
      * 请求成功回调
      * <p>
      * 回调线程：UI线程
-     *  @param <T>
+     *
+     * @param <T>
      * @param reqTag
      * @param response
      * @param dataSourceMode
      */
-    public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
-    }
+    public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode);
 
     /**
      * 请求失败回调
      * <p>
      * 回调线程：UI线程
-     *  @param <T>
+     *
+     * @param <T>
      * @param reqTag
      * @param t
      */
-    public <T> void onRequestFail(Object reqTag, Throwable t) {
-    }
+    public <T> void onRequestFail(Object reqTag, Throwable t);
 
     /**
      * 请求完成回调
@@ -101,8 +96,7 @@ public abstract class CCNetCallback {
      * @param <T>
      * @param reqTag
      */
-    public <T> void onRequestComplete(Object reqTag) {
-    }
+    public <T> void onRequestComplete(Object reqTag);
 
     /**
      * 进度更新回调
@@ -116,8 +110,7 @@ public abstract class CCNetCallback {
      * @param fileSize      文件大小
      * @param <T>
      */
-    public <T> void onProgress(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
-    }
+    public <T> void onProgress(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize);
 
     /**
      * 进度保存回调
@@ -131,13 +124,10 @@ public abstract class CCNetCallback {
      * @param fileSize      文件大小
      * @param <T>
      */
-    public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
-    }
+    public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize);
 
     /**
      * 周期回调
      */
-    public void onIntervalCallback() {
-
-    }
+    public void onIntervalCallback();
 }
