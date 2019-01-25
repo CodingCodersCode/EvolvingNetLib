@@ -14,6 +14,7 @@ import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.demo.evolving.net.lib.CCApplication;
 import com.demo.evolving.net.lib.R;
 import com.demo.evolving.net.lib.TestRespObj;
 import com.demo.evolving.net.lib.bean.SampleRespBeanWrapper;
@@ -98,7 +99,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
             Class typeToken3 = testTypeTokenClass.getClass();
 
 
-            CCRxNetManager.<SampleRespBeanWrapper<SampleResponseBean>>post("/zuul/{path1}/{path2}/biz/v1/login")
+            ((CCApplication)this.getApplicationContext()).getCcRxNetManager().<SampleRespBeanWrapper<SampleResponseBean>>post("/zuul/{path1}/{path2}/biz/v1/login")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
                     .setParamMap(paramMap)

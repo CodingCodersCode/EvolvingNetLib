@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
 import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
+import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.entity.CCFile;
 import com.codingcoderscode.evolving.net.request.exception.CCSampleHttpException;
@@ -48,8 +49,8 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
 
     private Map<String, CCFile> fileParamMap;
 
-    public CCUploadRequest(String url) {
-        this.apiUrl = url;
+    public CCUploadRequest(String url, CCNetApiService apiService) {
+        super(url, apiService);
     }
 
     @Override
@@ -97,7 +98,7 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
 
                 }
 
-                Call<ResponseBody> call = CCRxNetManager.getCcNetApiService().executeUpload(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), paramPartList);
+                Call<ResponseBody> call = getCCNetApiService().executeUpload(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), paramPartList);
 
                 e.onNext(call);
                 e.onComplete();

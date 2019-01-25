@@ -2,6 +2,7 @@ package com.codingcoderscode.evolving.net.request;
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
 import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
+import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
@@ -62,8 +63,8 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
      *
      * @param url
      */
-    public CCMultiDownladRequest(String url) {
-        this.apiUrl = url;
+    public CCMultiDownladRequest(String url, CCNetApiService apiService) {
+        super(url, apiService);
 
         this.taskWaiting = new ConcurrentSkipListMap<CCDownloadTask, CCDownloadRequestWrapper>(CCDownloadTaskComparator.getInstance().innerComparator);
 
@@ -163,7 +164,7 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
                     if (toDownloadTaskWrapper.getRequest() != null) {
                         toDownloadTaskWrapper.getRequest().executeAsync();
                     } else {
-                        downloadRequest = CCRxNetManager.<T>download(toDownloadTask.getSourceUrl())
+                        downloadRequest = new CCDownloadRequest<T>(toDownloadTask.getSourceUrl(), getCCNetApiService())
                                 .setFileSavePath(toDownloadTask.getSavePath())
                                 .setFileSaveName(toDownloadTask.getSaveName())
                                 .setRetryCount(DEFAULT_RETRY_COUNT)
@@ -180,7 +181,7 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
                     }
 
                 } else {
-                    downloadRequest = CCRxNetManager.<T>download(toDownloadTask.getSourceUrl())
+                    downloadRequest = new CCDownloadRequest<T>(toDownloadTask.getSourceUrl(), getCCNetApiService())
                             .setFileSavePath(toDownloadTask.getSavePath())
                             .setFileSaveName(toDownloadTask.getSaveName())
                             .setRetryCount(DEFAULT_RETRY_COUNT)

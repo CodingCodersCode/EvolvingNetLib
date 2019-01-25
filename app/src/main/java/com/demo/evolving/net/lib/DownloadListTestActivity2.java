@@ -157,7 +157,7 @@ public class DownloadListTestActivity2  extends CCBaseRxAppCompactActivity imple
 
 
             if (ccMultiDownladRequest == null){
-                ccMultiDownladRequest = CCRxNetManager.<Void>multiDownload("").setMaxTaskCount(2).setCCNetCallback(new RxNetDownloadCalback());
+                ccMultiDownladRequest = ((CCApplication)this.getApplicationContext()).getCcRxNetManager().<Void>multiDownload("").setMaxTaskCount(2).setCCNetCallback(new RxNetDownloadCalback());
             }
 
             ccMultiDownladRequest.startAll(taskList);

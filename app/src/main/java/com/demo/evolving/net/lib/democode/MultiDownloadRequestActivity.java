@@ -16,6 +16,7 @@ import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.demo.evolving.net.lib.CCApplication;
 import com.demo.evolving.net.lib.CCDownloadTask2;
 import com.demo.evolving.net.lib.R;
 import com.demo.evolving.net.lib.downloadmanager.CCDownloadStatus;
@@ -159,7 +160,7 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
 
 
             if (ccMultiDownladRequest == null){
-                ccMultiDownladRequest = CCRxNetManager.<Void>multiDownload("").setMaxTaskCount(2).setCCNetCallback(new RxNetDownloadCalback()).setNetLifecycleComposer(this.<CCBaseResponse<Void>>bindUntilEvent(ActivityEvent.DESTROY)).setReqTag("Tag_Outer_MultiDownload");
+                ccMultiDownladRequest = ((CCApplication)this.getApplicationContext()).getCcRxNetManager().<Void>multiDownload("").setMaxTaskCount(2).setCCNetCallback(new RxNetDownloadCalback()).setNetLifecycleComposer(this.<CCBaseResponse<Void>>bindUntilEvent(ActivityEvent.DESTROY)).setReqTag("Tag_Outer_MultiDownload");
             }
 
             ccMultiDownladRequest.startAll(taskList);

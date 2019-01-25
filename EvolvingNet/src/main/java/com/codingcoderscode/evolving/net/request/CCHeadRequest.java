@@ -2,6 +2,7 @@ package com.codingcoderscode.evolving.net.request;
 
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
+import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.exception.CCSampleHttpException;
 import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
@@ -30,8 +31,8 @@ import retrofit2.Response;
 
 public class CCHeadRequest<T> extends CCRequest<T, CCHeadRequest<T>> {
 
-    public CCHeadRequest(String url) {
-        this.apiUrl = url;
+    public CCHeadRequest(String url, CCNetApiService apiService) {
+        super(url, apiService);
     }
 
     @Override
@@ -40,7 +41,7 @@ public class CCHeadRequest<T> extends CCRequest<T, CCHeadRequest<T>> {
         return Flowable.create(new FlowableOnSubscribe<Call<Void>>() {
             @Override
             public void subscribe(FlowableEmitter<Call<Void>> e) throws Exception {
-                Call<Void> call = CCRxNetManager.getCcNetApiService().executeHead(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
+                Call<Void> call = getCCNetApiService().executeHead(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
 
                 e.onNext(call);
                 e.onComplete();

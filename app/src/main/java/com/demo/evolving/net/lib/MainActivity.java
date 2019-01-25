@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
-import com.codingcoderscode.evolving.net.CCRxNetManager;
 import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCCacheQueryCallback;
@@ -67,13 +66,13 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
 
 
         //下载模块-开始下载
-        this.tvDownload = (TextView)findViewById(R.id.tv_download);
+        this.tvDownload = (TextView) findViewById(R.id.tv_download);
         this.tvDownload.setOnClickListener(this);
         //下载模块-暂停下载
-        this.tvPauseDownload = (TextView)findViewById(R.id.tv_pause);
+        this.tvPauseDownload = (TextView) findViewById(R.id.tv_pause);
         this.tvPauseDownload.setOnClickListener(this);
         //下载模块-继续下载
-        this.tvResumeDownload = (TextView)findViewById(R.id.tv_resume);
+        this.tvResumeDownload = (TextView) findViewById(R.id.tv_resume);
         this.tvResumeDownload.setOnClickListener(this);
     }
 
@@ -142,7 +141,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         }
     }
 
-    private void onSelectImg(){
+    private void onSelectImg() {
         ImagePicker imagePicker = ImagePicker.getInstance();
         imagePicker.setImageLoader(new GlideImageLoader());
         imagePicker.setShowCamera(true);
@@ -156,9 +155,9 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
      * 测试下载功能
      */
     @AfterPermissionGranted(2001)
-    private void onStartDownloadMethodTest(){
+    private void onStartDownloadMethodTest() {
 
-        try{
+        try {
 
             String[] perms = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
             if (EasyPermissions.hasPermissions(this, perms)) {
@@ -180,7 +179,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
                 pathMap.put("{path4}", "path1_value4");
                 pathMap.put("{path5}", "path1_value5");
 
-                downloadRequest = CCRxNetManager.<Void>download("sw-search-sp/software/16d5a98d3e034/QQ_8.9.5.22062_setup.exe")
+                downloadRequest = ((CCApplication) this.getApplicationContext()).getCcRxNetManager().<Void>download("sw-search-sp/software/16d5a98d3e034/QQ_8.9.5.22062_setup.exe")
                         .setHeaderMap(specifyHeaderMap)
                         .setPathMap(pathMap)
                         .setFileSaveName("test_OkGo_apk_file_download.apk")
@@ -196,20 +195,21 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
 
                 downloadRequest.executeAsync();
 
-            }else {
+            } else {
                 EasyPermissions.requestPermissions(this, "This operation needs access to write and read external storage.", 2001, perms);
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
      * 测试上传方法
+     *
      * @param images
      */
-    private void onStartUploadMethodTest(List<ImageItem> images){
+    private void onStartUploadMethodTest(List<ImageItem> images) {
 
         try {
 
@@ -228,7 +228,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
 
             String fileInfoStr = "";
 
-            for (int i = 0; i < images.size(); i++){
+            for (int i = 0; i < images.size(); i++) {
 
                 ImageItem imageItem = images.get(i);
                 fileParamMap.put("fileKey" + i, new CCFile(imageItem.path));
@@ -245,7 +245,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
             pathMap.put("{path4}", "path1_value4");
             pathMap.put("{path5}", "path1_value5");
 
-            CCRxNetManager.<String>upload("upload")
+            ((CCApplication) this.getApplicationContext()).getCcRxNetManager().<String>upload("upload")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
                     .setTxtParamMap(txtParamMap)
@@ -263,7 +263,6 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
 
     }
@@ -294,7 +293,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
             pathMap.put("{path4}", "path1_value4");
             pathMap.put("{path5}", "path1_value5");
 
-            CCRxNetManager.<TestRespObj>get("/web/userController/login.do")
+            ((CCApplication) this.getApplicationContext()).getCcRxNetManager().<TestRespObj>get("/web/userController/login.do")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
                     .setParamMap(paramMap)

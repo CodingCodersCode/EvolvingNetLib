@@ -1,6 +1,7 @@
 package com.codingcoderscode.evolving.net.request;
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
+import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.exception.CCSampleHttpException;
 import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
@@ -30,8 +31,8 @@ import retrofit2.Response;
 
 public class CCPutRequest<T> extends CCRequest<T, CCPutRequest<T>> {
 
-    public CCPutRequest(String url) {
-        this.apiUrl = url;
+    public CCPutRequest(String url,CCNetApiService apiService) {
+        super(url, apiService);
     }
 
     @Override
@@ -42,9 +43,9 @@ public class CCPutRequest<T> extends CCRequest<T, CCPutRequest<T>> {
             public void subscribe(FlowableEmitter<Call<ResponseBody>> e) throws Exception {
                 Call<ResponseBody> call;
                 if (isUseBodyParamStyle()) {
-                    call = CCRxNetManager.getCcNetApiService().executeBodyPut(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
+                    call = getCCNetApiService().executeBodyPut(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
                 } else {
-                    call = CCRxNetManager.getCcNetApiService().executePut(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
+                    call = getCCNetApiService().executePut(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
                 }
 
                 e.onNext(call);

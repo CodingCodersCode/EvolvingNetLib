@@ -13,6 +13,7 @@ import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.demo.evolving.net.lib.CCApplication;
 import com.demo.evolving.net.lib.R;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -116,7 +117,7 @@ public class SingleDownloadRequestActivity extends CCBaseRxAppCompactActivity im
 
                 String downloadUrl = "/16891/371C7C353C7B87011FB3DE8B12BCBCA5.apk?fsname=com.tencent.mm_7.0.0_1380.apk&csr=1bbd";
 
-                downloadRequest = CCRxNetManager.<Void>download(downloadUrl)//创建指定下载路径的下载请求
+                downloadRequest = ((CCApplication)this.getApplicationContext()).getCcRxNetManager().<Void>download(downloadUrl)//创建指定下载路径的下载请求
                         .setHeaderMap(specifyHeaderMap)//设置当前请求的特别header信息
                         .setPathMap(pathMap)//设置restful api的路径替换信息，作用同Retrofit的@Path
                         .setFileSaveName("test_OkGo_apk_file_download.apk")//设置下载文件本地保存名称

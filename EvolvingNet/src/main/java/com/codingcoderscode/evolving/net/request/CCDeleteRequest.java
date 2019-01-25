@@ -1,6 +1,7 @@
 package com.codingcoderscode.evolving.net.request;
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
+import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.exception.CCSampleHttpException;
 import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
@@ -30,8 +31,8 @@ import retrofit2.Response;
 
 public class CCDeleteRequest<T> extends CCRequest<T, CCDeleteRequest<T>> {
 
-    public CCDeleteRequest(String url) {
-        this.apiUrl = url;
+    public CCDeleteRequest(String url, CCNetApiService apiService) {
+        super(url, apiService);
     }
 
     @Override
@@ -40,7 +41,7 @@ public class CCDeleteRequest<T> extends CCRequest<T, CCDeleteRequest<T>> {
         return Flowable.create(new FlowableOnSubscribe<Call<ResponseBody>>() {
             @Override
             public void subscribe(FlowableEmitter<Call<ResponseBody>> e) throws Exception {
-                Call<ResponseBody> call = CCRxNetManager.getCcNetApiService().executeDelete(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
+                Call<ResponseBody> call = getCCNetApiService().executeDelete(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
 
                 e.onNext(call);
                 e.onComplete();

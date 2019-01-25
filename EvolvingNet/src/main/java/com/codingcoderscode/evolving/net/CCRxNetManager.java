@@ -47,10 +47,10 @@ public class CCRxNetManager {
 
     private static final String LOG_TAG = CCRxNetManager.class.getCanonicalName();
 
-    private static CCNetApiService ccNetApiService = null;
-    private static Gson gsonParser;
-    private static Retrofit retrofitInstance;
-    private static Converter.Factory converterFactory;
+    private CCNetApiService ccNetApiService = null;
+    private Gson gsonParser;
+    private Retrofit retrofitInstance;
+    private Converter.Factory converterFactory;
 
     /**
      * 初始化
@@ -61,20 +61,9 @@ public class CCRxNetManager {
     private CCRxNetManager(Retrofit retrofit, Converter.Factory factory) {
         retrofitInstance = retrofit;
         converterFactory = factory;
+        ccNetApiService = retrofitInstance.create(CCNetApiService.class);
+        gsonParser = new Gson();
         RxJavaPlugins.setErrorHandler(new DefaultErrorHandler());
-    }
-
-
-    /**
-     * 获取公共API Service实例
-     *
-     * @return
-     */
-    public static CCNetApiService getCcNetApiService() {
-        if (ccNetApiService == null) {
-            ccNetApiService = CCRxNetManager.retrofitInstance.create(CCNetApiService.class);
-        }
-        return ccNetApiService;
     }
 
     public static final class Builder {
@@ -86,8 +75,6 @@ public class CCRxNetManager {
         public Builder() {
             this.retrofitBuilder = new Retrofit.Builder();
             this.okHttpClientBuilder = new OkHttpClient.Builder();
-            CCRxNetManager.ccNetApiService = null;
-            CCRxNetManager.gsonParser = new Gson();
         }
 
         /**
@@ -292,8 +279,8 @@ public class CCRxNetManager {
      * @param <T> 响应结果的Java实体类类型
      * @return
      */
-    public static <T> CCGetRequest<T> get(String url) {
-        return new CCGetRequest<T>(url);
+    public <T> CCGetRequest<T> get(String url) {
+        return new CCGetRequest<T>(url, this.ccNetApiService);
     }
 
     /**
@@ -303,8 +290,8 @@ public class CCRxNetManager {
      * @param <T> 响应结果的Java实体类类型
      * @return
      */
-    public static <T> CCPostRequest<T> post(String url) {
-        return new CCPostRequest<T>(url);
+    public <T> CCPostRequest<T> post(String url) {
+        return new CCPostRequest<T>(url, this.ccNetApiService);
     }
 
     /**
@@ -314,8 +301,8 @@ public class CCRxNetManager {
      * @param <T> 响应结果的Java实体类类型
      * @return
      */
-    public static <T> CCHeadRequest<T> head(String url) {
-        return new CCHeadRequest<T>(url);
+    public <T> CCHeadRequest<T> head(String url) {
+        return new CCHeadRequest<T>(url, this.ccNetApiService);
     }
 
     /**
@@ -325,8 +312,8 @@ public class CCRxNetManager {
      * @param <T> 响应结果的Java实体类类型
      * @return
      */
-    public static <T> CCPutRequest<T> put(String url) {
-        return new CCPutRequest<T>(url);
+    public <T> CCPutRequest<T> put(String url) {
+        return new CCPutRequest<T>(url, this.ccNetApiService);
     }
 
     /**
@@ -336,8 +323,8 @@ public class CCRxNetManager {
      * @param <T> 响应结果的Java实体类类型
      * @return
      */
-    public static <T> CCDeleteRequest<T> delete(String url) {
-        return new CCDeleteRequest<T>(url);
+    public <T> CCDeleteRequest<T> delete(String url) {
+        return new CCDeleteRequest<T>(url, this.ccNetApiService);
     }
 
     /**
@@ -347,8 +334,8 @@ public class CCRxNetManager {
      * @param <T> 响应结果的Java实体类类型
      * @return
      */
-    public static <T> CCOptionsRequest<T> options(String url) {
-        return new CCOptionsRequest<T>(url);
+    public <T> CCOptionsRequest<T> options(String url) {
+        return new CCOptionsRequest<T>(url, this.ccNetApiService);
     }
 
     /**
@@ -358,8 +345,8 @@ public class CCRxNetManager {
      * @param <T> 响应结果的JAva实体类类型
      * @return
      */
-    public static <T> CCUploadRequest<T> upload(String url) {
-        return new CCUploadRequest<T>(url);
+    public <T> CCUploadRequest<T> upload(String url) {
+        return new CCUploadRequest<T>(url, this.ccNetApiService);
     }
 
     /**
@@ -369,8 +356,8 @@ public class CCRxNetManager {
      * @param <T> 传值Void
      * @return
      */
-    public static <T> CCDownloadRequest<T> download(String url) {
-        return new CCDownloadRequest<T>(url);
+    public <T> CCDownloadRequest<T> download(String url) {
+        return new CCDownloadRequest<T>(url, this.ccNetApiService);
     }
 
     /**
@@ -380,8 +367,8 @@ public class CCRxNetManager {
      * @param <T> 传值Void
      * @return
      */
-    public static <T> CCMultiDownladRequest<T> multiDownload(String url) {
-        return new CCMultiDownladRequest<T>(url);
+    public <T> CCMultiDownladRequest<T> multiDownload(String url) {
+        return new CCMultiDownladRequest<T>(url, this.ccNetApiService);
     }
 
     /**
@@ -389,7 +376,7 @@ public class CCRxNetManager {
      *
      * @return
      */
-    public static Retrofit getRetrofitInstance() {
+    public Retrofit getRetrofitInstance() {
         return retrofitInstance;
     }
 
