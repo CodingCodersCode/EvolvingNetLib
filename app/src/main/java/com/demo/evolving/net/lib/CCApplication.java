@@ -23,6 +23,8 @@ public class CCApplication extends Application {
 
     public static RefWatcher refWatcher;
 
+    private CCRxNetManager ccRxNetManager;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -44,7 +46,7 @@ public class CCApplication extends Application {
             commonHeaderMap.put("common_header_param3", "common_header_value3");
 
             //CCRxNetManager测试代码
-            CCRxNetManager ccRxNetManager = new CCRxNetManager.Builder()
+            this.ccRxNetManager = new CCRxNetManager.Builder()
                     .baseUrl("https://imtt.dd.qq.com")
                     .callAdapterFactory(RxJava2CallAdapterFactory.create())
                     .converterFactory(GsonConverterFactory.create())
@@ -61,4 +63,7 @@ public class CCApplication extends Application {
         }
     }
 
+    public CCRxNetManager getCcRxNetManager() {
+        return ccRxNetManager;
+    }
 }

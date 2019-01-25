@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.codingcoderscode.evolving.net.cache.exception.CCDiskCacheQueryException;
 import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
+import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.callback.CCCacheQueryCallback;
 import com.codingcoderscode.evolving.net.request.callback.CCCacheSaveCallback;
 import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
@@ -49,6 +50,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
     private final String LOG_TAG = CCRequest.class.getCanonicalName();
 
+    private CCNetApiService mCCNetApiService;
     //当前请求额外header信息
     protected Map<String, String> headerMap;
     //当前请求参数信息
@@ -105,6 +107,11 @@ public abstract class CCRequest<T, R extends CCRequest> {
     protected abstract Flowable<CCBaseResponse<T>> getRequestFlowable();
 
     protected abstract int getHttpMethod();
+
+    public CCRequest(String url, CCNetApiService apiService) {
+        this.apiUrl = url;
+        this.mCCNetApiService = apiService;
+    }
 
     /**
      * 获取磁盘缓存请求Flowable对象
@@ -755,5 +762,9 @@ public abstract class CCRequest<T, R extends CCRequest> {
     public R setIntervalMilliSeconds(int intervalMilliSeconds) {
         this.mIntervalMilliSeconds = intervalMilliSeconds;
         return (R) this;
+    }
+
+    public CCNetApiService getCCNetApiService() {
+        return mCCNetApiService;
     }
 }

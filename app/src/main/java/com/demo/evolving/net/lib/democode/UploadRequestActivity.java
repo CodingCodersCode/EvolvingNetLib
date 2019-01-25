@@ -13,6 +13,7 @@ import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.request.entity.CCFile;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.demo.evolving.net.lib.CCApplication;
 import com.demo.evolving.net.lib.GlideImageLoader;
 import com.demo.evolving.net.lib.R;
 import com.demo.evolving.net.lib.TestRespObj;
@@ -133,7 +134,7 @@ public class UploadRequestActivity extends CCBaseRxAppCompactActivity implements
             pathMap.put("{path4}", "path1_value4");
             pathMap.put("{path5}", "path1_value5");
 
-            CCRxNetManager.<String>upload("upload")
+            ((CCApplication)this.getApplicationContext()).getCcRxNetManager().<String>upload("upload")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
                     .setTxtParamMap(txtParamMap)

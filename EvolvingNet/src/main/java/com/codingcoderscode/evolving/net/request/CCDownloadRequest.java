@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
 import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
+import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCDownloadFileWritterCallback;
 import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
@@ -88,8 +89,8 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
     private final int DEFAULT_BUFFER_SIZE = 8 * 1024;
 
-    public CCDownloadRequest(String url) {
-        this.apiUrl = url;
+    public CCDownloadRequest(String url, CCNetApiService apiService) {
+        super(url, apiService);
     }
 
     @Override
@@ -118,7 +119,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                     getHeaderMap().put("Range", rangeBulider.toString());
                 }
 
-                Call<ResponseBody> call = CCRxNetManager.getCcNetApiService().executeDownload(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
+                Call<ResponseBody> call = getCCNetApiService().executeDownload(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
 
                 e.onNext(call);
                 e.onComplete();
