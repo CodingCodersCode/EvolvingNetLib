@@ -9,7 +9,7 @@ import okhttp3.ResponseBody;
  * 文件下载回调，用以回调用户自己实现的文件写入保存逻辑
  */
 
-public abstract class CCDownloadFileWritterCallback {
+public interface CCDownloadFileWriteListener {
 
-    public abstract void onWriteToDisk(ResponseBody responseBody, Headers headers, CCNetCallback progressCallback);
+    void onWriteToDisk(ResponseBody responseBody, Headers headers, CCNetResultListener progressCallback);
 }

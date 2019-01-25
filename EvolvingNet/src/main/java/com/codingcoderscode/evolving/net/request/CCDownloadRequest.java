@@ -6,11 +6,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 
-import com.codingcoderscode.evolving.net.CCRxNetManager;
 import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
-import com.codingcoderscode.evolving.net.request.callback.CCDownloadFileWritterCallback;
+import com.codingcoderscode.evolving.net.request.callback.CCDownloadFileWriteListener;
 import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
 import com.codingcoderscode.evolving.net.request.exception.NoEnoughSpaceException;
 import com.codingcoderscode.evolving.net.request.exception.NoResponseBodyDataException;
@@ -49,7 +48,7 @@ import retrofit2.Response;
 public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
     //进度回调
-    //private CCDownloadProgressCallback ccDownloadProgressCallback;
+    //private CCDownloadProgressListener ccDownloadProgressCallback;
     //下载文件的本地保存路径
     private String fileSavePath;
     //下载文件的本地名称，含后缀
@@ -85,7 +84,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
     //网络下载速度，实时速度 单位：b/s
     private long downloadNetworkSpeed = 0L;
 
-    private CCDownloadFileWritterCallback ccDownloadFileWritterCallback;
+    private CCDownloadFileWriteListener CCDownloadFileWriteListener;
 
     private final int DEFAULT_BUFFER_SIZE = 8 * 1024;
 
@@ -158,8 +157,8 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                                 }
                             }
 
-                            if (getCcDownloadFileWritterCallback() != null) {
-                                getCcDownloadFileWritterCallback().onWriteToDisk(retrofitResponse.body(), headers, getCcNetCallback());
+                            if (getCCDownloadFileWriteListener() != null) {
+                                getCCDownloadFileWriteListener().onWriteToDisk(retrofitResponse.body(), headers, getCCNetResultListener());
                             } else {
                                 onWriteToDisk(retrofitResponse.body());
                             }
@@ -259,16 +258,16 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
                     lastUpdateTime = nowTime;
 
-                    if (getCcNetCallback() != null) {
+                    if (getCCNetResultListener() != null) {
 
-                        getCcNetCallback().onProgressSave(getReqTag(), downloadedProgress, downloadNetworkSpeed, downloadedSize, fileSize);
+                        getCCNetResultListener().onProgressSave(getReqTag(), downloadedProgress, downloadNetworkSpeed, downloadedSize, fileSize);
 
                         requireNonNullUICallbackHandler();
 
                         uiCallbackHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                getCcNetCallback().onProgress(getReqTag(), downloadedProgress, downloadNetworkSpeed, downloadedSize, fileSize);
+                                getCCNetResultListener().onProgress(getReqTag(), downloadedProgress, downloadNetworkSpeed, downloadedSize, fileSize);
                             }
                         });
                     }
@@ -392,18 +391,18 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
         return this;
     }
 
-    public CCDownloadFileWritterCallback getCcDownloadFileWritterCallback() {
-        return ccDownloadFileWritterCallback;
+    public CCDownloadFileWriteListener getCCDownloadFileWriteListener() {
+        return CCDownloadFileWriteListener;
     }
 
     /**
      * 设置自定义的文件本地写入回调
      *
-     * @param ccDownloadFileWritterCallback
+     * @param CCDownloadFileWriteListener
      * @return
      */
-    public CCDownloadRequest<T> setCcDownloadFileWritterCallback(CCDownloadFileWritterCallback ccDownloadFileWritterCallback) {
-        this.ccDownloadFileWritterCallback = ccDownloadFileWritterCallback;
+    public CCDownloadRequest<T> setCCDownloadFileWriteListener(CCDownloadFileWriteListener CCDownloadFileWriteListener) {
+        this.CCDownloadFileWriteListener = CCDownloadFileWriteListener;
         return this;
     }
 }

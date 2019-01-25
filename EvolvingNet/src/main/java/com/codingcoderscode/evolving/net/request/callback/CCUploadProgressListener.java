@@ -6,7 +6,7 @@ package com.codingcoderscode.evolving.net.request.callback;
  * 上传进度回调类
  */
 
-public abstract class CCUploadProgressCallback {
+public interface CCUploadProgressListener {
 
     /**
      * 说明：
@@ -24,9 +24,7 @@ public abstract class CCUploadProgressCallback {
      * @param tag 上传请求标识，由调用者传递，若用户传值为null，系统默认传递上传文件的文件路径绝对值
      * @param <T> 标识类型，默认为Object
      */
-    public <T> void onStart(T tag) {
-
-    }
+    public <T> void onStart(T tag);
 
     /**
      * 上传进度更新
@@ -38,9 +36,7 @@ public abstract class CCUploadProgressCallback {
      * @param fileSize     文件大小
      * @param <T>          标识类型，默认为Object
      */
-    public <T> void onProgress(T tag, int progress, long netSpeed, long uploadedSize, long fileSize) {
-
-    }
+    public <T> void onProgress(T tag, int progress, long netSpeed, long uploadedSize, long fileSize);
 
     /**
      * 上传出错
@@ -49,9 +45,7 @@ public abstract class CCUploadProgressCallback {
      * @param t   异常信息
      * @param <T> 标识类型，默认为Object
      */
-    public <T> void onError(T tag, Throwable t) {
-
-    }
+    public <T> void onError(T tag, Throwable t);
 
     /**
      * 上传完成
@@ -59,8 +53,6 @@ public abstract class CCUploadProgressCallback {
      * @param tag 上传请求标识，由调用者传递，若用户传值为null，系统默认传递上传文件的文件路径绝对值
      * @param <T> 标识类型，默认为Object
      */
-    public <T> void onComplete(T tag) {
-
-    }
+    public <T> void onComplete(T tag);
 
 }
