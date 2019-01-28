@@ -2,8 +2,8 @@ package com.codingcoderscode.evolving.net.request;
 
 import android.text.TextUtils;
 
-import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
+import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
+import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.entity.CCFile;
 import com.codingcoderscode.evolving.net.request.exception.CCSampleHttpException;
@@ -42,14 +42,14 @@ import retrofit2.Response;
 
 public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
 
-    //private CCUploadProgressCallback ccUploadProgressCallback;
+    //private CCUploadProgressListener ccUploadProgressCallback;
 
     private Map<String, Object> txtParamMap;
 
     private Map<String, CCFile> fileParamMap;
 
-    public CCUploadRequest(String url) {
-        this.apiUrl = url;
+    public CCUploadRequest(String url, CCNetApiService apiService) {
+        super(url, apiService);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
 
                             uploadFile = new File(fileValue.getUrl());
 
-                            requestBody = new CCSimpleUploadRequestBody(entry.getKey(), MediaType.parse(fileValue.getMimeType()), uploadFile, getCcNetCallback());
+                            requestBody = new CCSimpleUploadRequestBody(entry.getKey(), MediaType.parse(fileValue.getMimeType()), uploadFile, getCCNetResultListener());
 
                             partBody = MultipartBody.Part.createFormData(entry.getKey(), uploadFile.getName(), requestBody);
 
@@ -97,7 +97,7 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
 
                 }
 
-                Call<ResponseBody> call = CCRxNetManager.getCcNetApiService().executeUpload(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), paramPartList);
+                Call<ResponseBody> call = getCCNetApiService().executeUpload(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), paramPartList);
 
                 e.onNext(call);
                 e.onComplete();
@@ -120,7 +120,6 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
                             if (retrofitResponse.isSuccessful()) {
                                 headers = retrofitResponse.headers();
 
-                                //realResponse = CCDefaultResponseBodyConvert.<T>convertResponse(retrofitResponse.body(), responseBeanType);
                                 realResponse = convertResponse(retrofitResponse.body());
                             } else {
                                 throw new CCSampleHttpException(retrofitResponse, retrofitResponse.errorBody());
@@ -130,7 +129,7 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
                             throw new CCUnExpectedException(exception);
                         }
 
-                        return Flowable.just(new CCBaseResponse<T>(realResponse, headers, false, false, false));
+                        return Flowable.just(new CCBaseResponse<T>(realResponse, headers, false, false, true, null));
                     }
                 }).retryWhen(new FlowableRetryWithDelay(getRetryCount(), getRetryDelayTimeMillis())).onBackpressureLatest();
     }
@@ -142,12 +141,12 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
 
     @Override
     public int getCacheQueryMode() {
-        return CCCacheMode.QueryMode.MODE_ONLY_NET;
+        return CCCMode.QueryMode.MODE_NET;
     }
 
     @Override
     public int getCacheSaveMode() {
-        return CCCacheMode.SaveMode.MODE_NO_CACHE;
+        return CCCMode.SaveMode.MODE_NONE;
     }
 
     @Deprecated
@@ -162,15 +161,6 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
         this.txtParamMap = paramMap;
         return super.setParamMap(paramMap);
     }
-
-    /*public CCUploadProgressCallback getCcUploadProgressCallback() {
-        return ccUploadProgressCallback;
-    }
-
-    public CCUploadRequest<T> setCcUploadProgressCallback(CCUploadProgressCallback ccUploadProgressCallback) {
-        this.ccUploadProgressCallback = ccUploadProgressCallback;
-        return this;
-    }*/
 
     public Map<String, Object> getTxtParamMap() {
         return txtParamMap;

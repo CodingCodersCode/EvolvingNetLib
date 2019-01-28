@@ -6,14 +6,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
-import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
+import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
-import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
+import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
-import com.demo.evolving.net.lib.MainActivity;
+import com.demo.evolving.net.lib.CCApplication;
 import com.demo.evolving.net.lib.R;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -115,18 +114,20 @@ public class SingleDownloadRequestActivity extends CCBaseRxAppCompactActivity im
                 pathMap.put("{path4}", "path1_value4");
                 pathMap.put("{path5}", "path1_value5");
 
-                downloadRequest = CCRxNetManager.<Void>download("download")//创建指定下载路径的下载请求
+                String downloadUrl = "/16891/371C7C353C7B87011FB3DE8B12BCBCA5.apk?fsname=com.tencent.mm_7.0.0_1380.apk&csr=1bbd";
+
+                downloadRequest = ((CCApplication)this.getApplicationContext()).getCcRxNetManager().<Void>download(downloadUrl)//创建指定下载路径的下载请求
                         .setHeaderMap(specifyHeaderMap)//设置当前请求的特别header信息
                         .setPathMap(pathMap)//设置restful api的路径替换信息，作用同Retrofit的@Path
                         .setFileSaveName("test_OkGo_apk_file_download.apk")//设置下载文件本地保存名称
                         .setRetryCount(3)//设置失败重试次数，具体重试次数根据RxJava/Android对异常类型的判断有关
-                        .setCacheQueryMode(CCCacheMode.QueryMode.MODE_ONLY_NET)//设置缓存查询策略
-                        .setCacheSaveMode(CCCacheMode.SaveMode.MODE_NO_CACHE)//设置缓存保存策略
+                        .setCacheQueryMode(CCCMode.QueryMode.MODE_NET)//设置缓存查询策略
+                        .setCacheSaveMode(CCCMode.SaveMode.MODE_NONE)//设置缓存保存策略
                         .setReqTag("test_login_req_tag")//设置请求标识
                         .setCacheKey("test_login_req_cache_key")//设置缓存操作标识
                         .setSupportRage(true)//设置是否支持断点
                         .setCCNetCallback(new RxNetDownloadCalback())//设置进度、网络请求状态等回调
-                        .setCcDownloadFileWritterCallback(null)//设置自定义的文件下载数据本地写入回调
+                        .setCCDownloadFileWriteListener(null)//设置自定义的文件下载数据本地写入回调
                         .setNetLifecycleComposer(this.<CCBaseResponse<Void>>bindUntilEvent(ActivityEvent.DESTROY))//将请求与Activity生命周期绑定，在Activity指定的生命周期发生时取消网络请求
                         .setResponseBeanType(Void.class);//设置server响应的json所对应的本地JavaBean实体类类型
 
@@ -167,7 +168,7 @@ public class SingleDownloadRequestActivity extends CCBaseRxAppCompactActivity im
     /**
      * 下载进度回调
      */
-    private class RxNetDownloadCalback extends CCNetCallback {
+    private class RxNetDownloadCalback implements CCNetResultListener {
         @Override
         public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
             tv_file_download_status.setText("开始下载");
@@ -175,20 +176,40 @@ public class SingleDownloadRequestActivity extends CCBaseRxAppCompactActivity im
         }
 
         @Override
-        public <T> void onSuccess(Object reqTag, T response) {
+        public <T> void onDiskCacheQuerySuccess(Object reqTag, T response) {
+
+        }
+
+        @Override
+        public <T> void onDiskCacheQueryFail(Object reqTag, Throwable t) {
+
+        }
+
+        @Override
+        public <T> void onNetSuccess(Object reqTag, T response) {
+
+        }
+
+        @Override
+        public <T> void onNetFail(Object reqTag, Throwable t) {
+
+        }
+
+        @Override
+        public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
             tv_file_download_status.setText("下载成功");
             tv_file_download_progress.setText("下载进度：" + gProgress + "%\n下载速度：0B/s\n文件大小：" + gFileSize + "B\n已下载大小：" + gCompletedSize + "B");
         }
 
         @Override
-        public <T> void onError(Object reqTag, Throwable t) {
+        public <T> void onRequestFail(Object reqTag, Throwable t) {
             tv_file_download_status.setText("下载失败，详细信息见log，log窗口:Error");
             tv_file_download_progress.setText("下载进度：" + gProgress + "%\n下载速度：0B/s\n文件大小：" + gFileSize + "B\n已下载大小：" + gCompletedSize + "B");
             NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onError方法，调用者reqTag=" + reqTag, t);
         }
 
         @Override
-        public <T> void onComplete(Object reqTag) {
+        public <T> void onRequestComplete(Object reqTag) {
             tv_file_download_status.setText("下载完成");
             tv_file_download_progress.setText("下载进度：" + gProgress + "%\n下载速度：0B/s\n文件大小：" + gFileSize + "B\n已下载大小：" + gCompletedSize + "B");
         }
@@ -211,6 +232,16 @@ public class SingleDownloadRequestActivity extends CCBaseRxAppCompactActivity im
             tv_file_download_progress.setText("下载进度：" + gProgress + "%\n" + "下载速度：" + gNetSpeed + "\n文件大小：" + gFileSize + "B\n已下载大小：" + gCompletedSize + "B");
 
             //NetLogUtil.printLog("d", LOG_TAG, "调用了RxNetDownloadCalback.onProgress方法，调用者tag=" + tag + ",progress=" + progress + "，netSpeed=" + netSpeed + "，completedSize=" + completedSize + "，fileSize=" + fileSize);
+
+        }
+
+        @Override
+        public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
+
+        }
+
+        @Override
+        public void onIntervalCallback() {
 
         }
     }

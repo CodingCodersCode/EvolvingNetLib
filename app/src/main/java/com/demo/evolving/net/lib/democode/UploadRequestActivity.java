@@ -1,21 +1,19 @@
 package com.demo.evolving.net.lib.democode;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
-import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
-import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
+import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
+import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.request.entity.CCFile;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.demo.evolving.net.lib.CCApplication;
 import com.demo.evolving.net.lib.GlideImageLoader;
-import com.demo.evolving.net.lib.MainActivity;
 import com.demo.evolving.net.lib.R;
 import com.demo.evolving.net.lib.TestRespObj;
 import com.lzy.imagepicker.ImagePicker;
@@ -27,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -135,14 +132,14 @@ public class UploadRequestActivity extends CCBaseRxAppCompactActivity implements
             pathMap.put("{path4}", "path1_value4");
             pathMap.put("{path5}", "path1_value5");
 
-            CCRxNetManager.<String>upload("upload")
+            ((CCApplication)this.getApplicationContext()).getCcRxNetManager().<String>upload("upload")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
                     .setTxtParamMap(txtParamMap)
                     .setFileParamMap(fileParamMap)
                     .setRetryCount(0)
-                    .setCacheQueryMode(CCCacheMode.QueryMode.MODE_ONLY_NET)
-                    .setCacheSaveMode(CCCacheMode.SaveMode.MODE_NO_CACHE)
+                    .setCacheQueryMode(CCCMode.QueryMode.MODE_NET)
+                    .setCacheSaveMode(CCCMode.SaveMode.MODE_NONE)
                     .setReqTag("test_login_req_tag")
                     .setCacheKey("test_login_req_cache_key")
                     .setCCNetCallback(new RxNetUploadProgressCallback())
@@ -184,7 +181,7 @@ public class UploadRequestActivity extends CCBaseRxAppCompactActivity implements
     /**
      * 上传进度回调
      */
-    private class RxNetUploadProgressCallback extends CCNetCallback {
+    private class RxNetUploadProgressCallback implements CCNetResultListener {
         @Override
         public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
             NetLogUtil.printLog("d", LOG_TAG, "调用了RxNetUploadProgressCallback.onStartRequest方法，调用者reqTag=" + reqTag);
@@ -193,7 +190,27 @@ public class UploadRequestActivity extends CCBaseRxAppCompactActivity implements
         }
 
         @Override
-        public <T> void onSuccess(Object reqTag, T response) {
+        public <T> void onDiskCacheQuerySuccess(Object reqTag, T response) {
+
+        }
+
+        @Override
+        public <T> void onDiskCacheQueryFail(Object reqTag, Throwable t) {
+
+        }
+
+        @Override
+        public <T> void onNetSuccess(Object reqTag, T response) {
+
+        }
+
+        @Override
+        public <T> void onNetFail(Object reqTag, Throwable t) {
+
+        }
+
+        @Override
+        public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
             if (response != null) {
 
                 if (response instanceof TestRespObj) {
@@ -210,14 +227,14 @@ public class UploadRequestActivity extends CCBaseRxAppCompactActivity implements
         }
 
         @Override
-        public <T> void onError(Object reqTag, Throwable t) {
+        public <T> void onRequestFail(Object reqTag, Throwable t) {
             tv_file_upload_status.setText("上传失败，详细失败信息见log，log窗口类型：Error");
             tv_file_upload_progress.setText("文件标识：" + reqTag + "\n上传进度：" + 0 + "%\n上传速度：" + "0B/s" + "\n已上传大小：" + 0 + "B\n文件大小：" + 0 + "B");
             NetLogUtil.printLog("d", LOG_TAG, "调用了RxNetUploadProgressCallback.onError方法，调用者reqTag=" + reqTag, t);
         }
 
         @Override
-        public <T> void onComplete(Object reqTag) {
+        public <T> void onRequestComplete(Object reqTag) {
             tv_file_upload_status.setText("上传完成");
             tv_file_upload_progress.setText("文件标识：" + "" + "\n上传进度：" + 0 + "%\n上传速度：" + "0B/s" + "\n已上传大小：" + 0 + "B\n文件大小：" + 0 + "B");
             NetLogUtil.printLog("d", LOG_TAG, "调用了RxNetUploadProgressCallback.onComplete方法，调用者reqTag=" + reqTag);
@@ -240,6 +257,16 @@ public class UploadRequestActivity extends CCBaseRxAppCompactActivity implements
 
             NetLogUtil.printLog("d", LOG_TAG, "调用了RxNetUploadProgressCallback.onProgress方法，调用者tag=" + tag + ",progress=" + gProgress + ",netSpeed=" + gNetSpeed + ",completedSize=" + gCompletedSize + ",fileSize=" + gFileSize);
             tv_file_upload_progress.setText("文件标识：" + tag + "\n上传进度：" + gProgress + "%\n上传速度：" + gNetSpeed + "\n已上传大小：" + gCompletedSize + "B\n文件大小：" + gFileSize + "B");
+        }
+
+        @Override
+        public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
+
+        }
+
+        @Override
+        public void onIntervalCallback() {
+
         }
     }
 

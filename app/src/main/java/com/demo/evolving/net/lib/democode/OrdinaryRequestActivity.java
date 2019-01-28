@@ -6,14 +6,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
-import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
-import com.codingcoderscode.evolving.net.request.callback.CCCacheQueryCallback;
-import com.codingcoderscode.evolving.net.request.callback.CCCacheSaveCallback;
-import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
+import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
+import com.codingcoderscode.evolving.net.request.callback.CCCacheQueryListener;
+import com.codingcoderscode.evolving.net.request.callback.CCCacheSaveListener;
+import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.demo.evolving.net.lib.CCApplication;
 import com.demo.evolving.net.lib.R;
 import com.demo.evolving.net.lib.TestRespObj;
 import com.demo.evolving.net.lib.bean.SampleRespBeanWrapper;
@@ -21,7 +21,6 @@ import com.demo.evolving.net.lib.bean.SampleResponseBean;
 import com.google.gson.reflect.TypeToken;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
@@ -99,23 +98,23 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
             Class typeToken3 = testTypeTokenClass.getClass();
 
 
-            CCRxNetManager.<SampleRespBeanWrapper<SampleResponseBean>>post("/zuul/{path1}/{path2}/biz/v1/login")
+            ((CCApplication)this.getApplicationContext()).getCcRxNetManager().<SampleRespBeanWrapper<SampleResponseBean>>post("/zuul/{path1}/{path2}/biz/v1/login")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
                     .setParamMap(paramMap)
                     .setRetryCount(0)
                     .setRetryDelayTimeMillis(3000)
-                    .setCacheQueryMode(CCCacheMode.QueryMode.MODE_MEMORY_AND_DISK_AND_NET)
-                    .setCacheSaveMode(CCCacheMode.SaveMode.MODE_SAVE_MEMORY_AND_DISK)
+                    .setCacheQueryMode(CCCMode.QueryMode.MODE_DISK_AND_NET)
+                    .setCacheSaveMode(CCCMode.SaveMode.MODE_DEFAULT)
 
-                    .setNeedToCheckNetCondition(true)
-                    .setNetConditionCheckInterval(5000)
+                    .setNeedIntervalCallback(true)
+                    .setIntervalMilliSeconds(5000)
 
                     .setReqTag("test_login_req_tag")
                     .setCacheKey("test_login_req_cache_key")
                     .setCCNetCallback(new RxNetManagerCallback())
-                    .setCCCacheSaveCallback(new RxNetCacheSaveCallback())
-                    .setCCCacheQueryCallback(new RxNetCacheQueryCallback())
+                    .setCCCacheSaveCallback(new RxNetCacheSaveListener())
+                    .setCCCacheQueryCallback(new RxNetCacheQueryListener())
                     .setNetLifecycleComposer(this.<CCBaseResponse<SampleRespBeanWrapper<SampleResponseBean>>>bindUntilEvent(ActivityEvent.DESTROY))
                     .setResponseBeanType(typeToken.getType())
                     .executeAsync();
@@ -146,47 +145,12 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
     /**
      * 数据请求结果回调
      */
-    private class RxNetManagerCallback extends CCNetCallback {
+    private class RxNetManagerCallback implements CCNetResultListener {
 
         @Override
         public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
 
             NetLogUtil.printLog("d", LOG_TAG, "调用了onStartRequest方法，调用者reqTag=" + reqTag);
-
-        }
-
-        @Override
-        public <T> void onCacheQuerySuccess(Object reqTag, T response) {
-
-
-            if (response != null) {
-
-                if (response instanceof TestRespObj) {
-                    NetLogUtil.printLog("d", LOG_TAG, "调用了onCacheSuccess方法，调用者reqTag=" + reqTag + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
-                } else {
-                    NetLogUtil.printLog("d", LOG_TAG, "调用了onCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据不是TestRespObj类型");
-                }
-
-            } else {
-                NetLogUtil.printLog("d", LOG_TAG, "调用了onCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据response == null");
-            }
-        }
-
-        @Override
-        public <T> void onMemoryCacheQuerySuccess(Object reqTag, T response) {
-
-            if (response != null) {
-
-                if (response instanceof TestRespObj) {
-                    NetLogUtil.printLog("d", LOG_TAG, "调用了onMemoryCacheSuccess方法，调用者reqTag=" + reqTag + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
-                } else {
-                    NetLogUtil.printLog("d", LOG_TAG, "调用了onMemoryCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据不是TestRespObj类型");
-                }
-
-            } else {
-                NetLogUtil.printLog("d", LOG_TAG, "调用了onMemoryCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据response == null");
-            }
-
 
         }
 
@@ -204,6 +168,11 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
             } else {
                 NetLogUtil.printLog("d", LOG_TAG, "调用了onDiskCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据response == null");
             }
+
+        }
+
+        @Override
+        public <T> void onDiskCacheQueryFail(Object reqTag, Throwable t) {
 
         }
 
@@ -226,7 +195,12 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
         }
 
         @Override
-        public <T> void onSuccess(Object reqTag, T response) {
+        public <T> void onNetFail(Object reqTag, Throwable t) {
+
+        }
+
+        @Override
+        public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
 
             if (response != null) {
 
@@ -242,19 +216,29 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
         }
 
         @Override
-        public <T> void onError(Object reqTag, Throwable t) {
+        public <T> void onRequestFail(Object reqTag, Throwable t) {
             NetLogUtil.printLog("d", LOG_TAG, "调用了onError方法，调用者reqTag=" + reqTag, t);
         }
 
         @Override
-        public <T> void onComplete(Object reqTag) {
+        public <T> void onRequestComplete(Object reqTag) {
             NetLogUtil.printLog("d", LOG_TAG, "调用了onComplete方法，调用者reqTag=" + reqTag);
 
 
         }
 
         @Override
-        public void onToastNetBadCondition() {
+        public <T> void onProgress(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
+
+        }
+
+        @Override
+        public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
+
+        }
+
+        @Override
+        public void onIntervalCallback() {
             Toast.makeText(OrdinaryRequestActivity.this, "网络状态较差", Toast.LENGTH_SHORT).show();
         }
     }
@@ -262,7 +246,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
     /**
      * 缓存保存回调，用户实现，实现自己的缓存存储策略
      */
-    private class RxNetCacheSaveCallback implements CCCacheSaveCallback {
+    private class RxNetCacheSaveListener implements CCCacheSaveListener {
 
         @Override
         public <T> void onSaveToMemory(String cacheKey, T response) {
@@ -304,7 +288,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
     /**
      * 缓存查询回调，用户实现，实现自己的缓存查询策略，与缓存存储策略配合，实现自己的缓存机制
      */
-    private class RxNetCacheQueryCallback implements CCCacheQueryCallback {
+    private class RxNetCacheQueryListener implements CCCacheQueryListener {
 
         @Override
         public <T> T onQueryFromMemory(String cacheKey) {

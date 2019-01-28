@@ -3,10 +3,8 @@ package com.demo.evolving.net.lib;
 import android.app.Application;
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.request.ssl.HttpsUtil;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
 import java.util.HashMap;
@@ -24,6 +22,8 @@ public class CCApplication extends Application {
     private String LOG_TAG = getClass().getCanonicalName();
 
     public static RefWatcher refWatcher;
+
+    private CCRxNetManager ccRxNetManager;
 
     @Override
     public void onCreate() {
@@ -46,8 +46,8 @@ public class CCApplication extends Application {
             commonHeaderMap.put("common_header_param3", "common_header_value3");
 
             //CCRxNetManager测试代码
-            CCRxNetManager ccRxNetManager = new CCRxNetManager.Builder()
-                    .baseUrl("http://24810.xc.wenpie.com")
+            this.ccRxNetManager = new CCRxNetManager.Builder()
+                    .baseUrl("https://imtt.dd.qq.com")
                     .callAdapterFactory(RxJava2CallAdapterFactory.create())
                     .converterFactory(GsonConverterFactory.create())
                     .commonHeaders(commonHeaderMap)
@@ -63,4 +63,7 @@ public class CCApplication extends Application {
         }
     }
 
+    public CCRxNetManager getCcRxNetManager() {
+        return ccRxNetManager;
+    }
 }

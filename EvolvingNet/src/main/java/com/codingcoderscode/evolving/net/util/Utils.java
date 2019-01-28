@@ -57,4 +57,12 @@ public class Utils {
         }
     }
 
+    public String requireNonNull(String origin){
+        if (origin == null){
+            return "";
+        }else {
+            return origin;
+        }
+    }
+
 }

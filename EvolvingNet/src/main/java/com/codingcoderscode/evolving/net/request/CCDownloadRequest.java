@@ -6,12 +6,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 
-import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
-import com.codingcoderscode.evolving.net.cache.mode.CCCacheMode;
+import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
+import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
-import com.codingcoderscode.evolving.net.request.callback.CCDownloadFileWritterCallback;
-//import com.codingcoderscode.evolving.net.request.callback.CCDownloadProgressCallback;
+import com.codingcoderscode.evolving.net.request.callback.CCDownloadFileWriteListener;
+import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
 import com.codingcoderscode.evolving.net.request.exception.NoEnoughSpaceException;
 import com.codingcoderscode.evolving.net.request.exception.NoResponseBodyDataException;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
@@ -49,7 +48,7 @@ import retrofit2.Response;
 public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
     //进度回调
-    //private CCDownloadProgressCallback ccDownloadProgressCallback;
+    //private CCDownloadProgressListener ccDownloadProgressCallback;
     //下载文件的本地保存路径
     private String fileSavePath;
     //下载文件的本地名称，含后缀
@@ -85,20 +84,12 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
     //网络下载速度，实时速度 单位：b/s
     private long downloadNetworkSpeed = 0L;
 
-    private CCDownloadFileWritterCallback ccDownloadFileWritterCallback;
+    private CCDownloadFileWriteListener CCDownloadFileWriteListener;
 
     private final int DEFAULT_BUFFER_SIZE = 8 * 1024;
 
-
-    //下载线程数量
-    //private int downloadThreadNum;
-
-    //
-    //private CCDownloadPiece[] downloadPieces;
-
-
-    public CCDownloadRequest(String url) {
-        this.apiUrl = url;
+    public CCDownloadRequest(String url, CCNetApiService apiService) {
+        super(url, apiService);
     }
 
     @Override
@@ -117,7 +108,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
                     long fileNowSize = fileToSave.length();
 
-                    long requestRangeStart = (fileNowSize - 2 >= 0)? fileNowSize - 2 : 0;
+                    long requestRangeStart = (fileNowSize - 2 >= 0) ? fileNowSize - 2 : 0;
 
                     StringBuilder rangeBulider = new StringBuilder("bytes=");
 
@@ -127,7 +118,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                     getHeaderMap().put("Range", rangeBulider.toString());
                 }
 
-                Call<ResponseBody> call = CCRxNetManager.getCcNetApiService().executeDownload(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
+                Call<ResponseBody> call = getCCNetApiService().executeDownload(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
 
                 e.onNext(call);
                 e.onComplete();
@@ -152,76 +143,42 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
                             String contentLengthStr = CCNetUtil.getHeader("Content-Length", headers);
 
-                            if (TextUtils.isEmpty(contentLengthStr)){
+                            if (TextUtils.isEmpty(contentLengthStr)) {
                                 throw new NoResponseBodyDataException("no file data");
-                            }else {
+                            } else {
                                 long contentLengthLong = convertStringToLong(contentLengthStr);
 
-                                if (contentLengthLong > SDCardUtil.getSDCardAvailableSize() * 1024 * 1024){
+                                if (contentLengthLong > SDCardUtil.getSDCardAvailableSize() * 1024 * 1024) {
                                     throw new NoEnoughSpaceException("write failed: ENOSPC (No space left on device)");
                                 }
 
-                                if (contentLengthLong == 0){
+                                if (contentLengthLong == 0) {
                                     throw new NoResponseBodyDataException("no file data");
                                 }
                             }
 
-                            if (getCcDownloadFileWritterCallback() != null){
-                                getCcDownloadFileWritterCallback().onWriteToDisk(retrofitResponse.body(), headers, getCcNetCallback());
-                            }else {
+                            if (getCCDownloadFileWriteListener() != null) {
+                                getCCDownloadFileWriteListener().onWriteToDisk(retrofitResponse.body(), headers, getCCNetResultListener());
+                            } else {
                                 onWriteToDisk(retrofitResponse.body());
                             }
 
+                        } catch (NoResponseBodyDataException nrbde) {
+                            throw nrbde;
                         } catch (Exception exception) {
-
                             throw new CCUnExpectedException(exception);
-
                         }
 
-                        return Flowable.just(new CCBaseResponse<T>(null, headers, false, false, false));
+                        return Flowable.just(new CCBaseResponse<T>(null, headers, false, false, true, null));
                     }
                 }).retryWhen(new FlowableRetryWithDelay(getRetryCount(), getRetryDelayTimeMillis())).onBackpressureLatest();
-
-        //Call<ResponseBody> call = CCRxNetManager.getCcNetApiService().executeDownload(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
-
-        /*return Flowable.just(call)
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .flatMap(new Function<Call<ResponseBody>, Publisher<CCBaseResponse<T>>>() {
-                    @Override
-                    public Publisher<CCBaseResponse<T>> apply(Call<ResponseBody> responseBodyCall) throws Exception {
-
-                        T realResponse = null;
-                        Response<ResponseBody> retrofitResponse;
-                        Headers headers = null;
-                        try {
-
-                            retrofitResponse = responseBodyCall.clone().execute();
-
-                            headers = retrofitResponse.headers();
-
-                            //realResponse = CCDefaultResponseBodyConvert.<T>convertResponse(retrofitResponse.body(), responseBeanType);
-
-                            onWriteToDisk(retrofitResponse.body());
-
-                        } catch (Exception exception) {
-
-                            throw exception;
-
-                        }
-
-                        return Flowable.just(new CCBaseResponse<T>(null, headers, false, false, false));
-                    }
-                }).retryWhen(new FlowableRetryWithDelay(getRetryCount(), getRetryDelayTimeMillis())).onBackpressureLatest();*/
-
     }
 
-    private long convertStringToLong(String source){
+    private long convertStringToLong(String source) {
         long result = 0;
         try {
             result = Long.parseLong(source);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         return result;
@@ -234,44 +191,13 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
     @Override
     public int getCacheQueryMode() {
-        return CCCacheMode.QueryMode.MODE_ONLY_NET;
+        return CCCMode.QueryMode.MODE_NET;
     }
 
     @Override
     public int getCacheSaveMode() {
-        return CCCacheMode.SaveMode.MODE_NO_CACHE;
+        return CCCMode.SaveMode.MODE_NONE;
     }
-
-    /*private void refreshRangeInfo(){
-        onFileSaveCheck();
-
-        File fileToSave = new File(getFileSavePath() + getFileSaveName());
-
-        long fileNowSize = fileToSave.length();
-
-        StringBuilder rangeBulider = new StringBuilder("bytes=");
-
-        if (isSupportRage()) {
-            if (isAutoRange()) {
-                rangeBulider.append(fileNowSize).append("-");
-
-                downloadedSize = fileNowSize;
-            } else {
-                if (!getHeaderMap().containsKey("Range")) {
-
-                    rangeStart = (rangeStart < 0) ? 0 : rangeStart;
-
-                    rangeStart = (rangeStart > fileNowSize) ? fileNowSize : rangeStart;
-
-                    rangeBulider.append(rangeStart).append("-").append(rangeEnd);
-
-                    downloadedSize = rangeStart;
-
-                }
-            }
-            getHeaderMap().put("Range", rangeBulider.toString());
-        }
-    }*/
 
     /**
      * 将下载内容写到磁盘指定位置
@@ -279,33 +205,13 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
      * @param responseBody
      */
     private void onWriteToDisk(ResponseBody responseBody) throws Exception {
-
         File fileToSave;
         byte[] fileReaderBuffer;
         int readSize;
         RandomAccessFile rafFile = null;
         try {
-
             if (responseBody == null) {
-
-                final NoResponseBodyDataException noResponseBodyDataException = new NoResponseBodyDataException("okhttp3.ResponseBody == null, there is no data!");
-
-                throw noResponseBodyDataException;
-
-                /*if (getCcNetCallback() != null) {
-
-                    requireNonNullUICallbackHandler();
-
-                    uiCallbackHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            getCcNetCallback().onError(getReqTag(), noResponseBodyDataException);
-                            getCcNetCallback().onComplete(getReqTag());
-                        }
-                    });
-                }
-                return;
-                */
+                throw new NoResponseBodyDataException("okhttp3.ResponseBody == null, there is no data!");
             }
 
             fileToSave = new File(getFileSavePath(), getFileSaveName());
@@ -327,23 +233,9 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
             lastUpdateTime = System.currentTimeMillis();
 
             while (true) {
-
                 readSize = inputStream.read(fileReaderBuffer);
 
                 if (readSize == -1) {
-
-                    /*if (ccDownloadProgressCallback != null) {
-
-                        requireNonNullUICallbackHandler();
-
-                        uiCallbackHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                ccDownloadProgressCallback.onSuccess(getReqTag());
-                                ccDownloadProgressCallback.onComplete(getReqTag());
-                            }
-                        });
-                    }*/
                     break;
                 }
 
@@ -366,66 +258,32 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
                     lastUpdateTime = nowTime;
 
-                    if (getCcNetCallback() != null) {
+                    if (getCCNetResultListener() != null) {
 
-                        getCcNetCallback().onProgressSave(getReqTag(), downloadedProgress, downloadNetworkSpeed, downloadedSize, fileSize);
+                        getCCNetResultListener().onProgressSave(getReqTag(), downloadedProgress, downloadNetworkSpeed, downloadedSize, fileSize);
 
                         requireNonNullUICallbackHandler();
 
                         uiCallbackHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                getCcNetCallback().onProgress(getReqTag(), downloadedProgress, downloadNetworkSpeed, downloadedSize, fileSize);
+                                getCCNetResultListener().onProgress(getReqTag(), downloadedProgress, downloadNetworkSpeed, downloadedSize, fileSize);
                             }
                         });
                     }
                 }
             }
-            /*if (ccDownloadProgressCallback != null) {
-
-                requireNonNullUICallbackHandler();
-
-                uiCallbackHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ccDownloadProgressCallback.onSuccess(getReqTag());
-                        ccDownloadProgressCallback.onComplete(getReqTag());
-                    }
-                });
-            }*/
-
-
         } catch (Exception exception) {
-
-            /*if (ccDownloadProgressCallback != null) {
-
-                requireNonNullUICallbackHandler();
-
-                uiCallbackHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ccDownloadProgressCallback.onError(getReqTag(), exception);
-                        ccDownloadProgressCallback.onComplete(getReqTag());
-                    }
-                });
-            }*/
-
-            if ((exception instanceof java.io.InterruptedIOException) && isForceCanceled()){
+            if ((exception instanceof java.io.InterruptedIOException) && isForceCanceled()) {
                 NetLogUtil.printLog("e", "CCDownloadRequest", "当前异常类型是java.io.InterruptedIOException,且是强制中断,为用户主动取消网络传输");
-            }else {
-                throw exception;
+            } else {
+                throw new CCUnExpectedException(exception);
             }
-
         } finally {
-
             onCloseInputStream(inputStream);
-
             onCloseOutputStream(outputStream);
-
             onCloseRandomAccessFile(rafFile);
-
         }
-
     }
 
     private void onCloseInputStream(InputStream inputStream) {
@@ -434,7 +292,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                 inputStream.close();
             }
         } catch (Exception e) {
-
+            NetLogUtil.printLog("e", getClass().getCanonicalName(), "发生异常", e);
         }
     }
 
@@ -444,7 +302,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                 outputStream.close();
             }
         } catch (Exception e) {
-
+            NetLogUtil.printLog("e", getClass().getCanonicalName(), "发生异常", e);
         }
     }
 
@@ -454,10 +312,9 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                 rafFile.close();
             }
         } catch (Exception e) {
-
+            NetLogUtil.printLog("e", getClass().getCanonicalName(), "发生异常", e);
         }
     }
-
 
     private void requireNonNullUICallbackHandler() {
         if (uiCallbackHandler == null) {
@@ -468,7 +325,6 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
     private void onFileSaveCheck(boolean supportRage) {
         File file;
         try {
-
             if (TextUtils.isEmpty(getFileSaveName())) {
                 setFileSaveName("file-" + System.currentTimeMillis() + ".tmp");
             }
@@ -498,7 +354,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
             file.createNewFile();
 
         } catch (Exception exception) {
-            exception.printStackTrace();
+            NetLogUtil.printLog("e", getClass().getCanonicalName(), "发生异常", exception);
         }
     }
 
@@ -507,54 +363,6 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
         super.cancel();
 
     }
-
-    /*public CCDownloadRequest<T> setDownloadPiecesRange(long... ranges) throws Exception{
-        CCDownloadPiece[] localDownloadPieces;
-
-        if (ranges != null){
-            localDownloadPieces = new CCDownloadPiece[ranges.length];
-
-            int j = 0;
-            for (int i = 0; i < ranges.length; i += 2){
-                localDownloadPieces[j] = new CCDownloadPiece(ranges[i], ranges[i + 1]);
-            }
-
-            setDownloadPieces(localDownloadPieces);
-        }
-
-        return this;
-    }
-
-    public CCDownloadRequest<T> setDownloasPiecesRange(String... ranges) throws Exception{
-
-
-
-        long[] longRangeArr;
-
-        if (ranges != null){
-
-            longRangeArr = new long[ranges.length];
-
-            for (int i = 0; i < ranges.length; i++){
-
-                longRangeArr[i] = Long.valueOf(ranges[i]);
-
-            }
-
-            setDownloadPiecesRange(longRangeArr);
-        }
-
-        return this;
-    }*/
-
-    /*public CCDownloadProgressCallback getCcDownloadProgressCallback() {
-        return ccDownloadProgressCallback;
-    }
-
-    public CCDownloadRequest<T> setCcDownloadProgressCallback(CCDownloadProgressCallback ccDownloadProgressCallback) {
-        this.ccDownloadProgressCallback = ccDownloadProgressCallback;
-        return this;
-    }*/
 
     public String getFileSavePath() {
         return fileSavePath;
@@ -574,54 +382,6 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
         return this;
     }
 
-    /*public Context getContext() {
-        return context;
-    }
-
-    public CCDownloadRequest<T> setContext(Context context) {
-        this.context = context;
-        return this;
-    }*/
-
-    /*public boolean isDeleteExistFile() {
-        return deleteExistFile;
-    }
-
-    public CCDownloadRequest<T> setDeleteExistFile(boolean deleteExistFile) {
-        this.deleteExistFile = deleteExistFile;
-        return this;
-    }*/
-
-    /*
-    public long getRangeStart() {
-        return rangeStart;
-    }
-
-    public CCDownloadRequest<T> setRangeStart(long rangeStart) {
-        this.rangeStart = rangeStart;
-        return this;
-    }
-
-    public long getRangeEnd() {
-        return rangeEnd;
-    }
-
-    public CCDownloadRequest<T> setRangeEnd(long rangeEnd) {
-        this.rangeEnd = rangeEnd;
-        return this;
-    }
-    */
-    /*
-    public boolean isAutoRange() {
-        return autoRange;
-    }
-
-    public CCDownloadRequest<T> setAutoRange(boolean autoRange) {
-        this.autoRange = autoRange;
-        return this;
-    }
-    */
-
     public boolean isSupportRage() {
         return supportRage;
     }
@@ -631,34 +391,18 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
         return this;
     }
 
-    public CCDownloadFileWritterCallback getCcDownloadFileWritterCallback() {
-        return ccDownloadFileWritterCallback;
+    public CCDownloadFileWriteListener getCCDownloadFileWriteListener() {
+        return CCDownloadFileWriteListener;
     }
 
     /**
      * 设置自定义的文件本地写入回调
-     * @param ccDownloadFileWritterCallback
+     *
+     * @param CCDownloadFileWriteListener
      * @return
      */
-    public CCDownloadRequest<T> setCcDownloadFileWritterCallback(CCDownloadFileWritterCallback ccDownloadFileWritterCallback) {
-        this.ccDownloadFileWritterCallback = ccDownloadFileWritterCallback;
+    public CCDownloadRequest<T> setCCDownloadFileWriteListener(CCDownloadFileWriteListener CCDownloadFileWriteListener) {
+        this.CCDownloadFileWriteListener = CCDownloadFileWriteListener;
         return this;
     }
-
-    /*public int getDownloadThreadNum() {
-        return downloadThreadNum;
-    }
-
-    public void setDownloadThreadNum(int downloadThreadNum) {
-        this.downloadThreadNum = downloadThreadNum;
-    }
-
-    public CCDownloadPiece[] getDownloadPieces() {
-        return downloadPieces;
-    }
-
-    public CCDownloadRequest<T> setDownloadPieces(CCDownloadPiece[] downloadPieces) {
-        this.downloadPieces = downloadPieces;
-        return this;
-    }*/
 }

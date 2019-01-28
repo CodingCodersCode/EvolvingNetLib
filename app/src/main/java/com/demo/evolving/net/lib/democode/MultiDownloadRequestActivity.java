@@ -10,17 +10,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
-import com.codingcoderscode.evolving.net.CCRxNetManager;
 import com.codingcoderscode.evolving.net.request.CCMultiDownladRequest;
-import com.codingcoderscode.evolving.net.request.callback.CCNetCallback;
+import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.demo.evolving.net.lib.CCApplication;
 import com.demo.evolving.net.lib.CCDownloadTask2;
-import com.demo.evolving.net.lib.DownloadListTestActivity2;
 import com.demo.evolving.net.lib.R;
-import com.demo.evolving.net.lib.bean.SampleRespBeanWrapper;
-import com.demo.evolving.net.lib.bean.SampleResponseBean;
 import com.demo.evolving.net.lib.downloadmanager.CCDownloadStatus;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -146,9 +143,11 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
 
             //http://24810.xc.wenpie.com/xiaz/dpkentool.dll%E6%96%87%E4%BB%B6@560_402379.exe
 
+            String downloadUrl = "/16891/371C7C353C7B87011FB3DE8B12BCBCA5.apk?fsname=com.tencent.mm_7.0.0_1380.apk&csr=1bbd";
+
             for (; tmpTaskCount < taskKeyCount; tmpTaskCount++){
 
-                task = new CCDownloadTask2(this, "taskKey-" + tmpTaskCount, "/xiaz/dpkentool.dll%E6%96%87%E4%BB%B6@560_402379.exe", null, "QQ_download_test_file_" + tmpTaskCount + ".apk", 1, 0, 0);
+                task = new CCDownloadTask2(this, "taskKey-" + tmpTaskCount, downloadUrl, null, "QQ_download_test_file_" + tmpTaskCount + ".apk", 1, 0, 0);
 
                 taskList.add(task);
                 taskList2.add(task);
@@ -160,7 +159,7 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
 
 
             if (ccMultiDownladRequest == null){
-                ccMultiDownladRequest = CCRxNetManager.<Void>multiDownload("").setMaxTaskCount(2).setCCNetCallback(new RxNetDownloadCalback()).setNetLifecycleComposer(this.<CCBaseResponse<Void>>bindUntilEvent(ActivityEvent.DESTROY)).setReqTag("Tag_Outer_MultiDownload");
+                ccMultiDownladRequest = ((CCApplication)this.getApplicationContext()).getCcRxNetManager().<Void>multiDownload("").setMaxTaskCount(2).setCCNetCallback(new RxNetDownloadCalback()).setNetLifecycleComposer(this.<CCBaseResponse<Void>>bindUntilEvent(ActivityEvent.DESTROY)).setReqTag("Tag_Outer_MultiDownload");
             }
 
             ccMultiDownladRequest.startAll(taskList);
@@ -262,14 +261,34 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
     /**
      * 下载进度回调
      */
-    private class RxNetDownloadCalback extends CCNetCallback {
+    private class RxNetDownloadCalback implements CCNetResultListener {
         @Override
         public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
             NetLogUtil.printLog("d", LOG_TAG, "调用了RxNetDownloadCalback.onStart方法，调用者reqTag=" + reqTag);
         }
 
         @Override
-        public <T> void onSuccess(Object reqTag, T response) {
+        public <T> void onDiskCacheQuerySuccess(Object reqTag, T response) {
+
+        }
+
+        @Override
+        public <T> void onDiskCacheQueryFail(Object reqTag, Throwable t) {
+
+        }
+
+        @Override
+        public <T> void onNetSuccess(Object reqTag, T response) {
+
+        }
+
+        @Override
+        public <T> void onNetFail(Object reqTag, Throwable t) {
+
+        }
+
+        @Override
+        public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
             NetLogUtil.printLog("d", LOG_TAG, "调用了RxNetDownloadCalback.onSuccess方法，调用者reqTag=" + reqTag);
             if (reqTag instanceof CCDownloadTask2){
 
@@ -285,7 +304,7 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
         }
 
         @Override
-        public <T> void onError(Object reqTag, Throwable t) {
+        public <T> void onRequestFail(Object reqTag, Throwable t) {
             NetLogUtil.printLog("d", LOG_TAG, "调用了RxNetDownloadCalback.onError方法，调用者reqTag=" + reqTag, t);
 
             if (reqTag instanceof CCDownloadTask2){
@@ -301,7 +320,7 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
         }
 
         @Override
-        public <T> void onComplete(Object reqTag) {
+        public <T> void onRequestComplete(Object reqTag) {
             NetLogUtil.printLog("d", LOG_TAG, "调用了RxNetDownloadCalback.onComplete方法，调用者reqTag=" + reqTag);
         }
 
@@ -320,6 +339,16 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
                 rv_task.getAdapter().notifyItemChanged(index);
 
             }
+
+        }
+
+        @Override
+        public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
+
+        }
+
+        @Override
+        public void onIntervalCallback() {
 
         }
     }

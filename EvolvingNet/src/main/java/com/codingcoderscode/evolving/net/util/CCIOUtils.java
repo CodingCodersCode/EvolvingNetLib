@@ -48,7 +48,7 @@ public class CCIOUtils {
         try {
             flushable.flush();
         } catch (Exception e) {
-            e.printStackTrace();
+            NetLogUtil.printLog("e", e);
         }
     }
 
@@ -115,7 +115,7 @@ public class CCIOUtils {
             oos.flush();
             return baos.toByteArray();
         } catch (IOException e) {
-            e.printStackTrace();
+            NetLogUtil.printLog("e", e);
         } finally {
             closeQuietly(oos);
             closeQuietly(baos);
@@ -132,7 +132,7 @@ public class CCIOUtils {
             ois = new ObjectInputStream(bais);
             return ois.readObject();
         } catch (Exception e) {
-            e.printStackTrace();
+            NetLogUtil.printLog("e", e);
         } finally {
             closeQuietly(ois);
             closeQuietly(bais);
@@ -349,10 +349,11 @@ public class CCIOUtils {
         try {
             stat = new StatFs(path);
         } catch (Exception e) {
-            e.printStackTrace();
+            NetLogUtil.printLog("e", e);
             return 0;
         }
-        if (Build.VERSION.SDK_INT >= 18) return getStatFsSize(stat, "getBlockSizeLong", "getAvailableBlocksLong");
+        if (Build.VERSION.SDK_INT >= 18)
+            return getStatFsSize(stat, "getBlockSizeLong", "getAvailableBlocksLong");
         else return getStatFsSize(stat, "getBlockSize", "getAvailableBlocks");
     }
 
@@ -368,7 +369,7 @@ public class CCIOUtils {
             long availableBlocks = (Long) getAvailableBlocksMethod.invoke(statFs);
             return blockSize * availableBlocks;
         } catch (Throwable e) {
-            e.printStackTrace();
+            NetLogUtil.printLog("e", e);
         }
         return 0;
     }

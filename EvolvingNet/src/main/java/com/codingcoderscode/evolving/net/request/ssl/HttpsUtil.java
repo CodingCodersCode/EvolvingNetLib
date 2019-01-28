@@ -1,5 +1,7 @@
 package com.codingcoderscode.evolving.net.request.ssl;
 
+import com.codingcoderscode.evolving.net.util.NetLogUtil;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyManagementException;
@@ -121,8 +123,10 @@ public class HttpsUtil {
             sslParams.x509TrustManager = manager;
             return sslParams;
         } catch (NoSuchAlgorithmException e) {
+            NetLogUtil.printLog("e", HttpsUtil.class.getCanonicalName(), "发生异常", e);
             throw new AssertionError(e);
         } catch (KeyManagementException e) {
+            NetLogUtil.printLog("e", HttpsUtil.class.getCanonicalName(), "发生异常", e);
             throw new AssertionError(e);
         }
     }
@@ -136,7 +140,7 @@ public class HttpsUtil {
             kmf.init(clientKeyStore, password.toCharArray());
             return kmf.getKeyManagers();
         } catch (Exception e) {
-            e.printStackTrace();
+            NetLogUtil.printLog("e", HttpsUtil.class.getCanonicalName(), "发生异常", e);
         }
         return null;
     }
@@ -168,7 +172,7 @@ public class HttpsUtil {
             //通过tmf获取TrustManager数组，TrustManager也会信任keyStore中的证书
             return tmf.getTrustManagers();
         } catch (Exception e) {
-            e.printStackTrace();
+            NetLogUtil.printLog("e", HttpsUtil.class.getCanonicalName(), "发生异常", e);
         }
         return null;
     }
@@ -186,7 +190,7 @@ public class HttpsUtil {
      * 为了解决客户端不信任服务器数字证书的问题，网络上大部分的解决方案都是让客户端不对证书做任何检查，
      * 这是一种有很大安全漏洞的办法
      */
-    public static X509TrustManager UnSafeTrustManager = new X509TrustManager() {
+    public final static X509TrustManager UnSafeTrustManager = new X509TrustManager() {
         @Override
         public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
         }
@@ -206,7 +210,7 @@ public class HttpsUtil {
      * 则验证机制可以回调此接口的实现程序来确定是否应该允许此连接。策略可以是基于证书的或依赖于其他验证方案。
      * 当验证 URL 主机名使用的默认规则失败时使用这些回调。如果主机名是可接受的，则返回 true
      */
-    public static HostnameVerifier UnSafeHostnameVerifier = new HostnameVerifier() {
+    public final static HostnameVerifier UnSafeHostnameVerifier = new HostnameVerifier() {
         @Override
         public boolean verify(String hostname, SSLSession session) {
             return true;

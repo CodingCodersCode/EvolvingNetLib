@@ -33,16 +33,26 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     //添加RxLifecycle依赖
-    compile 'com.trello.rxlifecycle2:rxlifecycle:2.2.0'
-    compile 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.0'
-    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.0'
-    compile 'com.trello.rxlifecycle2:rxlifecycle-components-preference:2.2.0'
-    compile 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle:2.2.0'
+    //api 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
+    //api 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.2'
+    api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
+    //api 'com.trello.rxlifecycle2:rxlifecycle-components-preference:2.2.2'
+    //api 'com.trello.rxlifecycle2:rxlifecycle-navi:2.2.2'
+    api 'cn.bingoogolapple:bga-swipebacklayout:1.1.9@aar'
+    //implementation 'com.android.support:support-v4:28.0.0'
+}
 
-    compile 'cn.bingoogolapple:bga-swipebacklayout:1.1.9@aar'
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '28.0.0'
+            }
+        }
+    }
 }
 
 /*
