@@ -22,6 +22,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    //指定jdk版本
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 
 dependencies {
@@ -40,7 +46,7 @@ dependencies {
     //添加Retrofit的Gson转换器依赖
     api 'com.squareup.retrofit2:converter-gson:2.3.0'
     //添加okhttp日志拦截器
-    api 'com.squareup.okhttp3:logging-interceptor:+'
+    api 'com.squareup.okhttp3:logging-interceptor:3.12.1'
     //注解
-    api 'com.android.support:support-annotations:21.0.2'
+    api 'com.android.support:support-annotations:28.0.0'
 }

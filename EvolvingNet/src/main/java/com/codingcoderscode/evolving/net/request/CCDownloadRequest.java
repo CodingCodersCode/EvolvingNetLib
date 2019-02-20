@@ -90,6 +90,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
     public CCDownloadRequest(String url, CCNetApiService apiService) {
         super(url, apiService);
+        this.supportRage = false;
     }
 
     @Override

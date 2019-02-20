@@ -2,6 +2,7 @@ package com.codingcoderscode.evolving.net.request.base;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
 import com.codingcoderscode.evolving.net.cache.exception.CCDiskCacheQueryException;
@@ -320,6 +321,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
      *
      * @param tccBaseResponse 响应结果包装对象
      */
+    @VisibleForTesting
     @Deprecated
     private void onSaveToCache(CCBaseResponse<T> tccBaseResponse) {
         T realResponse;
@@ -626,6 +628,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
         return CCNetResultListener;
     }
 
+    @VisibleForTesting
     @SuppressWarnings("unchecked")
     public R setCCCacheSaveCallback(CCCacheSaveListener CCCacheSaveListener) {
         this.CCCacheSaveListener = CCCacheSaveListener;
@@ -664,6 +667,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
         return cacheQueryMode;
     }
 
+    @VisibleForTesting
     @Deprecated
     @SuppressWarnings("unchecked")
     public R setCacheSaveMode(int cacheSaveMode) {
