@@ -121,10 +121,10 @@ public class SingleDownloadRequestActivity extends CCBaseRxAppCompactActivity im
                         .setPathMap(pathMap)//设置restful api的路径替换信息，作用同Retrofit的@Path
                         .setFileSaveName("test_OkGo_apk_file_download.apk")//设置下载文件本地保存名称
                         .setRetryCount(3)//设置失败重试次数，具体重试次数根据RxJava/Android对异常类型的判断有关
-                        .setCacheQueryMode(CCCMode.QueryMode.MODE_NET)//设置缓存查询策略
-                        .setCacheSaveMode(CCCMode.SaveMode.MODE_NONE)//设置缓存保存策略
+                        //.setCacheQueryMode(CCCMode.QueryMode.MODE_NET)//设置缓存查询策略
+                        //.setCacheSaveMode(CCCMode.SaveMode.MODE_NONE)//设置缓存保存策略
                         .setReqTag("test_login_req_tag")//设置请求标识
-                        .setCacheKey("test_login_req_cache_key")//设置缓存操作标识
+                        //.setCacheKey("test_login_req_cache_key")//设置缓存操作标识
                         .setSupportRage(true)//设置是否支持断点
                         .setCCNetCallback(new RxNetDownloadCalback())//设置进度、网络请求状态等回调
                         .setCCDownloadFileWriteListener(null)//设置自定义的文件下载数据本地写入回调
