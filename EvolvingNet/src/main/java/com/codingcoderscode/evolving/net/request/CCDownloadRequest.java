@@ -101,25 +101,9 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
         return Flowable.create(new FlowableOnSubscribe<Call<ResponseBody>>() {
             @Override
             public void subscribe(FlowableEmitter<Call<ResponseBody>> e) throws Exception {
-                if (isSupportRage()) {
+                Call<ResponseBody> call;
 
-                    onFileSaveCheck(isSupportRage());
-
-                    File fileToSave = new File(getFileSavePath(), getFileSaveName());
-
-                    long fileNowSize = fileToSave.length();
-
-                    long requestRangeStart = (fileNowSize - 2 >= 0) ? fileNowSize - 2 : 0;
-
-                    StringBuilder rangeBulider = new StringBuilder("bytes=");
-
-                    rangeBulider.append(requestRangeStart).append("-");
-                    downloadedSize = requestRangeStart;
-
-                    getHeaderMap().put("Range", rangeBulider.toString());
-                }
-
-                Call<ResponseBody> call = getCCNetApiService().executeDownload(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getParamMap());
+                call = getRequestCall();
 
                 e.onNext(call);
                 e.onComplete();
@@ -175,19 +159,35 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                 }).retryWhen(new FlowableRetryWithDelay(getRetryCount(), getRetryDelayTimeMillis())).onBackpressureLatest();
     }
 
-    private long convertStringToLong(String source) {
-        long result = 0;
-        try {
-            result = Long.parseLong(source);
-        } catch (Exception e) {
-
-        }
-        return result;
-    }
-
     @Override
     protected int getHttpMethod() {
         return CCHttpMethod.GET;
+    }
+
+    @Override
+    protected Call<ResponseBody> getRequestCall() {
+        if (isSupportRage()) {
+
+            onFileSaveCheck(isSupportRage());
+
+            File fileToSave = new File(getFileSavePath(), getFileSaveName());
+
+            long fileNowSize = fileToSave.length();
+
+            long requestRangeStart = (fileNowSize - 2 >= 0) ? fileNowSize - 2 : 0;
+
+            StringBuilder rangeBulider = new StringBuilder("bytes=");
+
+            rangeBulider.append(requestRangeStart).append("-");
+            downloadedSize = requestRangeStart;
+
+            getHeaderMap().put("Range", rangeBulider.toString());
+        }
+
+        Call<ResponseBody> call;
+        call = getCCNetApiService().executeDownload(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getHeaderMap(), getRequestParam());
+
+        return call;
     }
 
     @Override
@@ -198,6 +198,16 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
     @Override
     public int getCacheSaveMode() {
         return CCCMode.SaveMode.MODE_NONE;
+    }
+
+    private long convertStringToLong(String source) {
+        long result = 0;
+        try {
+            result = Long.parseLong(source);
+        } catch (Exception e) {
+
+        }
+        return result;
     }
 
     /**

@@ -101,7 +101,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
             ((CCApplication)this.getApplicationContext()).getCcRxNetManager().<SampleRespBeanWrapper<SampleResponseBean>>post("/zuul/{path1}/{path2}/biz/v1/login")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
-                    .setParamMap(paramMap)
+                    .setRequestParam(paramMap)
                     .setRetryCount(0)
                     .setRetryDelayTimeMillis(3000)
                     .setCacheQueryMode(CCCMode.QueryMode.MODE_DISK_AND_NET)
@@ -111,7 +111,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
                     .setIntervalMilliSeconds(5000)
 
                     .setReqTag("test_login_req_tag")
-                    .setCacheKey("test_login_req_cache_key")
+                    .setCacheTag("test_login_req_cache_key")
                     .setCCNetCallback(new RxNetManagerCallback())
                     .setCCCacheSaveCallback(new RxNetCacheSaveListener())
                     .setCCCacheQueryCallback(new RxNetCacheQueryListener())

@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
-import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;

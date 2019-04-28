@@ -28,6 +28,8 @@ import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 
 /**
  * Created by CodingCodersCode on 2017/11/13.
@@ -464,6 +466,11 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
     @Override
     protected int getHttpMethod() {
         return CCHttpMethod.GET;
+    }
+
+    @Override
+    protected Call<ResponseBody> getRequestCall() {
+        return null;
     }
 
     @Override
