@@ -30,7 +30,7 @@ import retrofit2.Call;
 /**
  * Date：2019/4/28 15:59
  * <p>
- * author: ghc
+ * author: CodingCodersCode
  * <p>
  * 多文件下载
  */
