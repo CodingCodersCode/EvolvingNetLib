@@ -5,7 +5,7 @@ import com.codingcoderscode.evolving.net.request.CCDeleteRequest;
 import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
 import com.codingcoderscode.evolving.net.request.CCGetRequest;
 import com.codingcoderscode.evolving.net.request.CCHeadRequest;
-import com.codingcoderscode.evolving.net.request.CCMultiDownladRequest;
+import com.codingcoderscode.evolving.net.request.CCMultiDownloadRequest;
 import com.codingcoderscode.evolving.net.request.CCOptionsRequest;
 import com.codingcoderscode.evolving.net.request.CCPostRequest;
 import com.codingcoderscode.evolving.net.request.CCPutRequest;
@@ -367,8 +367,8 @@ public class CCRxNetManager {
      * @param <T> 传值Void
      * @return
      */
-    public <T> CCMultiDownladRequest<T> multiDownload(String url) {
-        return new CCMultiDownladRequest<T>(url, this.ccNetApiService);
+    public <T> CCMultiDownloadRequest<T> multiDownload(String url) {
+        return new CCMultiDownloadRequest<T>(url, this.ccNetApiService);
     }
 
     /**

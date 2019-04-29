@@ -102,13 +102,13 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
                     .setRequestParam(paramMap)
-                    .setRetryCount(0)
+                    .setRetryCount(10)
                     .setRetryDelayTimeMillis(3000)
                     .setCacheQueryMode(CCCMode.QueryMode.MODE_DISK_AND_NET)
                     .setCacheSaveMode(CCCMode.SaveMode.MODE_DEFAULT)
 
                     .setNeedIntervalCallback(true)
-                    .setIntervalMilliSeconds(5000)
+                    .setIntervalMilliSeconds(20)
 
                     .setReqTag("test_login_req_tag")
                     .setCacheTag("test_login_req_cache_key")
@@ -239,7 +239,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
 
         @Override
         public void onIntervalCallback() {
-            Toast.makeText(OrdinaryRequestActivity.this, "网络状态较差", Toast.LENGTH_SHORT).show();
+            Toast.makeText(OrdinaryRequestActivity.this, "网络状态较差123123", Toast.LENGTH_SHORT).show();
         }
     }
 

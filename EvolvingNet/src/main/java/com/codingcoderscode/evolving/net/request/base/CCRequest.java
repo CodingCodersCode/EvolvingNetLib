@@ -169,7 +169,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
                 }
 
                 if (response != null) {
-                    tccBaseResponse = new CCBaseResponse<T>(response, null, true, true, true, null);
+                    tccBaseResponse = new CCBaseResponse<T>(response, null, true, false, true, null);
                     e.onNext(tccBaseResponse);
                     e.onComplete();
                 } else {
@@ -177,13 +177,13 @@ public abstract class CCRequest<T, R extends CCRequest> {
                     if (CCCMode.QueryMode.MODE_DISK == cacheQueryMode) {
                         e.onError(t);
                     } else {
-                        tccBaseResponse = new CCBaseResponse<T>(null, null, true, true, false, t);
+                        tccBaseResponse = new CCBaseResponse<T>(null, null, true, false, false, t);
                         e.onNext(tccBaseResponse);
                         e.onComplete();
                     }
                 }
             }
-        }, BackpressureStrategy.LATEST).subscribeOn(Schedulers.io());
+        }, BackpressureStrategy.LATEST)/*.subscribeOn(Schedulers.io())*/;
     }
 
     /**
@@ -213,7 +213,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
                                 if (isHasDiskRequestResped() || !isRequestRunning()) {
                                     return Flowable.empty();
                                 } else {
-                                    return Flowable.just(new CCBaseResponse<T>(null, null, false, false, false, null));
+                                    return Flowable.just(new CCBaseResponse<T>(null, null, false, true, false, null));
                                 }
                             case CCCMode.QueryMode.MODE_NET:
                             case CCCMode.QueryMode.MODE_DISK_AND_NET:
@@ -221,7 +221,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
                                 if (isHasNetRequestResped() || !isRequestRunning()) {
                                     return Flowable.empty();
                                 } else {
-                                    return Flowable.just(new CCBaseResponse<T>(null, null, false, false, false, null));
+                                    return Flowable.just(new CCBaseResponse<T>(null, null, false, true, false, null));
                                 }
                         }
 
@@ -256,9 +256,10 @@ public abstract class CCRequest<T, R extends CCRequest> {
                 e.onNext(call);
                 e.onComplete();
             }
-        }, BackpressureStrategy.LATEST).subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
+        }, BackpressureStrategy.LATEST)
+                //.subscribeOn(Schedulers.io())
+                //.unsubscribeOn(Schedulers.io())
+                //.observeOn(Schedulers.io())
                 .retry(mRetryCount)
                 .flatMap(new Function<Call<ResponseBody>, Publisher<CCBaseResponse<T>>>() {
                     @Override
@@ -337,9 +338,9 @@ public abstract class CCRequest<T, R extends CCRequest> {
         }
 
         resultFlowable = resultFlowable
-                .subscribeOn(Schedulers.io())
+                /*.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
+                .observeOn(Schedulers.io())*/
                 .flatMap(new Function<CCBaseResponse<T>, Publisher<CCBaseResponse<T>>>() {
                     @Override
                     public Publisher<CCBaseResponse<T>> apply(@NonNull CCBaseResponse<T> tccBaseResponse) throws Exception {
@@ -348,12 +349,16 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
                         return Flowable.just(tccBaseResponse);
                     }
-                })
-                .observeOn(AndroidSchedulers.mainThread());
+                });
 
         if (netLifecycleComposer != null) {
             resultFlowable = resultFlowable.compose(netLifecycleComposer);
         }
+
+        resultFlowable = resultFlowable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
         resultFlowable.subscribe(new Subscriber<CCBaseResponse<T>>() {
             @Override
             public void onSubscribe(Subscription s) {
@@ -507,12 +512,13 @@ public abstract class CCRequest<T, R extends CCRequest> {
                         } else {
                             mResultListener.<T>onDiskCacheQueryFail(mReqTag, tccBaseResponse.getThrowable());
                         }
-                    }
-                    if (!isHasNetRequestResped()) {
-                        if (tccBaseResponse.isSuccessful()) {
-                            mResultListener.<T>onRequestSuccess(mReqTag, realResponse, CCCMode.DataMode.MODE_DISK);
-                        } else {
-                            mResultListener.<T>onRequestFail(mReqTag, tccBaseResponse.getThrowable());
+
+                        if (!isHasNetRequestResped()) {
+                            if (tccBaseResponse.isSuccessful()) {
+                                mResultListener.<T>onRequestSuccess(mReqTag, realResponse, CCCMode.DataMode.MODE_DISK);
+                            } else {
+                                mResultListener.<T>onRequestFail(mReqTag, tccBaseResponse.getThrowable());
+                            }
                         }
                     }
                     break;

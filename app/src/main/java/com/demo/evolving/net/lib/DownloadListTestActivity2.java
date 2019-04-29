@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
 import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.request.CCMultiDownladRequest;
+import com.codingcoderscode.evolving.net.request.CCMultiDownloadRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.util.NetLogUtil;
@@ -126,7 +126,7 @@ public class DownloadListTestActivity2  extends CCBaseRxAppCompactActivity imple
 
     }
 
-    private CCMultiDownladRequest ccMultiDownladRequest;
+    private CCMultiDownloadRequest ccMultiDownladRequest;
 
     @AfterPermissionGranted(2003)
     private void onTestDownload(){

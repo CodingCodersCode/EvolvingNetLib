@@ -67,7 +67,6 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
     //是否支持断点下载
     private boolean supportRage;
 
-
     private InputStream inputStream = null;
     private OutputStream outputStream = null;
 
@@ -94,6 +93,21 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
     }
 
     @Override
+    protected int getHttpMethod() {
+        return CCHttpMethod.GET;
+    }
+
+    @Override
+    public int getCacheQueryMode() {
+        return CCCMode.QueryMode.MODE_NET;
+    }
+
+    @Override
+    public int getCacheSaveMode() {
+        return CCCMode.SaveMode.MODE_NONE;
+    }
+
+    @Override
     protected Flowable<CCBaseResponse<T>> getRequestFlowable() {
 
         uiCallbackHandler = new Handler(Looper.getMainLooper());
@@ -109,9 +123,9 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                 e.onComplete();
             }
         }, BackpressureStrategy.LATEST)
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
+                //.subscribeOn(Schedulers.io())
+                //.unsubscribeOn(Schedulers.io())
+                //.observeOn(Schedulers.io())
                 .flatMap(new Function<Call<ResponseBody>, Publisher<CCBaseResponse<T>>>() {
                     @Override
                     public Publisher<CCBaseResponse<T>> apply(Call<ResponseBody> responseBodyCall) throws Exception {
@@ -119,49 +133,18 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                         Response<ResponseBody> retrofitResponse;
                         Headers headers = null;
                         try {
-
                             retrofitResponse = responseBodyCall.clone().execute();
 
                             headers = retrofitResponse.headers();
-
-                            onFileSaveCheck(CCNetUtil.isHttpSupportRange(headers) && isSupportRage());
-
-                            String contentLengthStr = CCNetUtil.getHeader("Content-Length", headers);
-
-                            if (TextUtils.isEmpty(contentLengthStr)) {
-                                throw new NoResponseBodyDataException("no file data");
-                            } else {
-                                long contentLengthLong = convertStringToLong(contentLengthStr);
-
-                                if (contentLengthLong > SDCardUtil.getSDCardAvailableSize() * 1024 * 1024) {
-                                    throw new NoEnoughSpaceException("write failed: ENOSPC (No space left on device)");
-                                }
-
-                                if (contentLengthLong == 0) {
-                                    throw new NoResponseBodyDataException("no file data");
-                                }
-                            }
-
-                            if (getCCDownloadFileWriteListener() != null) {
-                                getCCDownloadFileWriteListener().onWriteToDisk(retrofitResponse.body(), headers, getCCNetResultListener());
-                            } else {
-                                onWriteToDisk(retrofitResponse.body());
-                            }
-
-                        } catch (NoResponseBodyDataException nrbde) {
-                            throw nrbde;
                         } catch (Exception exception) {
                             throw new CCUnExpectedException(exception);
                         }
 
+                        onTryToWriteFileToSDCard(retrofitResponse, headers);
+
                         return Flowable.just(new CCBaseResponse<T>(null, headers, false, false, true, null));
                     }
                 }).retryWhen(new FlowableRetryWithDelay(getRetryCount(), getRetryDelayTimeMillis())).onBackpressureLatest();
-    }
-
-    @Override
-    protected int getHttpMethod() {
-        return CCHttpMethod.GET;
     }
 
     @Override
@@ -190,16 +173,6 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
         return call;
     }
 
-    @Override
-    public int getCacheQueryMode() {
-        return CCCMode.QueryMode.MODE_NET;
-    }
-
-    @Override
-    public int getCacheSaveMode() {
-        return CCCMode.SaveMode.MODE_NONE;
-    }
-
     private long convertStringToLong(String source) {
         long result = 0;
         try {
@@ -208,6 +181,46 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
         }
         return result;
+    }
+
+    /**
+     * 将文件内容写入磁盘
+     *
+     * @param retrofitResponse
+     * @param headers
+     * @throws Exception
+     */
+    protected void onTryToWriteFileToSDCard(Response<ResponseBody> retrofitResponse, Headers headers) throws Exception {
+        try {
+            onFileSaveCheck(CCNetUtil.isHttpSupportRange(headers) && isSupportRage());
+
+            String contentLengthStr = CCNetUtil.getHeader("Content-Length", headers);
+
+            if (TextUtils.isEmpty(contentLengthStr)) {
+                throw new NoResponseBodyDataException("no file data");
+            } else {
+                long contentLengthLong = convertStringToLong(contentLengthStr);
+
+                if (contentLengthLong > SDCardUtil.getSDCardAvailableSize() * 1024 * 1024) {
+                    throw new NoEnoughSpaceException("write failed: ENOSPC (No space left on device)");
+                }
+
+                if (contentLengthLong == 0) {
+                    throw new NoResponseBodyDataException("no file data");
+                }
+            }
+
+            if (getCCDownloadFileWriteListener() != null) {
+                getCCDownloadFileWriteListener().onWriteToDisk(retrofitResponse.body(), headers, getCCNetResultListener());
+            } else {
+                onWriteToDisk(retrofitResponse.body());
+            }
+
+        } catch (NoResponseBodyDataException nrbde) {
+            throw nrbde;
+        } catch (Exception exception) {
+            throw new CCUnExpectedException(exception);
+        }
     }
 
     /**

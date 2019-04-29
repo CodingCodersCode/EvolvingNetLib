@@ -7,12 +7,9 @@ import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.request.comparator.CCDownloadTaskComparator;
 import com.codingcoderscode.evolving.net.request.entity.CCDownloadTask;
-import com.codingcoderscode.evolving.net.request.exception.NoEnoughSpaceException;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
 import com.codingcoderscode.evolving.net.request.wrapper.CCDownloadRequestWrapper;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
-import com.codingcoderscode.evolving.net.util.NetLogUtil;
-import com.codingcoderscode.evolving.net.util.SDCardUtil;
 
 import org.reactivestreams.Publisher;
 
@@ -20,25 +17,24 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.functions.BooleanSupplier;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 /**
- * Created by CodingCodersCode on 2017/11/13.
+ * Date：2019/4/28 15:59
  * <p>
- * 多线程下载(单个文件只对应一个线程)
+ * author: ghc
+ * <p>
+ * 多文件下载
  */
-
-public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest<T>> {
-
+public class CCMultiDownloadRequest<T> extends CCRequest<T, CCMultiDownloadRequest<T>> implements CCNetResultListener {
     private final String LOG_TAG = getClass().getCanonicalName();
 
     //处于等待下载(WAIT)状态的任务集合
@@ -53,18 +49,13 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
     //已经存在的任务数量
     private AtomicInteger existTaskCount;
     //下载状态回调
-    private CCNetResultListener CCNetResultListener;
+    private CCNetResultListener mNetResultListener;
     //最大重试次数
     private final int DEFAULT_RETRY_COUNT = 3;
 
     private boolean requestInPriority = true;
 
-    /**
-     * 请求构造器
-     *
-     * @param url
-     */
-    public CCMultiDownladRequest(String url, CCNetApiService apiService) {
+    public CCMultiDownloadRequest(String url, CCNetApiService apiService) {
         super(url, apiService);
 
         this.taskWaiting = new ConcurrentSkipListMap<CCDownloadTask, CCDownloadRequestWrapper>(CCDownloadTaskComparator.getInstance().innerComparator);
@@ -76,89 +67,110 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
         this.existTaskCount = new AtomicInteger(0);
     }
 
-    /**
-     * 创建请求Flowable对象
-     *
-     * @return
-     */
+    @Override
+    protected int getHttpMethod() {
+        return CCHttpMethod.GET;
+    }
+
+    @Override
+    protected Call<ResponseBody> getRequestCall() {
+        return null;
+    }
+
     @Override
     protected Flowable<CCBaseResponse<T>> getRequestFlowable() {
-
-        return Flowable.create(new FlowableOnSubscribe<Integer>() {
-            @Override
-            public void subscribe(FlowableEmitter<Integer> e) throws Exception {
-                while (true) {
-                    if (!isRequestRunning()) {
-                        break;
-                    }
-
-                    if (existTaskCount.intValue() < maxTaskCount) {
-                        if (taskWaiting.size() > 0) {
-                            e.onNext(existTaskCount.getAndIncrement());
-                            NetLogUtil.printLog("e", LOG_TAG, "启动一个下载任务，当前existTaskCount=" + existTaskCount.intValue());
-                        } else {
-                            NetLogUtil.printLog("e", LOG_TAG, "没有可下载任务，当前existTaskCount=" + existTaskCount.intValue() + "，休眠3秒");
-                            Thread.sleep(3000);
-                        }
-                    } else {
-                        NetLogUtil.printLog("e", LOG_TAG, "当前existTaskCount=" + existTaskCount.intValue() + "，休眠3秒");
-                        Thread.sleep(3000);
-                    }
-                }
-
-                e.onComplete();
-
-            }
-        }, BackpressureStrategy.BUFFER)
-                .subscribeOn(Schedulers.computation())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .flatMap(new Function<Integer, Publisher<CCBaseResponse<T>>>() {
+        return Flowable.intervalRange(0, 1, 0, 5 * 60 * 1000, TimeUnit.MILLISECONDS, Schedulers.computation())
+                .repeatUntil(new BooleanSupplier() {
                     @Override
-                    public Publisher<CCBaseResponse<T>> apply(Integer integer) throws Exception {
-
-                        onCreateAndStartTask();
-
-                        return Flowable.never();
+                    public boolean getAsBoolean() throws Exception {
+                        return false;
                     }
-                });
+                })
+                //.subscribeOn(Schedulers.computation())
+                //.unsubscribeOn(Schedulers.io())
+                //.observeOn(Schedulers.io())
+                .flatMap(new Function<Long, Publisher<CCBaseResponse<T>>>() {
+                    @Override
+                    public Publisher<CCBaseResponse<T>> apply(Long aLong) throws Exception {
+                        if (onCheckRequest()) {
+                            return Flowable.never();
+                        } else {
+                            return Flowable.empty();
+                        }
+                    }
+                })
+                .subscribeOn(Schedulers.computation());
     }
 
     /**
-     * 创建实际下载请求
+     * 检查下载任务
      *
-     * @throws Exception
+     * @return true：存在下载中和等待下载的任务；false：无下载中和等待下载的任务
      */
-    private void onCreateAndStartTask() throws Exception {
+    public synchronized boolean onCheckRequest() {
+        //是否有正在下载的任务
+        boolean hasDownloading;
+        //是否有等待下载的任务
+        boolean hasWaiting;
+        //下载中任务是否达到最大数量限制
+        boolean hasDownloadingQueueFull;
+        try {
+            while (true) {
+                hasDownloading = taskDownloading.size() > 0;
+                hasWaiting = taskWaiting.size() > 0;
+                hasDownloadingQueueFull = hasDownloadingQueueFull();
+
+                if (!hasDownloadingQueueFull) {
+                    if (hasWaiting) {
+                        onSelectOneTaskToDownload();
+                        //return true;
+                    } else if (hasDownloading) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    /**
+     * 下载中队列是否满
+     *
+     * @return
+     */
+    public synchronized boolean hasDownloadingQueueFull() {
+        if (existTaskCount.intValue() < this.maxTaskCount) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * 选取一个待下载任务进行下载
+     * <p>
+     * you should call {@link #onCheckRequest} instead of calling this method directly
+     */
+    private void onSelectOneTaskToDownload() {
         Map.Entry<CCDownloadTask, CCDownloadRequestWrapper> toDownloadTaskEntry = null;
         CCDownloadTask toDownloadTask = null;
         CCDownloadRequestWrapper toDownloadTaskWrapper = null;
         CCDownloadRequest downloadRequest = null;
         try {
-            if ((toDownloadTaskEntry = taskWaiting.pollFirstEntry()) != null) {
+            existTaskCount.incrementAndGet();
+
+            toDownloadTaskEntry = taskWaiting.pollFirstEntry();
+
+            if (toDownloadTaskEntry != null) {
 
                 toDownloadTask = toDownloadTaskEntry.getKey();
                 toDownloadTaskWrapper = toDownloadTaskEntry.getValue();
-
-                if (toDownloadTask == null) {
-                    existTaskCount.getAndDecrement();
-                    return;
-                }
-
-                if (toDownloadTask.getFileSize() > SDCardUtil.getSDCardAvailableSize() * 1024 * 1024) {
-
-                    pause(toDownloadTask, toDownloadTaskWrapper);
-
-                    existTaskCount.getAndDecrement();
-
-                    NoEnoughSpaceException noEnoughSpaceException = new NoEnoughSpaceException("write failed: ENOSPC (No space left on device)");
-
-                    if (CCNetResultListener != null) {
-                        CCNetResultListener.onRequestFail(toDownloadTask, noEnoughSpaceException);
-                    }
-
-                    return;
-                }
 
                 if (toDownloadTaskWrapper != null) {
 
@@ -173,7 +185,7 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
                                 .setCacheSaveMode(CCCMode.SaveMode.MODE_NONE)
                                 .setReqTag(toDownloadTask)
                                 .setSupportRage(true)
-                                .setCCNetCallback(new MultiDownloadNetCallback<T>(this))
+                                .setCCNetCallback(this)
                                 .setNetLifecycleComposer(getNetLifecycleComposer())
                                 .setResponseBeanType(Void.class);
 
@@ -190,7 +202,7 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
                             .setCacheSaveMode(CCCMode.SaveMode.MODE_NONE)
                             .setReqTag(toDownloadTask)
                             .setSupportRage(true)
-                            .setCCNetCallback(new MultiDownloadNetCallback<T>(this))
+                            .setCCNetCallback(this)
                             .setNetLifecycleComposer(getNetLifecycleComposer())
                             .setResponseBeanType(Void.class);
 
@@ -202,18 +214,16 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
                 taskDownloading.put(toDownloadTask, toDownloadTaskWrapper);
 
             } else {
-                existTaskCount.getAndDecrement();
+                existTaskCount.decrementAndGet();
             }
         } catch (Exception e) {
+            this.existTaskCount.decrementAndGet();
 
             pause(toDownloadTask, toDownloadTaskWrapper);
 
-            this.existTaskCount.getAndDecrement();
-
-            if (CCNetResultListener != null) {
-                CCNetResultListener.onRequestFail(toDownloadTask, e);
+            if (mNetResultListener != null) {
+                mNetResultListener.onRequestFail(toDownloadTask, e);
             }
-
         }
     }
 
@@ -234,11 +244,6 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
         }
     }
 
-
-    /////////////////////////////////////
-    //  开始下载
-    /////////////////////////////////////
-
     /**
      * 开始所有下载任务
      */
@@ -246,6 +251,8 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
         resetPausedToWait();
         if (!isRequestRunning()) {
             executeAsync();
+        } else {
+            this.onCheckRequest();
         }
     }
 
@@ -277,6 +284,8 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
                 start(task, taskPaused.remove(task));
             } else if (taskWaiting.containsKey(task)) {
 
+            } else if (taskDownloading.containsKey(task)) {
+
             } else {
                 start(task, new CCDownloadRequestWrapper(null));
             }
@@ -302,6 +311,10 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
             return;
         }
 
+        if (taskPaused.containsKey(task)) {
+            requestWrapper = taskPaused.remove(task);
+        }
+
         if (requestWrapper == null) {
             requestWrapper = new CCDownloadRequestWrapper(null);
         }
@@ -310,6 +323,8 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
 
         if (!isRequestRunning()) {
             executeAsync();
+        } else {
+            this.onCheckRequest();
         }
     }
 
@@ -335,8 +350,8 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
         if (taskDownloading.size() > 0) {
             synchronized (taskDownloading) {
                 while ((toPauseTask = taskDownloading.pollFirstEntry()) != null) {
-                    existTaskCount.getAndDecrement();
                     pause(toPauseTask);
+                    existTaskCount.decrementAndGet();
                 }
             }
         }
@@ -353,6 +368,7 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
                 pause(taskList.get(i));
             }
         }
+        this.onCheckRequest();
     }
 
     /**
@@ -364,13 +380,12 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
 
         if (taskWaiting.containsKey(task)) {
             pause(task, taskWaiting.remove(task));
-            return;
-        }
-
-        if (taskDownloading.containsKey(task)) {
+        } else if (taskDownloading.containsKey(task)) {
             existTaskCount.getAndDecrement();
             pause(task, taskDownloading.remove(task));
         }
+
+        this.onCheckRequest();
     }
 
     /**
@@ -395,16 +410,24 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
             return;
         }
 
-        if (requestWrapper == null) {
-            requestWrapper = new CCDownloadRequestWrapper(null);
+        if (taskPaused.containsKey(task)) {
+            return;
         }
 
-        if (requestWrapper.getRequest() != null) {
+        if (requestWrapper == null) {
+            if (taskWaiting.containsKey(task)) {
+                requestWrapper = taskWaiting.remove(task);
+            } else if (taskDownloading.containsKey(task)) {
+                requestWrapper = taskDownloading.remove(task);
+            }
+        }
+
+        if ((requestWrapper != null) && (requestWrapper.getRequest() != null)) {
             requestWrapper.getRequest().cancel();
         }
 
-        if (taskPaused.containsKey(task)) {
-            return;
+        if (requestWrapper == null) {
+            requestWrapper = new CCDownloadRequestWrapper(null);
         }
 
         this.taskPaused.put(task, requestWrapper);
@@ -422,6 +445,8 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
 
         if (!isRequestRunning()) {
             executeAsync();
+        } else {
+            this.onCheckRequest();
         }
     }
 
@@ -437,7 +462,7 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
             int taskSize = taskList.size();
 
             for (int i = 0; i < taskSize; i++) {
-                resume(taskList.get(i));
+                resume(taskList.get(i), i == taskSize - 1);
             }
         }
     }
@@ -448,7 +473,10 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
      * @param task 指定的任务
      */
     public synchronized void resume(CCDownloadTask task) {
+        this.resume(task, true);
+    }
 
+    private synchronized void resume(CCDownloadTask task, boolean startImmediately) {
         CCDownloadRequestWrapper requestWrapper;
 
         if (task != null) {
@@ -457,141 +485,159 @@ public class CCMultiDownladRequest<T> extends CCRequest<T, CCMultiDownladRequest
                 taskWaiting.put(task, requestWrapper);
             }
 
-            if (!isRequestRunning()) {
-                executeAsync();
-            }
-        }
-    }
-
-    @Override
-    protected int getHttpMethod() {
-        return CCHttpMethod.GET;
-    }
-
-    @Override
-    protected Call<ResponseBody> getRequestCall() {
-        return null;
-    }
-
-    @Override
-    public int getCacheQueryMode() {
-        return CCCMode.QueryMode.MODE_NET;
-    }
-
-    @Override
-    public int getCacheSaveMode() {
-        return CCCMode.SaveMode.MODE_NONE;
-    }
-
-    private static class MultiDownloadNetCallback<M> implements CCNetResultListener {
-
-        private CCMultiDownladRequest<M> multiDownladRequest;
-
-        public MultiDownloadNetCallback(CCMultiDownladRequest<M> multiDownladRequest) {
-            this.multiDownladRequest = multiDownladRequest;
-        }
-
-        @Override
-        public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
-            multiDownladRequest.CCNetResultListener.onStartRequest(reqTag, canceler);
-        }
-
-        @Override
-        public <T> void onDiskCacheQuerySuccess(Object reqTag, T response) {
-
-        }
-
-        @Override
-        public <T> void onDiskCacheQueryFail(Object reqTag, Throwable t) {
-
-        }
-
-        @Override
-        public <T> void onNetSuccess(Object reqTag, T response) {
-
-        }
-
-        @Override
-        public <T> void onNetFail(Object reqTag, Throwable t) {
-
-        }
-
-        @Override
-        public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
-            if (reqTag != null && reqTag instanceof CCDownloadTask) {
-                CCDownloadTask task = (CCDownloadTask) reqTag;
-                multiDownladRequest.taskDownloading.remove(task);
-                multiDownladRequest.existTaskCount.getAndDecrement();
-            }
-
-            if (multiDownladRequest.CCNetResultListener != null) {
-                multiDownladRequest.CCNetResultListener.onRequestSuccess(reqTag, response, dataSourceMode);
-            }
-        }
-
-        @Override
-        public <T> void onRequestFail(Object reqTag, Throwable t) {
-            if (reqTag != null && reqTag instanceof CCDownloadTask) {
-                CCDownloadTask task = (CCDownloadTask) reqTag;
-                CCDownloadRequestWrapper requestWrapper = multiDownladRequest.taskDownloading.remove(task);
-
-                if (requestWrapper.getRequest() != null) {
-                    requestWrapper.getRequest().cancel();
+            if (startImmediately) {
+                if (!isRequestRunning()) {
+                    executeAsync();
+                } else {
+                    this.onCheckRequest();
                 }
-
-                multiDownladRequest.taskPaused.put(task, requestWrapper);
-                multiDownladRequest.existTaskCount.getAndDecrement();
             }
-
-            if (multiDownladRequest.CCNetResultListener != null) {
-                multiDownladRequest.CCNetResultListener.onRequestFail(reqTag, t);
-            }
-        }
-
-        @Override
-        public <T> void onRequestComplete(Object reqTag) {
-            if (multiDownladRequest.CCNetResultListener != null) {
-                multiDownladRequest.CCNetResultListener.onRequestComplete(reqTag);
-            }
-        }
-
-        @Override
-        public <T> void onProgress(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
-            if (multiDownladRequest.CCNetResultListener != null) {
-                multiDownladRequest.CCNetResultListener.onProgress(reqTag, progress, netSpeed, completedSize, fileSize);
-            }
-        }
-
-        @Override
-        public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
-            if (multiDownladRequest.CCNetResultListener != null) {
-                multiDownladRequest.CCNetResultListener.onProgressSave(reqTag, progress, netSpeed, completedSize, fileSize);
-            }
-        }
-
-        @Override
-        public void onIntervalCallback() {
-
         }
     }
+
 
     @SuppressWarnings("unchecked")
-    public CCMultiDownladRequest<T> setCCNetCallback(CCNetResultListener CCNetResultListener) {
-        this.CCNetResultListener = CCNetResultListener;
+    public CCMultiDownloadRequest<T> setCCNetCallback(com.codingcoderscode.evolving.net.request.callback.CCNetResultListener netResultListener) {
+        this.mNetResultListener = netResultListener;
         return this;
     }
 
     public CCNetResultListener getCCNetResultListener() {
-        return CCNetResultListener;
+        return mNetResultListener;
     }
 
     public int getMaxTaskCount() {
         return maxTaskCount;
     }
 
-    public CCMultiDownladRequest<T> setMaxTaskCount(int maxTaskCount) {
+    public CCMultiDownloadRequest<T> setMaxTaskCount(int maxTaskCount) {
         this.maxTaskCount = maxTaskCount;
         return this;
     }
 
+    @Override
+    public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
+        if (this.mNetResultListener != null) {
+            this.mNetResultListener.onStartRequest(reqTag, canceler);
+        }
+    }
+
+    @Override
+    public <T> void onDiskCacheQuerySuccess(Object reqTag, T response) {
+
+    }
+
+    @Override
+    public <T> void onDiskCacheQueryFail(Object reqTag, Throwable t) {
+
+    }
+
+    @Override
+    public <T> void onNetSuccess(Object reqTag, T response) {
+
+    }
+
+    @Override
+    public <T> void onNetFail(Object reqTag, Throwable t) {
+
+    }
+
+    @Override
+    public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
+        try {
+            if (reqTag != null && reqTag instanceof CCDownloadTask) {
+                CCDownloadTask task = (CCDownloadTask) reqTag;
+                this.taskDownloading.remove(task);
+                this.existTaskCount.getAndDecrement();
+            }
+
+            if (this.mNetResultListener != null) {
+                this.mNetResultListener.onRequestSuccess(reqTag, response, dataSourceMode);
+            }
+
+            this.onCheckRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public <T> void onRequestFail(Object reqTag, Throwable t) {
+        try {
+            if (reqTag != null && reqTag instanceof CCDownloadTask) {
+                CCDownloadTask task = (CCDownloadTask) reqTag;
+                CCDownloadRequestWrapper requestWrapper = this.taskDownloading.remove(task);
+
+                if (requestWrapper.getRequest() != null) {
+                    requestWrapper.getRequest().cancel();
+                }
+
+                this.taskPaused.put(task, requestWrapper);
+                this.existTaskCount.getAndDecrement();
+            }
+
+            if (this.mNetResultListener != null) {
+                this.mNetResultListener.onRequestFail(reqTag, t);
+            }
+
+            this.onCheckRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public <T> void onRequestComplete(Object reqTag) {
+        if (this.mNetResultListener != null) {
+            this.mNetResultListener.onRequestComplete(reqTag);
+        }
+    }
+
+    @Override
+    public <T> void onProgress(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
+        if (this.mNetResultListener != null) {
+            this.mNetResultListener.onProgress(reqTag, progress, netSpeed, completedSize, fileSize);
+        }
+    }
+
+    @Override
+    public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
+        if (this.mNetResultListener != null) {
+            this.mNetResultListener.onProgressSave(reqTag, progress, netSpeed, completedSize, fileSize);
+        }
+    }
+
+    @Override
+    public void onIntervalCallback() {
+
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

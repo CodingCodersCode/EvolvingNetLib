@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
-import com.codingcoderscode.evolving.net.request.CCMultiDownladRequest;
+import com.codingcoderscode.evolving.net.request.CCMultiDownloadRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
@@ -41,7 +41,7 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
     private TextView tv_resume_all;
     private RecyclerView rv_task;
 
-    private CCMultiDownladRequest ccMultiDownladRequest;
+    private CCMultiDownloadRequest ccMultiDownladRequest;
 
     private List<CCDownloadTask2> taskList = new ArrayList<>();
 
