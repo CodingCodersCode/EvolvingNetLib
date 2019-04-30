@@ -398,6 +398,22 @@ public abstract class CCRequest<T, R extends CCRequest> {
         });
     }
 
+    protected void onSubscribeLocal(Subscription s){
+
+    }
+
+    protected void onNextLocal(CCBaseResponse<T> tccBaseResponse){
+
+    }
+
+    public void onErrorLocal(Throwable t) {
+
+    }
+
+    public void onCompleteLocal() {
+        
+    }
+
     /**
      * 进行数据缓存处理
      *

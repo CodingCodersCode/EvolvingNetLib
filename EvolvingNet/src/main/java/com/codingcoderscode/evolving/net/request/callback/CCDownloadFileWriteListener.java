@@ -1,5 +1,7 @@
 package com.codingcoderscode.evolving.net.request.callback;
 
+import com.codingcoderscode.evolving.net.request.entity.CCDownloadTask;
+
 import okhttp3.Headers;
 import okhttp3.ResponseBody;
 
@@ -11,5 +13,5 @@ import okhttp3.ResponseBody;
 
 public interface CCDownloadFileWriteListener {
 
-    void onWriteToDisk(ResponseBody responseBody, Headers headers, CCNetResultListener progressCallback);
+    void onWriteToDisk(Object reqTag, CCDownloadTask downloadTask, Headers headers, ResponseBody responseBody, CCDownloadProgressListener progressListener);
 }

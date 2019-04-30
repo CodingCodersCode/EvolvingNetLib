@@ -10,6 +10,8 @@ import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.callback.CCDownloadFileWriteListener;
+import com.codingcoderscode.evolving.net.request.callback.CCDownloadProgressListener;
+import com.codingcoderscode.evolving.net.request.entity.CCDownloadTask;
 import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
 import com.codingcoderscode.evolving.net.request.exception.NoEnoughSpaceException;
 import com.codingcoderscode.evolving.net.request.exception.NoResponseBodyDataException;
@@ -33,7 +35,6 @@ import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.Headers;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -83,9 +84,13 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
     //网络下载速度，实时速度 单位：b/s
     private long downloadNetworkSpeed = 0L;
 
-    private CCDownloadFileWriteListener CCDownloadFileWriteListener;
+    private CCDownloadFileWriteListener mDownloadFileWriteListener;
+
+    private CCDownloadProgressListener mDownloadProgressListener;
 
     private final int DEFAULT_BUFFER_SIZE = 8 * 1024;
+
+    private CCDownloadTask mDownloadTask;
 
     public CCDownloadRequest(String url, CCNetApiService apiService) {
         super(url, apiService);
@@ -149,6 +154,9 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
     @Override
     protected Call<ResponseBody> getRequestCall() {
+
+        this.mDownloadTask = new CCDownloadTask(CCNetUtil.regexApiUrlWithPathParam(getApiUrl(), getPathMap()), getFileSavePath(), getFileSaveName(), 1, null, 0);
+
         if (isSupportRage()) {
 
             onFileSaveCheck(isSupportRage());
@@ -211,7 +219,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
             }
 
             if (getCCDownloadFileWriteListener() != null) {
-                getCCDownloadFileWriteListener().onWriteToDisk(retrofitResponse.body(), headers, getCCNetResultListener());
+                getCCDownloadFileWriteListener().onWriteToDisk(getReqTag(), this.mDownloadTask, headers, retrofitResponse.body(), getDownloadProgressListener());
             } else {
                 onWriteToDisk(retrofitResponse.body());
             }
@@ -282,16 +290,16 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
                     lastUpdateTime = nowTime;
 
-                    if (getCCNetResultListener() != null) {
+                    if (getDownloadProgressListener() != null) {
 
-                        getCCNetResultListener().onProgressSave(getReqTag(), downloadedProgress, downloadNetworkSpeed, downloadedSize, fileSize);
+                        getDownloadProgressListener().onProgressSave(getReqTag(), this.mDownloadTask, downloadedProgress, downloadNetworkSpeed, downloadedSize, fileSize);
 
                         requireNonNullUICallbackHandler();
 
                         uiCallbackHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                getCCNetResultListener().onProgress(getReqTag(), downloadedProgress, downloadNetworkSpeed, downloadedSize, fileSize);
+                                getDownloadProgressListener().onProgress(getReqTag(), mDownloadTask, downloadedProgress, downloadNetworkSpeed, downloadedSize, fileSize);
                             }
                         });
                     }
@@ -416,17 +424,26 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
     }
 
     public CCDownloadFileWriteListener getCCDownloadFileWriteListener() {
-        return CCDownloadFileWriteListener;
+        return mDownloadFileWriteListener;
     }
 
     /**
      * 设置自定义的文件本地写入回调
      *
-     * @param CCDownloadFileWriteListener
+     * @param downloadFileWriteListener
      * @return
      */
-    public CCDownloadRequest<T> setCCDownloadFileWriteListener(CCDownloadFileWriteListener CCDownloadFileWriteListener) {
-        this.CCDownloadFileWriteListener = CCDownloadFileWriteListener;
+    public CCDownloadRequest<T> setCCDownloadFileWriteListener(CCDownloadFileWriteListener downloadFileWriteListener) {
+        this.mDownloadFileWriteListener = downloadFileWriteListener;
+        return this;
+    }
+
+    public CCDownloadProgressListener getDownloadProgressListener() {
+        return mDownloadProgressListener;
+    }
+
+    public CCDownloadRequest<T> setDownloadProgressListener(CCDownloadProgressListener downloadProgressListener) {
+        this.mDownloadProgressListener = downloadProgressListener;
         return this;
     }
 }

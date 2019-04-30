@@ -159,7 +159,11 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
 
 
             if (ccMultiDownladRequest == null){
-                ccMultiDownladRequest = ((CCApplication)this.getApplicationContext()).getCcRxNetManager().<Void>multiDownload("").setMaxTaskCount(2).setCCNetCallback(new RxNetDownloadCalback()).setNetLifecycleComposer(this.<CCBaseResponse<Void>>bindUntilEvent(ActivityEvent.DESTROY)).setReqTag("Tag_Outer_MultiDownload");
+                ccMultiDownladRequest = ((CCApplication)this.getApplicationContext()).getCcRxNetManager().<Void>multiDownload("")
+                        .setMaxTaskCount(2)
+                        .setCCNetCallback(new RxNetDownloadCalback())
+                        .setNetLifecycleComposer(this.<CCBaseResponse<Void>>bindUntilEvent(ActivityEvent.DESTROY))
+                        .setReqTag("Tag_Outer_MultiDownload");
             }
 
             ccMultiDownladRequest.startAll(taskList);
