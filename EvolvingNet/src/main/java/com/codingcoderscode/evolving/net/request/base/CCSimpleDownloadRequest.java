@@ -1,6 +1,6 @@
 package com.codingcoderscode.evolving.net.request.base;
 
-import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
+import com.codingcoderscode.evolving.net.cache.mode.CCMode;
 import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
@@ -42,11 +42,11 @@ public abstract class CCSimpleDownloadRequest<T> extends CCRequest<T, CCSimpleDo
 
     @Override
     public int getCacheQueryMode() {
-        return CCCMode.QueryMode.MODE_NET;
+        return CCMode.QueryMode.MODE_NET;
     }
 
     @Override
     public int getCacheSaveMode() {
-        return CCCMode.SaveMode.MODE_NONE;
+        return CCMode.SaveMode.MODE_NONE;
     }
 }

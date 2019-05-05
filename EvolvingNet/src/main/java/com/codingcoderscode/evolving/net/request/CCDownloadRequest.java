@@ -12,9 +12,9 @@ import com.codingcoderscode.evolving.net.request.listener.CCDownloadFileWriteLis
 import com.codingcoderscode.evolving.net.request.listener.CCSingleDownloadProgressListener;
 import com.codingcoderscode.evolving.net.request.entity.CCDownloadTask;
 import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
-import com.codingcoderscode.evolving.net.request.exception.NoEnoughSpaceException;
-import com.codingcoderscode.evolving.net.request.exception.NoResponseBodyDataException;
-import com.codingcoderscode.evolving.net.request.retry.FlowableRetryWithDelay;
+import com.codingcoderscode.evolving.net.request.exception.CCNoEnoughSpaceException;
+import com.codingcoderscode.evolving.net.request.exception.CCNoResponseBodyDataException;
+import com.codingcoderscode.evolving.net.request.retry.CCFlowableRetryWithDelay;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.CCFileUtils;
 import com.codingcoderscode.evolving.net.util.CCLogUtil;
@@ -131,7 +131,7 @@ public class CCDownloadRequest<T> extends CCSimpleDownloadRequest<T> {
 
                         return Flowable.just(new CCBaseResponse<T>(null, headers, false, false, true, null));
                     }
-                }).retryWhen(new FlowableRetryWithDelay(getRetryCount(), getRetryDelayTimeMillis())).onBackpressureLatest();
+                }).retryWhen(new CCFlowableRetryWithDelay(getRetryCount(), getRetryDelayTimeMillis())).onBackpressureLatest();
     }
 
     @Override
@@ -235,16 +235,16 @@ public class CCDownloadRequest<T> extends CCSimpleDownloadRequest<T> {
             String contentLengthStr = CCNetUtil.getHeader("Content-Length", headers);
 
             if (TextUtils.isEmpty(contentLengthStr)) {
-                throw new NoResponseBodyDataException("no file data");
+                throw new CCNoResponseBodyDataException("no file data");
             } else {
                 long contentLengthLong = convertStringToLong(contentLengthStr);
 
                 if (contentLengthLong > CCSDCardUtil.getSDCardAvailableSize() * 1024 * 1024) {
-                    throw new NoEnoughSpaceException("write failed: ENOSPC (No space left on device)");
+                    throw new CCNoEnoughSpaceException("write failed: ENOSPC (No space left on device)");
                 }
 
                 if (contentLengthLong == 0) {
-                    throw new NoResponseBodyDataException("no file data");
+                    throw new CCNoResponseBodyDataException("no file data");
                 }
             }
 
@@ -254,7 +254,7 @@ public class CCDownloadRequest<T> extends CCSimpleDownloadRequest<T> {
                 onWriteToDisk(retrofitResponse.body());
             }
 
-        } catch (NoResponseBodyDataException nrbde) {
+        } catch (CCNoResponseBodyDataException nrbde) {
             throw nrbde;
         } catch (Exception exception) {
             throw new CCUnExpectedException(exception);
@@ -273,7 +273,7 @@ public class CCDownloadRequest<T> extends CCSimpleDownloadRequest<T> {
         RandomAccessFile rafFile = null;
         try {
             if (responseBody == null) {
-                throw new NoResponseBodyDataException("okhttp3.ResponseBody == null, there is no data!");
+                throw new CCNoResponseBodyDataException("okhttp3.ResponseBody == null, there is no data!");
             }
 
             fileToSave = new File(getFileSavePath(), getFileSaveName());

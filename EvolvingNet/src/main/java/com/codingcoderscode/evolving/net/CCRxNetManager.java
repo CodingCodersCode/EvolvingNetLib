@@ -13,7 +13,7 @@ import com.codingcoderscode.evolving.net.request.CCUploadRequest;
 import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.interceptor.CCHeaderInterceptor;
 import com.codingcoderscode.evolving.net.request.interceptor.CCHttpLoggingInterceptor;
-import com.codingcoderscode.evolving.net.request.ssl.HttpsUtil;
+import com.codingcoderscode.evolving.net.request.ssl.CCHttpsUtil;
 import com.codingcoderscode.evolving.net.util.CCLogUtil;
 import com.codingcoderscode.evolving.net.util.CCUtils;
 import com.google.gson.Gson;
@@ -210,7 +210,7 @@ public class CCRxNetManager {
          * @param sslParams
          * @return
          */
-        public Builder sslSocketFactory(HttpsUtil.SSLParams sslParams) {
+        public Builder sslSocketFactory(CCHttpsUtil.SSLParams sslParams) {
             this.okHttpClientBuilder.sslSocketFactory(sslParams.getSslSocketFactory(), sslParams.getX509TrustManager());
             return this;
         }

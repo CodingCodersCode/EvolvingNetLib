@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
  * 网络请求失败重试逻辑处理类
  */
 
-public class FlowableRetryWithDelay implements Function<Flowable<? extends Throwable>, Flowable<?>> {
+public class CCFlowableRetryWithDelay implements Function<Flowable<? extends Throwable>, Flowable<?>> {
 
     private final String LOG_TAG = getClass().getCanonicalName();
 
@@ -25,7 +25,7 @@ public class FlowableRetryWithDelay implements Function<Flowable<? extends Throw
     private final int retryDelayMillis;
     private int retryCount;
 
-    public FlowableRetryWithDelay(int maxRetries, int retryDelayMillis) {
+    public CCFlowableRetryWithDelay(int maxRetries, int retryDelayMillis) {
         this.maxRetries = maxRetries;
         this.retryDelayMillis = retryDelayMillis;
         this.retryCount = 0;

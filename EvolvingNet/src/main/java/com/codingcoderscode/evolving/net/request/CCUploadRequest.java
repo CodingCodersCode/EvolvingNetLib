@@ -2,9 +2,8 @@ package com.codingcoderscode.evolving.net.request;
 
 import android.text.TextUtils;
 
-import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
+import com.codingcoderscode.evolving.net.cache.mode.CCMode;
 import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
-import com.codingcoderscode.evolving.net.request.base.CCRequest;
 import com.codingcoderscode.evolving.net.request.base.CCSimpleRequest;
 import com.codingcoderscode.evolving.net.request.entity.CCFile;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
@@ -91,12 +90,12 @@ public class CCUploadRequest<T> extends CCSimpleRequest<T> {
 
     @Override
     public int getCacheQueryMode() {
-        return CCCMode.QueryMode.MODE_NET;
+        return CCMode.QueryMode.MODE_NET;
     }
 
     @Override
     public int getCacheSaveMode() {
-        return CCCMode.SaveMode.MODE_NONE;
+        return CCMode.SaveMode.MODE_NONE;
     }
 
     @Deprecated

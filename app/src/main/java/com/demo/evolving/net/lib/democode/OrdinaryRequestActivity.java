@@ -6,7 +6,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
-import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
+import com.codingcoderscode.evolving.net.cache.mode.CCMode;
 import com.codingcoderscode.evolving.net.request.listener.CCCacheQueryListener;
 import com.codingcoderscode.evolving.net.request.listener.CCCacheSaveListener;
 import com.codingcoderscode.evolving.net.request.listener.CCNetResultListener;
@@ -102,8 +102,8 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
                     .setRequestParam(paramMap)
                     .setRetryCount(10)
                     .setRetryDelayTimeMillis(3000)
-                    .setCacheQueryMode(CCCMode.QueryMode.MODE_DISK_AND_NET)
-                    .setCacheSaveMode(CCCMode.SaveMode.MODE_DEFAULT)
+                    .setCacheQueryMode(CCMode.QueryMode.MODE_DISK_AND_NET)
+                    .setCacheSaveMode(CCMode.SaveMode.MODE_DEFAULT)
 
                     .setNeedIntervalCallback(true)
                     .setIntervalMilliSeconds(20)

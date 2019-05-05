@@ -4,14 +4,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.codingcoderscode.evolving.net.cache.exception.CCDiskCacheQueryException;
-import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
+import com.codingcoderscode.evolving.net.cache.mode.CCMode;
 import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.exception.CCSampleHttpException;
 import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
 import com.codingcoderscode.evolving.net.request.listener.CCCacheQueryListener;
 import com.codingcoderscode.evolving.net.request.listener.CCCacheSaveListener;
 import com.codingcoderscode.evolving.net.request.listener.CCNetResultListener;
-import com.codingcoderscode.evolving.net.request.retry.FlowableRetryWithDelay;
+import com.codingcoderscode.evolving.net.request.retry.CCFlowableRetryWithDelay;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.response.convert.CCConvert;
 import com.codingcoderscode.evolving.net.response.convert.CCDefaultResponseBodyConvert;
@@ -71,7 +71,7 @@ public abstract class CCSimpleRequest<T> extends CCRequest<T, CCSimpleRequest<T>
 
     public CCSimpleRequest(String url, CCNetApiService apiService) {
         super(url, apiService);
-        setCacheQueryMode(CCCMode.QueryMode.MODE_NET);
+        setCacheQueryMode(CCMode.QueryMode.MODE_NET);
     }
 
     /**
@@ -101,7 +101,7 @@ public abstract class CCSimpleRequest<T> extends CCRequest<T, CCSimpleRequest<T>
                     e.onComplete();
                 } else {
                     t = (t != null) ? t : new CCDiskCacheQueryException("data is empty");
-                    if (CCCMode.QueryMode.MODE_DISK == getCacheQueryMode()) {
+                    if (CCMode.QueryMode.MODE_DISK == getCacheQueryMode()) {
                         e.onError(t);
                     } else {
                         tccBaseResponse = new CCBaseResponse<T>(null, null, true, false, false, t);
@@ -156,7 +156,7 @@ public abstract class CCSimpleRequest<T> extends CCRequest<T, CCSimpleRequest<T>
 
                         return Flowable.just(new CCBaseResponse<T>(realResponse, headers, false, false, true, null));
                     }
-                }).retryWhen(new FlowableRetryWithDelay(getRetryCount(), getRetryDelayTimeMillis())).onBackpressureLatest();
+                }).retryWhen(new CCFlowableRetryWithDelay(getRetryCount(), getRetryDelayTimeMillis())).onBackpressureLatest();
     }
 
     @Override
@@ -237,18 +237,18 @@ public abstract class CCSimpleRequest<T> extends CCRequest<T, CCSimpleRequest<T>
             realResponse = tccBaseResponse.getRealResponse();
 
             switch (this.getCacheQueryMode()) {
-                case CCCMode.QueryMode.MODE_DISK:
+                case CCMode.QueryMode.MODE_DISK:
                     if (isRequestRunning()) {
                         if (tccBaseResponse.isSuccessful()) {
                             mResultListener.<T>onDiskCacheQuerySuccess(getReqTag(), realResponse);
-                            mResultListener.<T>onRequestSuccess(getReqTag(), realResponse, CCCMode.DataMode.MODE_DISK);
+                            mResultListener.<T>onRequestSuccess(getReqTag(), realResponse, CCMode.DataMode.MODE_DISK);
                         } else {
                             mResultListener.<T>onDiskCacheQueryFail(getReqTag(), tccBaseResponse.getThrowable());
                             mResultListener.<T>onRequestFail(getReqTag(), tccBaseResponse.getThrowable());
                         }
                     }
                     break;
-                case CCCMode.QueryMode.MODE_DISK_AND_NET:
+                case CCMode.QueryMode.MODE_DISK_AND_NET:
                     if (isRequestRunning()) {
                         if (tccBaseResponse.isSuccessful()) {
                             mResultListener.<T>onDiskCacheQuerySuccess(getReqTag(), realResponse);
@@ -258,7 +258,7 @@ public abstract class CCSimpleRequest<T> extends CCRequest<T, CCSimpleRequest<T>
 
                         if (!isHasNetRequestResped()) {
                             if (tccBaseResponse.isSuccessful()) {
-                                mResultListener.<T>onRequestSuccess(getReqTag(), realResponse, CCCMode.DataMode.MODE_DISK);
+                                mResultListener.<T>onRequestSuccess(getReqTag(), realResponse, CCMode.DataMode.MODE_DISK);
                             } else {
                                 mResultListener.<T>onRequestFail(getReqTag(), tccBaseResponse.getThrowable());
                             }
@@ -285,12 +285,12 @@ public abstract class CCSimpleRequest<T> extends CCRequest<T, CCSimpleRequest<T>
             realResponse = tccBaseResponse.getRealResponse();
 
             switch (this.getCacheQueryMode()) {
-                case CCCMode.QueryMode.MODE_NET:
-                case CCCMode.QueryMode.MODE_DISK_AND_NET:
+                case CCMode.QueryMode.MODE_NET:
+                case CCMode.QueryMode.MODE_DISK_AND_NET:
                     if (isRequestRunning()) {
                         if (tccBaseResponse.isSuccessful()) {
                             mResultListener.<T>onNetSuccess(getReqTag(), realResponse);
-                            mResultListener.<T>onRequestSuccess(getReqTag(), realResponse, CCCMode.DataMode.MODE_NET);
+                            mResultListener.<T>onRequestSuccess(getReqTag(), realResponse, CCMode.DataMode.MODE_NET);
                         } else {
                             mResultListener.<T>onNetFail(getReqTag(), tccBaseResponse.getThrowable());
                             mResultListener.<T>onRequestFail(getReqTag(), tccBaseResponse.getThrowable());
@@ -378,12 +378,12 @@ public abstract class CCSimpleRequest<T> extends CCRequest<T, CCSimpleRequest<T>
             realResponse = tccBaseResponse.getRealResponse();
 
             switch (getCacheSaveMode()) {
-                case CCCMode.SaveMode.MODE_DEFAULT:
+                case CCMode.SaveMode.MODE_DEFAULT:
                     if (mCacheSaveListener != null) {
                         mCacheSaveListener.onSaveToDisk(getCacheTag(), realResponse);
                     }
                     break;
-                case CCCMode.SaveMode.MODE_NONE:
+                case CCMode.SaveMode.MODE_NONE:
                 default:
                     break;
             }

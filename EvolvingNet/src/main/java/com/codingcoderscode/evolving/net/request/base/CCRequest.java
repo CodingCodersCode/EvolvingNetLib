@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
-import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
+import com.codingcoderscode.evolving.net.cache.mode.CCMode;
 import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
@@ -129,10 +129,10 @@ public abstract class CCRequest<T, R extends CCRequest> {
                     @Override
                     public boolean getAsBoolean() throws Exception {
                         switch (getCacheQueryMode()) {
-                            case CCCMode.QueryMode.MODE_DISK:
+                            case CCMode.QueryMode.MODE_DISK:
                                 return isHasDiskRequestResped() || !isRequestRunning();
-                            case CCCMode.QueryMode.MODE_NET:
-                            case CCCMode.QueryMode.MODE_DISK_AND_NET:
+                            case CCMode.QueryMode.MODE_NET:
+                            case CCMode.QueryMode.MODE_DISK_AND_NET:
                             default:
                                 return isHasNetRequestResped() || !isRequestRunning();
                         }
@@ -141,14 +141,14 @@ public abstract class CCRequest<T, R extends CCRequest> {
                     @Override
                     public Publisher<CCBaseResponse<T>> apply(Long aLong) throws Exception {
                         switch (getCacheQueryMode()) {
-                            case CCCMode.QueryMode.MODE_DISK:
+                            case CCMode.QueryMode.MODE_DISK:
                                 if (isHasDiskRequestResped() || !isRequestRunning()) {
                                     return Flowable.empty();
                                 } else {
                                     return Flowable.just(new CCBaseResponse<T>(null, null, false, true, false, null));
                                 }
-                            case CCCMode.QueryMode.MODE_NET:
-                            case CCCMode.QueryMode.MODE_DISK_AND_NET:
+                            case CCMode.QueryMode.MODE_NET:
+                            case CCMode.QueryMode.MODE_DISK_AND_NET:
                             default:
                                 if (isHasNetRequestResped() || !isRequestRunning()) {
                                     return Flowable.empty();
@@ -205,17 +205,17 @@ public abstract class CCRequest<T, R extends CCRequest> {
         }
 
         switch (getCacheQueryMode()) {
-            case CCCMode.QueryMode.MODE_DISK:
+            case CCMode.QueryMode.MODE_DISK:
                 resultFlowable = getDiskQueryFlowable();
                 break;
-            case CCCMode.QueryMode.MODE_NET:
+            case CCMode.QueryMode.MODE_NET:
                 resultFlowable = getNetQueryFlowable();
                 break;
-            case CCCMode.QueryMode.MODE_DISK_AND_NET:
+            case CCMode.QueryMode.MODE_DISK_AND_NET:
                 resultFlowable = Flowable.merge(getDiskQueryFlowable(), getNetQueryFlowable());
                 break;
             default:
-                //setCacheQueryMode(CCCMode.QueryMode.MODE_NET);
+                //setCacheQueryMode(CCMode.QueryMode.MODE_NET);
                 resultFlowable = getNetQueryFlowable();
                 break;
         }

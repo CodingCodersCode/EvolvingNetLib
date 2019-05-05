@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
-import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
+import com.codingcoderscode.evolving.net.cache.mode.CCMode;
 import com.codingcoderscode.evolving.net.request.listener.CCNetResultListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.request.entity.CCFile;
@@ -136,8 +136,8 @@ public class UploadRequestActivity extends CCBaseRxAppCompactActivity implements
                     //.setTxtRequestParam(txtParamMap)
                     //.setFileRequestParam(fileParamMap)
                     .setRetryCount(0)
-                    .setCacheQueryMode(CCCMode.QueryMode.MODE_NET)
-                    .setCacheSaveMode(CCCMode.SaveMode.MODE_NONE)
+                    .setCacheQueryMode(CCMode.QueryMode.MODE_NET)
+                    .setCacheSaveMode(CCMode.SaveMode.MODE_NONE)
                     .setReqTag("test_login_req_tag")
                     .setCacheTag("test_login_req_cache_key")
                     .setCCNetCallback(new RxNetUploadProgressCallback())
