@@ -6,24 +6,23 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 
-import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
-import com.codingcoderscode.evolving.net.request.base.CCRequest;
-import com.codingcoderscode.evolving.net.request.callback.CCDownloadFileWriteListener;
-import com.codingcoderscode.evolving.net.request.callback.CCDownloadProgressListener;
+import com.codingcoderscode.evolving.net.request.base.CCSimpleDownloadRequest;
+import com.codingcoderscode.evolving.net.request.listener.CCDownloadFileWriteListener;
+import com.codingcoderscode.evolving.net.request.listener.CCSingleDownloadProgressListener;
 import com.codingcoderscode.evolving.net.request.entity.CCDownloadTask;
 import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
 import com.codingcoderscode.evolving.net.request.exception.NoEnoughSpaceException;
 import com.codingcoderscode.evolving.net.request.exception.NoResponseBodyDataException;
-import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
 import com.codingcoderscode.evolving.net.request.retry.FlowableRetryWithDelay;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 import com.codingcoderscode.evolving.net.util.CCFileUtils;
+import com.codingcoderscode.evolving.net.util.CCLogUtil;
 import com.codingcoderscode.evolving.net.util.CCNetUtil;
-import com.codingcoderscode.evolving.net.util.NetLogUtil;
-import com.codingcoderscode.evolving.net.util.SDCardUtil;
+import com.codingcoderscode.evolving.net.util.CCSDCardUtil;
 
 import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscription;
 
 import java.io.File;
 import java.io.InputStream;
@@ -46,10 +45,10 @@ import retrofit2.Response;
  * 下载文件请求类
  */
 
-public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
+public class CCDownloadRequest<T> extends CCSimpleDownloadRequest<T> {
 
     //进度回调
-    //private CCDownloadProgressListener ccDownloadProgressCallback;
+    private CCSingleDownloadProgressListener mSingleDownloadProgressListener;
     //下载文件的本地保存路径
     private String fileSavePath;
     //下载文件的本地名称，含后缀
@@ -86,8 +85,6 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
 
     private CCDownloadFileWriteListener mDownloadFileWriteListener;
 
-    private CCDownloadProgressListener mDownloadProgressListener;
-
     private final int DEFAULT_BUFFER_SIZE = 8 * 1024;
 
     private CCDownloadTask mDownloadTask;
@@ -95,21 +92,6 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
     public CCDownloadRequest(String url, CCNetApiService apiService) {
         super(url, apiService);
         this.supportRage = false;
-    }
-
-    @Override
-    protected int getHttpMethod() {
-        return CCHttpMethod.GET;
-    }
-
-    @Override
-    public int getCacheQueryMode() {
-        return CCCMode.QueryMode.MODE_NET;
-    }
-
-    @Override
-    public int getCacheSaveMode() {
-        return CCCMode.SaveMode.MODE_NONE;
     }
 
     @Override
@@ -181,6 +163,54 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
         return call;
     }
 
+    @Override
+    protected void onSubscribeLocal(Subscription s) {
+        super.onSubscribeLocal(s);
+        try {
+            if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
+                getDownloadProgressListener().<T>onStart(getReqTag(), this.mDownloadTask, getNetCCCanceler());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onNextLocal(CCBaseResponse<T> tccBaseResponse) {
+        super.onNextLocal(tccBaseResponse);
+        try {
+            if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
+                getDownloadProgressListener().<T>onSuccess(getReqTag(), this.mDownloadTask);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onErrorLocal(Throwable t) {
+        super.onErrorLocal(t);
+        try {
+            if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
+                getDownloadProgressListener().<T>onError(getReqTag(), this.mDownloadTask, t);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onCompleteLocal() {
+        super.onCompleteLocal();
+        try {
+            if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
+                getDownloadProgressListener().<T>onComplete(getReqTag(), this.mDownloadTask);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private long convertStringToLong(String source) {
         long result = 0;
         try {
@@ -209,7 +239,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
             } else {
                 long contentLengthLong = convertStringToLong(contentLengthStr);
 
-                if (contentLengthLong > SDCardUtil.getSDCardAvailableSize() * 1024 * 1024) {
+                if (contentLengthLong > CCSDCardUtil.getSDCardAvailableSize() * 1024 * 1024) {
                     throw new NoEnoughSpaceException("write failed: ENOSPC (No space left on device)");
                 }
 
@@ -307,7 +337,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
             }
         } catch (Exception exception) {
             if ((exception instanceof java.io.InterruptedIOException) && isForceCanceled()) {
-                NetLogUtil.printLog("e", "CCDownloadRequest", "当前异常类型是java.io.InterruptedIOException,且是强制中断,为用户主动取消网络传输");
+                CCLogUtil.printLog("e", "CCDownloadRequest", "当前异常类型是java.io.InterruptedIOException,且是强制中断,为用户主动取消网络传输");
             } else {
                 throw new CCUnExpectedException(exception);
             }
@@ -324,7 +354,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                 inputStream.close();
             }
         } catch (Exception e) {
-            NetLogUtil.printLog("e", getClass().getCanonicalName(), "发生异常", e);
+            CCLogUtil.printLog("e", getClass().getCanonicalName(), "发生异常", e);
         }
     }
 
@@ -334,7 +364,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                 outputStream.close();
             }
         } catch (Exception e) {
-            NetLogUtil.printLog("e", getClass().getCanonicalName(), "发生异常", e);
+            CCLogUtil.printLog("e", getClass().getCanonicalName(), "发生异常", e);
         }
     }
 
@@ -344,7 +374,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
                 rafFile.close();
             }
         } catch (Exception e) {
-            NetLogUtil.printLog("e", getClass().getCanonicalName(), "发生异常", e);
+            CCLogUtil.printLog("e", getClass().getCanonicalName(), "发生异常", e);
         }
     }
 
@@ -386,7 +416,7 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
             file.createNewFile();
 
         } catch (Exception exception) {
-            NetLogUtil.printLog("e", getClass().getCanonicalName(), "发生异常", exception);
+            CCLogUtil.printLog("e", getClass().getCanonicalName(), "发生异常", exception);
         }
     }
 
@@ -438,12 +468,12 @@ public class CCDownloadRequest<T> extends CCRequest<T, CCDownloadRequest<T>> {
         return this;
     }
 
-    public CCDownloadProgressListener getDownloadProgressListener() {
-        return mDownloadProgressListener;
+    public CCSingleDownloadProgressListener getDownloadProgressListener() {
+        return mSingleDownloadProgressListener;
     }
 
-    public CCDownloadRequest<T> setDownloadProgressListener(CCDownloadProgressListener downloadProgressListener) {
-        this.mDownloadProgressListener = downloadProgressListener;
+    public CCDownloadRequest<T> setDownloadProgressListener(CCSingleDownloadProgressListener downloadProgressListener) {
+        this.mSingleDownloadProgressListener = downloadProgressListener;
         return this;
     }
 }

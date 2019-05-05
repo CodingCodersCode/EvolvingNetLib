@@ -1,5 +1,6 @@
-package com.codingcoderscode.evolving.net.request.callback;
+package com.codingcoderscode.evolving.net.request.listener;
 
+import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.request.entity.CCDownloadTask;
 
 /**
@@ -8,14 +9,15 @@ import com.codingcoderscode.evolving.net.request.entity.CCDownloadTask;
  * 下载进度回调类
  */
 
-public interface CCDownloadProgressListener {
+public interface CCSingleDownloadProgressListener {
 
     /**
      * 开始下载
      *
      * @param tag 文件标识
+     * @param canceler
      */
-    public void onStart(Object tag, CCDownloadTask downloadTask);
+    public void onStart(Object tag, CCDownloadTask downloadTask, CCCanceler canceler);
 
     /**
      * 进度保存回调

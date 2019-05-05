@@ -7,20 +7,17 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
-import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
-import com.codingcoderscode.evolving.net.request.callback.CCCacheQueryListener;
-import com.codingcoderscode.evolving.net.request.callback.CCCacheSaveListener;
-import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
+import com.codingcoderscode.evolving.net.request.listener.CCCacheQueryListener;
+import com.codingcoderscode.evolving.net.request.listener.CCCacheSaveListener;
+import com.codingcoderscode.evolving.net.request.listener.CCNetResultListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.request.entity.CCFile;
-import com.codingcoderscode.evolving.net.response.CCBaseResponse;
-import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.codingcoderscode.evolving.net.util.CCLogUtil;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.squareup.leakcanary.RefWatcher;
-import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -179,7 +176,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
                 pathMap.put("{path4}", "path1_value4");
                 pathMap.put("{path5}", "path1_value5");
 
-                downloadRequest = ((CCApplication) this.getApplicationContext()).getCcRxNetManager().<Void>download("sw-search-sp/software/16d5a98d3e034/QQ_8.9.5.22062_setup.exe")
+                /*downloadRequest = ((CCApplication) this.getApplicationContext()).getCcRxNetManager().<Void>download("sw-search-sp/software/16d5a98d3e034/QQ_8.9.5.22062_setup.exe")
                         .setHeaderMap(specifyHeaderMap)
                         .setPathMap(pathMap)
                         .setFileSaveName("test_OkGo_apk_file_download.apk")
@@ -193,7 +190,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
                         .setNetLifecycleComposer(this.<CCBaseResponse<Void>>bindUntilEvent(ActivityEvent.DESTROY))
                         .setResponseBeanType(Void.class);
 
-                downloadRequest.executeAsync();
+                downloadRequest.executeAsync();*/
 
             } else {
                 EasyPermissions.requestPermissions(this, "This operation needs access to write and read external storage.", 2001, perms);
@@ -245,7 +242,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
             pathMap.put("{path4}", "path1_value4");
             pathMap.put("{path5}", "path1_value5");
 
-            ((CCApplication) this.getApplicationContext()).getCcRxNetManager().<String>upload("upload")
+            /*((CCApplication) this.getApplicationContext()).getCcRxNetManager().<String>upload("upload")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
                     .setTxtRequestParam(txtParamMap)
@@ -258,7 +255,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
                     .setCCNetCallback(new RxNetUploadProgressCallback())
                     .setNetLifecycleComposer(this.<CCBaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
                     .setResponseBeanType(TestRespObj.class)
-                    .executeAsync();
+                    .executeAsync();*/
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -293,7 +290,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
             pathMap.put("{path4}", "path1_value4");
             pathMap.put("{path5}", "path1_value5");
 
-            ((CCApplication) this.getApplicationContext()).getCcRxNetManager().<TestRespObj>get("/web/userController/login.do")
+            /*((CCApplication) this.getApplicationContext()).getCcRxNetManager().<TestRespObj>get("/web/userController/login.do")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
                     .setRequestParam(paramMap)
@@ -308,7 +305,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
                     .setCCCacheQueryCallback(new RxNetCacheQueryListener())
                     .setNetLifecycleComposer(this.<CCBaseResponse<TestRespObj>>bindUntilEvent(ActivityEvent.DESTROY))
                     .setResponseBeanType(TestRespObj.class)
-                    .executeAsync();
+                    .executeAsync();*/
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -323,7 +320,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         @Override
         public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
 
-            NetLogUtil.printLog("e", LOG_TAG, "调用了onStartRequest方法，调用者reqTag=" + reqTag);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了onStartRequest方法，调用者reqTag=" + reqTag);
 
         }
 
@@ -333,13 +330,13 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
             if (response != null) {
 
                 if (response instanceof TestRespObj) {
-                    NetLogUtil.printLog("e", LOG_TAG, "调用了onDiskCacheSuccess方法，调用者reqTag=" + reqTag + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
+                    CCLogUtil.printLog("e", LOG_TAG, "调用了onDiskCacheSuccess方法，调用者reqTag=" + reqTag + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
                 } else {
-                    NetLogUtil.printLog("e", LOG_TAG, "调用了onDiskCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据不是TestRespObj类型");
+                    CCLogUtil.printLog("e", LOG_TAG, "调用了onDiskCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据不是TestRespObj类型");
                 }
 
             } else {
-                NetLogUtil.printLog("e", LOG_TAG, "调用了onDiskCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据response == null");
+                CCLogUtil.printLog("e", LOG_TAG, "调用了onDiskCacheSuccess方法，调用者reqTag=" + reqTag + ",但响应数据response == null");
             }
 
         }
@@ -356,13 +353,13 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
             if (response != null) {
 
                 if (response instanceof TestRespObj) {
-                    NetLogUtil.printLog("e", LOG_TAG, "调用了onNetSuccess方法，调用者reqTag=" + reqTag + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
+                    CCLogUtil.printLog("e", LOG_TAG, "调用了onNetSuccess方法，调用者reqTag=" + reqTag + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
                 } else {
-                    NetLogUtil.printLog("e", LOG_TAG, "调用了onNetSuccess方法，调用者reqTag=" + reqTag + ",但响应数据不是TestRespObj类型");
+                    CCLogUtil.printLog("e", LOG_TAG, "调用了onNetSuccess方法，调用者reqTag=" + reqTag + ",但响应数据不是TestRespObj类型");
                 }
 
             } else {
-                NetLogUtil.printLog("e", LOG_TAG, "调用了onNetSuccess方法，调用者reqTag=" + reqTag + ",但响应数据response == null");
+                CCLogUtil.printLog("e", LOG_TAG, "调用了onNetSuccess方法，调用者reqTag=" + reqTag + ",但响应数据response == null");
             }
 
         }
@@ -378,24 +375,24 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
             if (response != null) {
 
                 if (response instanceof TestRespObj) {
-                    NetLogUtil.printLog("e", LOG_TAG, "调用了onSuccess方法，调用者reqTag=" + reqTag + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
+                    CCLogUtil.printLog("e", LOG_TAG, "调用了onSuccess方法，调用者reqTag=" + reqTag + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
                 } else {
-                    NetLogUtil.printLog("e", LOG_TAG, "调用了onSuccess方法，调用者reqTag=" + reqTag + ",但响应数据不是TestRespObj类型");
+                    CCLogUtil.printLog("e", LOG_TAG, "调用了onSuccess方法，调用者reqTag=" + reqTag + ",但响应数据不是TestRespObj类型");
                 }
 
             } else {
-                NetLogUtil.printLog("e", LOG_TAG, "调用了onSuccess方法，调用者reqTag=" + reqTag + ",但响应数据response == null");
+                CCLogUtil.printLog("e", LOG_TAG, "调用了onSuccess方法，调用者reqTag=" + reqTag + ",但响应数据response == null");
             }
         }
 
         @Override
         public <T> void onRequestFail(Object reqTag, Throwable t) {
-            NetLogUtil.printLog("e", LOG_TAG, "调用了onError方法，调用者reqTag=" + reqTag, t);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了onError方法，调用者reqTag=" + reqTag, t);
         }
 
         @Override
         public <T> void onRequestComplete(Object reqTag) {
-            NetLogUtil.printLog("e", LOG_TAG, "调用了onComplete方法，调用者reqTag=" + reqTag);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了onComplete方法，调用者reqTag=" + reqTag);
 
 
         }
@@ -428,13 +425,13 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
 
                 if (response instanceof TestRespObj) {
 
-                    NetLogUtil.printLog("e", LOG_TAG, "调用了onSaveMemory方法，调用者cacheKey=" + cacheKey + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
+                    CCLogUtil.printLog("e", LOG_TAG, "调用了onSaveMemory方法，调用者cacheKey=" + cacheKey + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
                 } else {
-                    NetLogUtil.printLog("e", LOG_TAG, "调用了onSaveMemory方法，调用者cacheKey=" + cacheKey + ",但响应数据不是TestRespObj类型");
+                    CCLogUtil.printLog("e", LOG_TAG, "调用了onSaveMemory方法，调用者cacheKey=" + cacheKey + ",但响应数据不是TestRespObj类型");
                 }
 
             } else {
-                NetLogUtil.printLog("e", LOG_TAG, "调用了onSaveMemory方法，调用者cacheKey=" + cacheKey + ",但响应数据response == null");
+                CCLogUtil.printLog("e", LOG_TAG, "调用了onSaveMemory方法，调用者cacheKey=" + cacheKey + ",但响应数据response == null");
             }
 
         }
@@ -446,13 +443,13 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
 
                 if (response instanceof TestRespObj) {
 
-                    NetLogUtil.printLog("e", LOG_TAG, "调用了onSaveDisk方法，调用者cacheKey=" + cacheKey + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
+                    CCLogUtil.printLog("e", LOG_TAG, "调用了onSaveDisk方法，调用者cacheKey=" + cacheKey + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
                 } else {
-                    NetLogUtil.printLog("e", LOG_TAG, "调用了onSaveDisk方法，调用者cacheKey=" + cacheKey + ",但响应数据不是TestRespObj类型");
+                    CCLogUtil.printLog("e", LOG_TAG, "调用了onSaveDisk方法，调用者cacheKey=" + cacheKey + ",但响应数据不是TestRespObj类型");
                 }
 
             } else {
-                NetLogUtil.printLog("e", LOG_TAG, "调用了onSaveDisk方法，调用者cacheKey=" + cacheKey + ",但响应数据response == null");
+                CCLogUtil.printLog("e", LOG_TAG, "调用了onSaveDisk方法，调用者cacheKey=" + cacheKey + ",但响应数据response == null");
             }
 
         }
@@ -466,7 +463,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         @Override
         public <T> T onQueryFromMemory(String cacheKey) {
 
-            NetLogUtil.printLog("e", LOG_TAG, "调用了onQueryFromMemory方法，调用者cacheKey=" + cacheKey);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了onQueryFromMemory方法，调用者cacheKey=" + cacheKey);
 
             TestRespObj testRespObj = new TestRespObj();
             testRespObj.setStatusCode(220);
@@ -478,7 +475,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
         @Override
         public <T> T onQueryFromDisk(String cacheKey) {
 
-            NetLogUtil.printLog("e", LOG_TAG, "调用了onQueryFromDisk方法，调用者cacheKey=" + cacheKey);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了onQueryFromDisk方法，调用者cacheKey=" + cacheKey);
 
             TestRespObj testRespObj = new TestRespObj();
             testRespObj.setStatusCode(221);
@@ -496,7 +493,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
     private class RxNetUploadProgressCallback implements CCNetResultListener {
         @Override
         public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
-            NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetUploadProgressCallback.onStartRequest方法，调用者reqTag=" + reqTag);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了RxNetUploadProgressCallback.onStartRequest方法，调用者reqTag=" + reqTag);
         }
 
         @Override
@@ -524,29 +521,29 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
             if (response != null) {
 
                 if (response instanceof TestRespObj) {
-                    NetLogUtil.printLog("e", LOG_TAG, "调用了onSuccess方法，调用者reqTag=" + reqTag + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
+                    CCLogUtil.printLog("e", LOG_TAG, "调用了onSuccess方法，调用者reqTag=" + reqTag + ",响应数据是TestRespObj类型,response=" + ((TestRespObj) response).toString());
                 } else {
-                    NetLogUtil.printLog("e", LOG_TAG, "调用了onSuccess方法，调用者reqTag=" + reqTag + ",但响应数据不是TestRespObj类型");
+                    CCLogUtil.printLog("e", LOG_TAG, "调用了onSuccess方法，调用者reqTag=" + reqTag + ",但响应数据不是TestRespObj类型");
                 }
 
             } else {
-                NetLogUtil.printLog("e", LOG_TAG, "调用了onSuccess方法，调用者reqTag=" + reqTag + ",但响应数据response == null");
+                CCLogUtil.printLog("e", LOG_TAG, "调用了onSuccess方法，调用者reqTag=" + reqTag + ",但响应数据response == null");
             }
         }
 
         @Override
         public <T> void onRequestFail(Object reqTag, Throwable t) {
-            NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetUploadProgressCallback.onError方法，调用者reqTag=" + reqTag, t);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了RxNetUploadProgressCallback.onError方法，调用者reqTag=" + reqTag, t);
         }
 
         @Override
         public <T> void onRequestComplete(Object reqTag) {
-            NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetUploadProgressCallback.onComplete方法，调用者reqTag=" + reqTag);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了RxNetUploadProgressCallback.onComplete方法，调用者reqTag=" + reqTag);
         }
 
         @Override
         public <T> void onProgress(Object tag, int progress, long netSpeed, long completedSize, long fileSize) {
-            NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetUploadProgressCallback.onProgress方法，调用者tag=" + tag + ",progress=" + progress + ",netSpeed=" + netSpeed + ",completedSize=" + completedSize + ",fileSize=" + fileSize);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了RxNetUploadProgressCallback.onProgress方法，调用者tag=" + tag + ",progress=" + progress + ",netSpeed=" + netSpeed + ",completedSize=" + completedSize + ",fileSize=" + fileSize);
         }
 
         @Override
@@ -567,7 +564,7 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
     private class RxNetDownloadCalback implements CCNetResultListener {
         @Override
         public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
-            NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onStart方法，调用者reqTag=" + reqTag);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onStart方法，调用者reqTag=" + reqTag);
         }
 
         @Override
@@ -592,22 +589,22 @@ public class MainActivity extends CCBaseRxAppCompactActivity implements View.OnC
 
         @Override
         public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
-            NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onSuccess方法，调用者reqTag=" + reqTag);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onSuccess方法，调用者reqTag=" + reqTag);
         }
 
         @Override
         public <T> void onRequestFail(Object reqTag, Throwable t) {
-            NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onError方法，调用者reqTag=" + reqTag, t);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onError方法，调用者reqTag=" + reqTag, t);
         }
 
         @Override
         public <T> void onRequestComplete(Object reqTag) {
-            NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onComplete方法，调用者reqTag=" + reqTag);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onComplete方法，调用者reqTag=" + reqTag);
         }
 
         @Override
         public <T> void onProgress(Object tag, int progress, long netSpeed, long completedSize, long fileSize) {
-            NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onProgress方法，调用者tag=" + tag + ",progress=" + progress + "，netSpeed=" + netSpeed + "，completedSize=" + completedSize + "，fileSize=" + fileSize);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onProgress方法，调用者tag=" + tag + ",progress=" + progress + "，netSpeed=" + netSpeed + "，completedSize=" + completedSize + "，fileSize=" + fileSize);
         }
 
         @Override

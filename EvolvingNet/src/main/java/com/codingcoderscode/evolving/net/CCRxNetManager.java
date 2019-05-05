@@ -14,8 +14,8 @@ import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.interceptor.CCHeaderInterceptor;
 import com.codingcoderscode.evolving.net.request.interceptor.CCHttpLoggingInterceptor;
 import com.codingcoderscode.evolving.net.request.ssl.HttpsUtil;
-import com.codingcoderscode.evolving.net.util.NetLogUtil;
-import com.codingcoderscode.evolving.net.util.Utils;
+import com.codingcoderscode.evolving.net.util.CCLogUtil;
+import com.codingcoderscode.evolving.net.util.CCUtils;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -84,7 +84,7 @@ public class CCRxNetManager {
          * @return
          */
         public Builder baseUrl(String baseUrl) {
-            this.retrofitBuilder.baseUrl(Utils.checkNotNull(baseUrl, "baseUrl == null"));
+            this.retrofitBuilder.baseUrl(CCUtils.checkNotNull(baseUrl, "baseUrl == null"));
             return this;
         }
 
@@ -172,7 +172,7 @@ public class CCRxNetManager {
          */
         public Builder enableLogInterceptor(boolean enableLog) {
             if (enableLog) {
-                NetLogUtil.setDebugAble(true);
+                CCLogUtil.setDebugAble(true);
                 CCHttpLoggingInterceptor loggingInterceptor = new CCHttpLoggingInterceptor("CCNetLib");
                 loggingInterceptor.setPrintLevel(CCHttpLoggingInterceptor.Level.BODY);        //log打印级别，决定了log显示的详细程度
                 loggingInterceptor.setColorLevel(Level.INFO);                               //log颜色级别，决定了log在控制台显示的颜色
@@ -407,9 +407,9 @@ public class CCRxNetManager {
                     return;
                 }
                 //Log.warning("Undeliverable exception received, not sure what to do", e);
-                NetLogUtil.printLog("e", LOG_TAG, "Undeliverable exception received, not sure what to do", throwable);
+                CCLogUtil.printLog("e", LOG_TAG, "Undeliverable exception received, not sure what to do", throwable);
             } catch (Exception e) {
-                NetLogUtil.printLog("e", LOG_TAG, "DefaultErrorHandler捕获未知类型异常", e);
+                CCLogUtil.printLog("e", LOG_TAG, "DefaultErrorHandler捕获未知类型异常", e);
             }
         }
     }

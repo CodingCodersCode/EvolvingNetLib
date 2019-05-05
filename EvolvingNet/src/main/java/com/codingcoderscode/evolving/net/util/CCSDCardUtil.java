@@ -20,7 +20,7 @@ import java.io.OutputStream;
  * SD卡相关辅助类
  */
 
-public class SDCardUtil {
+public class CCSDCardUtil {
 
 
     /**
@@ -154,13 +154,13 @@ public class SDCardUtil {
                 os.write(bys);
                 return true;
             } catch (Exception e) {
-                NetLogUtil.printLog("e", e);
+                CCLogUtil.printLog("e", e);
             } finally {
                 if (os != null) {
                     try {
                         os.close();
                     } catch (Exception e) {
-                        NetLogUtil.printLog("e", e);
+                        CCLogUtil.printLog("e", e);
                     }
                 }
             }
@@ -195,13 +195,13 @@ public class SDCardUtil {
                 os.write(bys);
                 return true;
             } catch (Exception e) {
-                NetLogUtil.printLog("e", e);
+                CCLogUtil.printLog("e", e);
             } finally {
                 if (os != null) {
                     try {
                         os.close();
                     } catch (Exception e) {
-                        NetLogUtil.printLog("e", e);
+                        CCLogUtil.printLog("e", e);
                     }
                 }
             }
@@ -231,13 +231,13 @@ public class SDCardUtil {
                 os.write(data);
                 return true;
             } catch (Exception e) {
-                NetLogUtil.printLog("e", e);
+                CCLogUtil.printLog("e", e);
             } finally {
                 if (os != null) {
                     try {
                         os.close();
                     } catch (Exception e) {
-                        NetLogUtil.printLog("e", e);
+                        CCLogUtil.printLog("e", e);
                     }
                 }
             }
@@ -266,13 +266,13 @@ public class SDCardUtil {
                 os.write(data);
                 return true;
             } catch (Exception e) {
-                NetLogUtil.printLog("e", e);
+                CCLogUtil.printLog("e", e);
             } finally {
                 if (os != null) {
                     try {
                         os.close();
                     } catch (Exception e) {
-                        NetLogUtil.printLog("e", e);
+                        CCLogUtil.printLog("e", e);
                     }
                 }
             }
@@ -308,13 +308,13 @@ public class SDCardUtil {
                 }
                 return true;
             } catch (Exception e) {
-                NetLogUtil.printLog("e", e);
+                CCLogUtil.printLog("e", e);
             } finally {
                 if (os != null) {
                     try {
                         os.close();
                     } catch (Exception e) {
-                        NetLogUtil.printLog("e", e);
+                        CCLogUtil.printLog("e", e);
                     }
                 }
             }
@@ -344,13 +344,13 @@ public class SDCardUtil {
                 }
                 return baos.toByteArray();
             } catch (Exception e) {
-                NetLogUtil.printLog("e", e);
+                CCLogUtil.printLog("e", e);
             } finally {
                 if (is != null) {
                     try {
                         is.close();
                     } catch (Exception e) {
-                        NetLogUtil.printLog("e", e);
+                        CCLogUtil.printLog("e", e);
                     }
                 }
             }
@@ -384,13 +384,13 @@ public class SDCardUtil {
                 bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                 return bitmap;
             } catch (Exception e) {
-                NetLogUtil.printLog("e", e);
+                CCLogUtil.printLog("e", e);
             } finally {
                 if (is != null) {
                     try {
                         is.close();
                     } catch (Exception e) {
-                        NetLogUtil.printLog("e", e);
+                        CCLogUtil.printLog("e", e);
                     }
                 }
             }

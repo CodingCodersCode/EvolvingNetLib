@@ -1,17 +1,19 @@
 package com.codingcoderscode.evolving.net.request;
 
-import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
-import com.codingcoderscode.evolving.net.request.base.CCRequest;
-import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
+import com.codingcoderscode.evolving.net.request.base.CCSimpleDownloadRequest;
+import com.codingcoderscode.evolving.net.request.listener.CCMultiDownloadProgressListener;
+import com.codingcoderscode.evolving.net.request.listener.CCSingleDownloadProgressListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.request.comparator.CCDownloadTaskComparator;
 import com.codingcoderscode.evolving.net.request.entity.CCDownloadTask;
+import com.codingcoderscode.evolving.net.request.entity.CCMultiDownloadTaskWrapper;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
 import com.codingcoderscode.evolving.net.request.wrapper.CCDownloadRequestWrapper;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
 
 import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscription;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +36,7 @@ import retrofit2.Call;
  * <p>
  * 多文件下载
  */
-public class CCMultiDownloadRequest<T> extends CCRequest<T, CCMultiDownloadRequest<T>> implements CCNetResultListener {
+public class CCMultiDownloadRequest<T> extends CCSimpleDownloadRequest<T> implements CCSingleDownloadProgressListener {
     private final String LOG_TAG = getClass().getCanonicalName();
 
     //处于等待下载(WAIT)状态的任务集合
@@ -48,12 +50,13 @@ public class CCMultiDownloadRequest<T> extends CCRequest<T, CCMultiDownloadReque
     private int maxTaskCount;
     //已经存在的任务数量
     private AtomicInteger existTaskCount;
-    //下载状态回调
-    private CCNetResultListener mNetResultListener;
     //最大重试次数
     private final int DEFAULT_RETRY_COUNT = 3;
 
     private boolean requestInPriority = true;
+
+    //进度回调
+    private CCMultiDownloadProgressListener mMultiDownloadProgressListener;
 
     public CCMultiDownloadRequest(String url, CCNetApiService apiService) {
         super(url, apiService);
@@ -145,7 +148,7 @@ public class CCMultiDownloadRequest<T> extends CCRequest<T, CCMultiDownloadReque
      * @return
      */
     public synchronized boolean hasDownloadingQueueFull() {
-        if (existTaskCount.intValue() < this.maxTaskCount) {
+        if (existTaskCount.intValue() < this.getMaxTaskCount()) {
             return false;
         } else {
             return true;
@@ -161,7 +164,7 @@ public class CCMultiDownloadRequest<T> extends CCRequest<T, CCMultiDownloadReque
         Map.Entry<CCDownloadTask, CCDownloadRequestWrapper> toDownloadTaskEntry = null;
         CCDownloadTask toDownloadTask = null;
         CCDownloadRequestWrapper toDownloadTaskWrapper = null;
-        CCDownloadRequest downloadRequest = null;
+        CCSimpleDownloadRequest downloadRequest = null;
         try {
             existTaskCount.incrementAndGet();
 
@@ -180,16 +183,13 @@ public class CCMultiDownloadRequest<T> extends CCRequest<T, CCMultiDownloadReque
                         downloadRequest = new CCDownloadRequest<T>(toDownloadTask.getSourceUrl(), getCCNetApiService())
                                 .setFileSavePath(toDownloadTask.getSavePath())
                                 .setFileSaveName(toDownloadTask.getSaveName())
-                                .setRetryCount(DEFAULT_RETRY_COUNT)
-                                .setCacheQueryMode(CCCMode.QueryMode.MODE_NET)
-                                .setCacheSaveMode(CCCMode.SaveMode.MODE_NONE)
-                                .setReqTag(toDownloadTask)
                                 .setSupportRage(true)
-                                .setCCNetCallback(this)
-                                .setNetLifecycleComposer(getNetLifecycleComposer())
-                                .setResponseBeanType(Void.class);
+                                .setDownloadProgressListener(this)
+                                .setRetryCount(DEFAULT_RETRY_COUNT)
+                                .setReqTag(CCMultiDownloadTaskWrapper.newInstance(getDefaultTaskReqTag(), toDownloadTask));
 
                         downloadRequest.executeAsync();
+
                         toDownloadTaskWrapper.setRequest(downloadRequest);
                     }
 
@@ -197,14 +197,10 @@ public class CCMultiDownloadRequest<T> extends CCRequest<T, CCMultiDownloadReque
                     downloadRequest = new CCDownloadRequest<T>(toDownloadTask.getSourceUrl(), getCCNetApiService())
                             .setFileSavePath(toDownloadTask.getSavePath())
                             .setFileSaveName(toDownloadTask.getSaveName())
-                            .setRetryCount(DEFAULT_RETRY_COUNT)
-                            .setCacheQueryMode(CCCMode.QueryMode.MODE_NET)
-                            .setCacheSaveMode(CCCMode.SaveMode.MODE_NONE)
-                            .setReqTag(toDownloadTask)
                             .setSupportRage(true)
-                            .setCCNetCallback(this)
-                            .setNetLifecycleComposer(getNetLifecycleComposer())
-                            .setResponseBeanType(Void.class);
+                            .setDownloadProgressListener(this)
+                            .setRetryCount(DEFAULT_RETRY_COUNT)
+                            .setReqTag(CCMultiDownloadTaskWrapper.newInstance(getDefaultTaskReqTag(), toDownloadTask));
 
                     downloadRequest.executeAsync();
 
@@ -221,8 +217,8 @@ public class CCMultiDownloadRequest<T> extends CCRequest<T, CCMultiDownloadReque
 
             pause(toDownloadTask, toDownloadTaskWrapper);
 
-            if (mNetResultListener != null) {
-                mNetResultListener.onRequestFail(toDownloadTask, e);
+            if ((this.getDownloadProgressListener() != null) && isRequestRunning() && !isForceCanceled()) {
+                this.getDownloadProgressListener().onError(getReqTag(), toDownloadTask, e);
             }
         }
     }
@@ -232,6 +228,54 @@ public class CCMultiDownloadRequest<T> extends CCRequest<T, CCMultiDownloadReque
         pauseAll();
         super.cancel();
 
+    }
+
+    @Override
+    protected void onSubscribeLocal(Subscription s) {
+        super.onSubscribeLocal(s);
+        try {
+            if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
+                getDownloadProgressListener().<T>onRequestStart(getReqTag(), getNetCCCanceler());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onNextLocal(CCBaseResponse<T> tccBaseResponse) {
+        super.onNextLocal(tccBaseResponse);
+        try {
+            if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
+                getDownloadProgressListener().<T>onRequestSuccess(getReqTag());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onErrorLocal(Throwable t) {
+        super.onErrorLocal(t);
+        try {
+            if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
+                getDownloadProgressListener().<T>onRequestError(getReqTag(), t);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onCompleteLocal() {
+        super.onCompleteLocal();
+        try {
+            if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
+                getDownloadProgressListener().<T>onRequestComplete(getReqTag());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -495,17 +539,6 @@ public class CCMultiDownloadRequest<T> extends CCRequest<T, CCMultiDownloadReque
         }
     }
 
-
-    @SuppressWarnings("unchecked")
-    public CCMultiDownloadRequest<T> setCCNetCallback(com.codingcoderscode.evolving.net.request.callback.CCNetResultListener netResultListener) {
-        this.mNetResultListener = netResultListener;
-        return this;
-    }
-
-    public CCNetResultListener getCCNetResultListener() {
-        return mNetResultListener;
-    }
-
     public int getMaxTaskCount() {
         return maxTaskCount;
     }
@@ -515,44 +548,47 @@ public class CCMultiDownloadRequest<T> extends CCRequest<T, CCMultiDownloadReque
         return this;
     }
 
+    /*
     @Override
-    public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
-        if (this.mNetResultListener != null) {
-            this.mNetResultListener.onStartRequest(reqTag, canceler);
+    public void onIntervalCallback() {
+
+    }
+    */
+
+    @Override
+    public void onStart(Object tag, CCDownloadTask downloadTask, CCCanceler canceler) {
+        if ((this.getDownloadProgressListener() != null) && isRequestRunning() && !isForceCanceled()) {
+            this.getDownloadProgressListener().onStart(getReqTag(), getOriginalDownloadTask(tag, downloadTask), canceler);
         }
     }
 
     @Override
-    public <T> void onDiskCacheQuerySuccess(Object reqTag, T response) {
-
+    public void onProgressSave(Object reqTag, CCDownloadTask downloadTask, int progress, long netSpeed, long completedSize, long fileSize) {
+        if ((this.getDownloadProgressListener() != null) && isRequestRunning() && !isForceCanceled()) {
+            this.getDownloadProgressListener().onProgressSave(getReqTag(), getOriginalDownloadTask(reqTag, downloadTask), progress, netSpeed, completedSize, fileSize);
+        }
     }
 
     @Override
-    public <T> void onDiskCacheQueryFail(Object reqTag, Throwable t) {
-
+    public void onProgress(Object tag, CCDownloadTask downloadTask, int progress, long netSpeed, long downloadedSize, long fileSize) {
+        if ((this.getDownloadProgressListener() != null) && isRequestRunning() && !isForceCanceled()) {
+            this.getDownloadProgressListener().onProgress(getReqTag(), getOriginalDownloadTask(tag, downloadTask), progress, netSpeed, downloadedSize, fileSize);
+        }
     }
 
     @Override
-    public <T> void onNetSuccess(Object reqTag, T response) {
-
-    }
-
-    @Override
-    public <T> void onNetFail(Object reqTag, Throwable t) {
-
-    }
-
-    @Override
-    public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
+    public void onSuccess(Object tag, CCDownloadTask downloadTask) {
+        CCDownloadTask originalTask;
         try {
-            if (reqTag != null && reqTag instanceof CCDownloadTask) {
-                CCDownloadTask task = (CCDownloadTask) reqTag;
-                this.taskDownloading.remove(task);
-                this.existTaskCount.getAndDecrement();
+            originalTask = getOriginalDownloadTask(tag, downloadTask);
+
+            if ((this.getDownloadProgressListener() != null) && isRequestRunning() && !isForceCanceled()) {
+                this.getDownloadProgressListener().onSuccess(getReqTag(), originalTask);
             }
 
-            if (this.mNetResultListener != null) {
-                this.mNetResultListener.onRequestSuccess(reqTag, response, dataSourceMode);
+            if (originalTask != null) {
+                this.taskDownloading.remove(originalTask);
+                this.existTaskCount.getAndDecrement();
             }
 
             this.onCheckRequest();
@@ -562,22 +598,24 @@ public class CCMultiDownloadRequest<T> extends CCRequest<T, CCMultiDownloadReque
     }
 
     @Override
-    public <T> void onRequestFail(Object reqTag, Throwable t) {
+    public void onError(Object tag, CCDownloadTask downloadTask, Throwable t) {
+        CCDownloadTask originalTask;
         try {
-            if (reqTag != null && reqTag instanceof CCDownloadTask) {
-                CCDownloadTask task = (CCDownloadTask) reqTag;
-                CCDownloadRequestWrapper requestWrapper = this.taskDownloading.remove(task);
+            originalTask = getOriginalDownloadTask(tag, downloadTask);
+
+            if ((this.getDownloadProgressListener() != null) && isRequestRunning() && !isForceCanceled()) {
+                this.getDownloadProgressListener().onError(getReqTag(), originalTask, t);
+            }
+
+            if (originalTask != null) {
+                CCDownloadRequestWrapper requestWrapper = this.taskDownloading.remove(originalTask);
 
                 if (requestWrapper.getRequest() != null) {
                     requestWrapper.getRequest().cancel();
                 }
 
-                this.taskPaused.put(task, requestWrapper);
+                this.taskPaused.put(originalTask, requestWrapper);
                 this.existTaskCount.getAndDecrement();
-            }
-
-            if (this.mNetResultListener != null) {
-                this.mNetResultListener.onRequestFail(reqTag, t);
             }
 
             this.onCheckRequest();
@@ -587,29 +625,39 @@ public class CCMultiDownloadRequest<T> extends CCRequest<T, CCMultiDownloadReque
     }
 
     @Override
-    public <T> void onRequestComplete(Object reqTag) {
-        if (this.mNetResultListener != null) {
-            this.mNetResultListener.onRequestComplete(reqTag);
+    public void onComplete(Object tag, CCDownloadTask downloadTask) {
+        if ((this.getDownloadProgressListener() != null) && isRequestRunning() && !isForceCanceled()) {
+            this.getDownloadProgressListener().onComplete(getReqTag(), getOriginalDownloadTask(tag, downloadTask));
         }
     }
 
-    @Override
-    public <T> void onProgress(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
-        if (this.mNetResultListener != null) {
-            this.mNetResultListener.onProgress(reqTag, progress, netSpeed, completedSize, fileSize);
-        }
+    private String getDefaultTaskReqTag() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("MultiDownload_Task_TimeStamp_").append(System.currentTimeMillis());
+        return builder.toString();
     }
 
-    @Override
-    public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
-        if (this.mNetResultListener != null) {
-            this.mNetResultListener.onProgressSave(reqTag, progress, netSpeed, completedSize, fileSize);
-        }
+    public CCMultiDownloadProgressListener getDownloadProgressListener() {
+        return mMultiDownloadProgressListener;
     }
 
-    @Override
-    public void onIntervalCallback() {
+    public CCMultiDownloadRequest<T> setDownloadProgressListener(CCMultiDownloadProgressListener downloadProgressListener) {
+        this.mMultiDownloadProgressListener = downloadProgressListener;
+        return this;
+    }
 
+    private CCDownloadTask getOriginalDownloadTask(Object tag, CCDownloadTask defValue) {
+        CCDownloadTask resultTask = defValue;
+        CCMultiDownloadTaskWrapper taskWrapper;
+        try {
+            if (tag != null && tag instanceof CCMultiDownloadTaskWrapper) {
+                taskWrapper = (CCMultiDownloadTaskWrapper) tag;
+                resultTask = taskWrapper.getDownloadTask();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultTask;
     }
 }
 

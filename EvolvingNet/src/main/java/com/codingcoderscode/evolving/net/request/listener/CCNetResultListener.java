@@ -1,4 +1,4 @@
-package com.codingcoderscode.evolving.net.request.callback;
+package com.codingcoderscode.evolving.net.request.listener;
 
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 

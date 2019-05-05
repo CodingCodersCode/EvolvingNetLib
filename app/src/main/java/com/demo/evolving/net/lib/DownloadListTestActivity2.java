@@ -12,9 +12,9 @@ import android.widget.TextView;
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
 import com.codingcoderscode.evolving.net.CCRxNetManager;
 import com.codingcoderscode.evolving.net.request.CCMultiDownloadRequest;
-import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
+import com.codingcoderscode.evolving.net.request.listener.CCNetResultListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
-import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.codingcoderscode.evolving.net.util.CCLogUtil;
 import com.demo.evolving.net.lib.downloadmanager.CCDownloadStatus;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
@@ -65,7 +65,7 @@ public class DownloadListTestActivity2  extends CCBaseRxAppCompactActivity imple
         this.rvTask.setAdapter(new TaskRvAdapter());
 
 
-        NetLogUtil.setDebugAble(true);
+        CCLogUtil.setDebugAble(true);
 
 
         Map<String, String> commonHeaderMap = new HashMap<>();
@@ -117,7 +117,7 @@ public class DownloadListTestActivity2  extends CCBaseRxAppCompactActivity imple
                 break;
             case R.id.tv_cancel:
                 ccMultiDownladRequest.cancel();
-                NetLogUtil.printLog("e", LOG_TAG, "点击了Cancel按钮");
+                CCLogUtil.printLog("e", LOG_TAG, "点击了Cancel按钮");
                 break;
             case R.id.tv_resume:
                 ccMultiDownladRequest.resumeAll();
@@ -156,11 +156,11 @@ public class DownloadListTestActivity2  extends CCBaseRxAppCompactActivity imple
             this.rvTask.getAdapter().notifyDataSetChanged();
 
 
-            if (ccMultiDownladRequest == null){
+            /*if (ccMultiDownladRequest == null){
                 ccMultiDownladRequest = ((CCApplication)this.getApplicationContext()).getCcRxNetManager().<Void>multiDownload("").setMaxTaskCount(2).setCCNetCallback(new RxNetDownloadCalback());
             }
 
-            ccMultiDownladRequest.startAll(taskList);
+            ccMultiDownladRequest.startAll(taskList);*/
 
             //CCDownloadManager.getInstance().startAll(taskList);
 
@@ -201,7 +201,7 @@ public class DownloadListTestActivity2  extends CCBaseRxAppCompactActivity imple
     private class RxNetDownloadCalback implements CCNetResultListener {
         @Override
         public <T> void onStartRequest(Object reqTag, CCCanceler canceler) {
-            NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onStart方法，调用者reqTag=" + reqTag);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onStart方法，调用者reqTag=" + reqTag);
         }
 
         @Override
@@ -226,7 +226,7 @@ public class DownloadListTestActivity2  extends CCBaseRxAppCompactActivity imple
 
         @Override
         public <T> void onRequestSuccess(Object reqTag, T response, int dataSourceMode) {
-            NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onSuccess方法，调用者reqTag=" + reqTag);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onSuccess方法，调用者reqTag=" + reqTag);
             if (reqTag instanceof CCDownloadTask2){
 
                 CCDownloadTask2 task = (CCDownloadTask2)reqTag;
@@ -242,7 +242,7 @@ public class DownloadListTestActivity2  extends CCBaseRxAppCompactActivity imple
 
         @Override
         public <T> void onRequestFail(Object reqTag, Throwable t) {
-            NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onError方法，调用者reqTag=" + reqTag, t);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onError方法，调用者reqTag=" + reqTag, t);
 
             if (reqTag instanceof CCDownloadTask2){
 
@@ -258,12 +258,12 @@ public class DownloadListTestActivity2  extends CCBaseRxAppCompactActivity imple
 
         @Override
         public <T> void onRequestComplete(Object reqTag) {
-            NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onComplete方法，调用者reqTag=" + reqTag);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onComplete方法，调用者reqTag=" + reqTag);
         }
 
         @Override
         public <T> void onProgress(Object tag, int progress, long netSpeed, long completedSize, long fileSize) {
-            NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onProgress方法，调用者tag=" + tag + ",progress=" + progress + "，netSpeed=" + netSpeed + "，completedSize=" + completedSize + "，fileSize=" + fileSize);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onProgress方法，调用者tag=" + tag + ",progress=" + progress + "，netSpeed=" + netSpeed + "，completedSize=" + completedSize + "，fileSize=" + fileSize);
 
             if (tag instanceof CCDownloadTask2){
 
@@ -333,7 +333,7 @@ public class DownloadListTestActivity2  extends CCBaseRxAppCompactActivity imple
             holder.tvTaskName.setText("任务名称:" + task.getSaveName());
             holder.tvProgress.setText("任务进度:" + task.getProgress());
 
-            NetLogUtil.printLog("e", "****************", "任务进度:" + task.getProgress());
+            CCLogUtil.printLog("e", "****************", "任务进度:" + task.getProgress());
 
             switch (task.getDownloadStatus()){
                 case CCDownloadStatus.WAIT:

@@ -2,6 +2,7 @@ package com.codingcoderscode.evolving.net.request;
 
 import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
+import com.codingcoderscode.evolving.net.request.base.CCSimpleRequest;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
 import com.codingcoderscode.evolving.net.util.CCNetUtil;
 
@@ -14,7 +15,7 @@ import retrofit2.Call;
  * POST类型请求类
  */
 
-public class CCPostRequest<T> extends CCRequest<T, CCPostRequest<T>> {
+public class CCPostRequest<T> extends CCSimpleRequest<T> {
 
     public CCPostRequest(String url, CCNetApiService apiService) {
         super(url, apiService);

@@ -3,6 +3,7 @@ package com.codingcoderscode.evolving.net.request;
 
 import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
+import com.codingcoderscode.evolving.net.request.base.CCSimpleRequest;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
 import com.codingcoderscode.evolving.net.util.CCNetUtil;
 
@@ -15,7 +16,7 @@ import retrofit2.Call;
  * GET类型请求类
  */
 
-public class CCGetRequest<T> extends CCRequest<T, CCGetRequest<T>> {
+public class CCGetRequest<T> extends CCSimpleRequest<T> {
 
     public CCGetRequest(String url, CCNetApiService apiService) {
         super(url, apiService);

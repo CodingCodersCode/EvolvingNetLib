@@ -1,7 +1,6 @@
 package com.codingcoderscode.evolving.net.request.retry;
 
-import com.codingcoderscode.evolving.net.request.exception.CCUnExpectedException;
-import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.codingcoderscode.evolving.net.util.CCLogUtil;
 
 import org.reactivestreams.Publisher;
 
@@ -39,19 +38,19 @@ public class FlowableRetryWithDelay implements Function<Flowable<? extends Throw
             public Publisher<?> apply(Throwable throwable) throws Exception {
                 try {
                     if (throwable.getMessage().equals("write failed: ENOSPC (No space left on device)")) {
-                        //NetLogUtil.printLog("e", LOG_TAG, "磁盘空间不足，不发起重试请求", throwable);
+                        //CCLogUtil.printLog("e", LOG_TAG, "磁盘空间不足，不发起重试请求", throwable);
                         return Flowable.error(throwable);
                     } else if (throwable instanceof IOException) {
                         retryCount += 1;
                         if (retryCount <= maxRetries) {
-                            NetLogUtil.printLog("e", LOG_TAG, "第" + retryCount + "次失败重试,在" + retryDelayMillis + "毫秒后开始", throwable);
+                            CCLogUtil.printLog("e", LOG_TAG, "第" + retryCount + "次失败重试,在" + retryDelayMillis + "毫秒后开始", throwable);
                             return Flowable.timer(retryDelayMillis, TimeUnit.MILLISECONDS, Schedulers.trampoline());
                         } else {
-                            NetLogUtil.printLog("e", LOG_TAG, "重试次数已用尽", throwable);
+                            CCLogUtil.printLog("e", LOG_TAG, "重试次数已用尽", throwable);
                             return Flowable.error(throwable);
                         }
                     } else {
-                        NetLogUtil.printLog("e", LOG_TAG, "不是IOException，即不是网络异常，不发起重试", throwable);
+                        CCLogUtil.printLog("e", LOG_TAG, "不是IOException，即不是网络异常，不发起重试", throwable);
                         return Flowable.error(throwable);
                     }
                 } catch (Exception e) {

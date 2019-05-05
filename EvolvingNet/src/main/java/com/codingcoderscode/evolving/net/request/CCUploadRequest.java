@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
 import com.codingcoderscode.evolving.net.request.api.CCNetApiService;
 import com.codingcoderscode.evolving.net.request.base.CCRequest;
+import com.codingcoderscode.evolving.net.request.base.CCSimpleRequest;
 import com.codingcoderscode.evolving.net.request.entity.CCFile;
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
 import com.codingcoderscode.evolving.net.request.requestbody.CCSimpleUploadRequestBody;
@@ -26,7 +27,7 @@ import retrofit2.Call;
  * 上传文件类型请求类
  */
 
-public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
+public class CCUploadRequest<T> extends CCSimpleRequest<T> {
 
     private Map<String, Object> mTxtRequestParam;
 
@@ -107,8 +108,9 @@ public class CCUploadRequest<T> extends CCRequest<T, CCUploadRequest<T>> {
     @Deprecated
     @Override
     public CCUploadRequest<T> setRequestParam(Map<String, Object> requestParam) {
+        super.setRequestParam(requestParam);
         this.mTxtRequestParam = requestParam;
-        return super.setRequestParam(requestParam);
+        return this;
     }
 
     public Map<String, Object> getTxtRequestParam() {
