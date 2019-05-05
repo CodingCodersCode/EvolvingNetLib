@@ -126,7 +126,7 @@ public interface CCNetApiService {
      * @return
      */
     @HEAD
-    Call<Void> executeHead(
+    Call<ResponseBody> executeHead(
             @Url String url,
             @HeaderMap Map<String, String> headerMap,
             @QueryMap Map<String, Object> paramMap);

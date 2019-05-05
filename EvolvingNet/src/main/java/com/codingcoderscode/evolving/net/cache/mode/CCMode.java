@@ -4,7 +4,7 @@ package com.codingcoderscode.evolving.net.cache.mode;
  * Created by CodingCodersCode on 2017/10/27.
  */
 
-public class CCCMode {
+public class CCMode {
 
     public static class QueryMode {
         //只从网络获取

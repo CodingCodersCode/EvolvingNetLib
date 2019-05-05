@@ -8,7 +8,7 @@ import java.util.Map;
  * Created by CodingCodersCode on 2017/10/24.
  */
 
-public class Utils {
+public class CCUtils {
 
     public static <T> T checkNotNull(T object, String message) {
         if (object == null) {

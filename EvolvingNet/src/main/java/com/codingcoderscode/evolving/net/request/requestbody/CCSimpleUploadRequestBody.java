@@ -5,7 +5,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
+import com.codingcoderscode.evolving.net.request.listener.CCNetResultListener;
 
 import java.io.File;
 import java.io.IOException;

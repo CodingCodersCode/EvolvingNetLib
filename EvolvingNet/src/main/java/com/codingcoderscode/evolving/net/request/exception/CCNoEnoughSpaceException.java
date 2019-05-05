@@ -6,20 +6,20 @@ package com.codingcoderscode.evolving.net.request.exception;
  * 磁盘空间不足异常，用于下载时使用
  */
 
-public class NoEnoughSpaceException extends Exception {
+public class CCNoEnoughSpaceException extends Exception {
 
-    public NoEnoughSpaceException() {
+    public CCNoEnoughSpaceException() {
     }
 
-    public NoEnoughSpaceException(String message) {
+    public CCNoEnoughSpaceException(String message) {
         super(message);
     }
 
-    public NoEnoughSpaceException(String message, Throwable cause) {
+    public CCNoEnoughSpaceException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public NoEnoughSpaceException(Throwable cause) {
+    public CCNoEnoughSpaceException(Throwable cause) {
         super(cause);
     }
 

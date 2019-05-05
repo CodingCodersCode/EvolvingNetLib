@@ -7,7 +7,7 @@ import android.util.Log;
  * Created by CodingCodersCode on 2017/3/29.
  */
 
-public class NetLogUtil {
+public class CCLogUtil {
     private static boolean DEBUG = false;
 
     public static void setDebugAble(boolean debug) {
@@ -26,7 +26,7 @@ public class NetLogUtil {
 
     public static void printLog(String window, String msg) {
 
-        printLog(window, NetLogUtil.class.getCanonicalName(), msg, null);
+        printLog(window, CCLogUtil.class.getCanonicalName(), msg, null);
 
     }
 
@@ -37,7 +37,7 @@ public class NetLogUtil {
     }
 
     public static void printLog(String window, Throwable tr) {
-        printLog(window, NetLogUtil.class.getCanonicalName(), "— —", tr);
+        printLog(window, CCLogUtil.class.getCanonicalName(), "— —", tr);
     }
 
     public static void printLog(String window, String tag, Throwable tr) {

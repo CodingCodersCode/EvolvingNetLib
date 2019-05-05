@@ -1,6 +1,6 @@
 package com.codingcoderscode.evolving.net.request.ssl;
 
-import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.codingcoderscode.evolving.net.util.CCLogUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +28,7 @@ import javax.net.ssl.X509TrustManager;
  * Https工具类
  */
 
-public class HttpsUtil {
+public class CCHttpsUtil {
 
     public static class SSLParams {
         private SSLSocketFactory sslSocketFactory;
@@ -123,10 +123,10 @@ public class HttpsUtil {
             sslParams.x509TrustManager = manager;
             return sslParams;
         } catch (NoSuchAlgorithmException e) {
-            NetLogUtil.printLog("e", HttpsUtil.class.getCanonicalName(), "发生异常", e);
+            CCLogUtil.printLog("e", CCHttpsUtil.class.getCanonicalName(), "发生异常", e);
             throw new AssertionError(e);
         } catch (KeyManagementException e) {
-            NetLogUtil.printLog("e", HttpsUtil.class.getCanonicalName(), "发生异常", e);
+            CCLogUtil.printLog("e", CCHttpsUtil.class.getCanonicalName(), "发生异常", e);
             throw new AssertionError(e);
         }
     }
@@ -140,7 +140,7 @@ public class HttpsUtil {
             kmf.init(clientKeyStore, password.toCharArray());
             return kmf.getKeyManagers();
         } catch (Exception e) {
-            NetLogUtil.printLog("e", HttpsUtil.class.getCanonicalName(), "发生异常", e);
+            CCLogUtil.printLog("e", CCHttpsUtil.class.getCanonicalName(), "发生异常", e);
         }
         return null;
     }
@@ -172,7 +172,7 @@ public class HttpsUtil {
             //通过tmf获取TrustManager数组，TrustManager也会信任keyStore中的证书
             return tmf.getTrustManagers();
         } catch (Exception e) {
-            NetLogUtil.printLog("e", HttpsUtil.class.getCanonicalName(), "发生异常", e);
+            CCLogUtil.printLog("e", CCHttpsUtil.class.getCanonicalName(), "发生异常", e);
         }
         return null;
     }

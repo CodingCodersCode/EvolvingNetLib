@@ -1,7 +1,7 @@
 package com.codingcoderscode.evolving.net.response.convert;
 
 import com.codingcoderscode.evolving.net.request.exception.CCUnConvertableException;
-import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.codingcoderscode.evolving.net.util.CCLogUtil;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -40,7 +40,7 @@ public class CCDefaultResponseBodyConvert {
                 result = mGson.fromJson(new String(responseBody.bytes()), typeOfT);
             }
         } catch (Exception e) {
-            NetLogUtil.printLog("e", CCDefaultResponseBodyConvert.class.getCanonicalName(), "转换响应json发生异常", e);
+            CCLogUtil.printLog("e", CCDefaultResponseBodyConvert.class.getCanonicalName(), "转换响应json发生异常", e);
             throw new CCUnConvertableException(e, getString(responseBody));
         }
         return result;

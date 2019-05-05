@@ -6,7 +6,7 @@ import android.os.Build;
 /**
  * Date：2018/10/30 16:33
  * <p>
- * author: ghc
+ * author: CodingCodersCode
  */
 public class CCUnConvertableException extends Exception {
     private String originRawResponse;

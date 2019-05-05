@@ -1,6 +1,6 @@
 package com.codingcoderscode.evolving.net.request.wrapper;
 
-import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
+import com.codingcoderscode.evolving.net.request.base.CCSimpleDownloadRequest;
 
 /**
  * Created by CodingCodersCode on 2017/11/13.
@@ -8,17 +8,17 @@ import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
 
 public class CCDownloadRequestWrapper {
 
-    private CCDownloadRequest request;
+    private CCSimpleDownloadRequest request;
 
-    public CCDownloadRequestWrapper(CCDownloadRequest request) {
+    public CCDownloadRequestWrapper(CCSimpleDownloadRequest request) {
         this.request = request;
     }
 
-    public CCDownloadRequest getRequest() {
+    public CCSimpleDownloadRequest getRequest() {
         return request;
     }
 
-    public void setRequest(CCDownloadRequest request) {
+    public void setRequest(CCSimpleDownloadRequest request) {
         this.request = request;
     }
 

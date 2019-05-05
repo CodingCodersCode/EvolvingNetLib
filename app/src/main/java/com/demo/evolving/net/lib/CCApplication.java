@@ -3,7 +3,7 @@ package com.demo.evolving.net.lib;
 import android.app.Application;
 
 import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.codingcoderscode.evolving.net.util.CCLogUtil;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -59,7 +59,7 @@ public class CCApplication extends Application {
                     //.sslSocketFactory(HttpsUtil.getSSlSocketFactory(getAssets().open("srca.cer")))
                     .build();
         } catch (Exception e) {
-            NetLogUtil.printLog("e", LOG_TAG, "初始化EvolvingNetLib.RxNetManager失败", e);
+            CCLogUtil.printLog("e", LOG_TAG, "初始化EvolvingNetLib.RxNetManager失败", e);
         }
     }
 

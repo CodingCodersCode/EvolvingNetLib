@@ -6,15 +6,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
-import com.codingcoderscode.evolving.net.cache.mode.CCCMode;
-import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
-import com.codingcoderscode.evolving.net.request.callback.CCNetResultListener;
+import com.codingcoderscode.evolving.net.request.base.CCSimpleDownloadRequest;
+import com.codingcoderscode.evolving.net.request.listener.CCSingleDownloadProgressListener;
+import com.codingcoderscode.evolving.net.request.listener.CCNetResultListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
-import com.codingcoderscode.evolving.net.response.CCBaseResponse;
-import com.codingcoderscode.evolving.net.util.NetLogUtil;
+import com.codingcoderscode.evolving.net.request.entity.CCDownloadTask;
+import com.codingcoderscode.evolving.net.util.CCLogUtil;
 import com.demo.evolving.net.lib.CCApplication;
 import com.demo.evolving.net.lib.R;
-import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +38,7 @@ public class SingleDownloadRequestActivity extends CCBaseRxAppCompactActivity im
     private TextView tv_file_download_status;
     private TextView tv_file_download_progress;
 
-    private CCDownloadRequest downloadRequest;
+    private CCSimpleDownloadRequest downloadRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,19 +116,16 @@ public class SingleDownloadRequestActivity extends CCBaseRxAppCompactActivity im
                 String downloadUrl = "/16891/371C7C353C7B87011FB3DE8B12BCBCA5.apk?fsname=com.tencent.mm_7.0.0_1380.apk&csr=1bbd";
 
                 downloadRequest = ((CCApplication)this.getApplicationContext()).getCcRxNetManager().<Void>download(downloadUrl)//创建指定下载路径的下载请求
+                        .setFileSaveName("test_OkGo_apk_file_download.apk")//设置下载文件本地保存名称
+                        .setSupportRage(true)//设置是否支持断点
+                        .setDownloadProgressListener(new DownloadProgressListenerImpl())
+                        .setCCDownloadFileWriteListener(null)//设置自定义的文件下载数据本地写入回调
                         .setHeaderMap(specifyHeaderMap)//设置当前请求的特别header信息
                         .setPathMap(pathMap)//设置restful api的路径替换信息，作用同Retrofit的@Path
-                        .setFileSaveName("test_OkGo_apk_file_download.apk")//设置下载文件本地保存名称
                         .setRetryCount(3)//设置失败重试次数，具体重试次数根据RxJava/Android对异常类型的判断有关
                         //.setCacheQueryMode(CCCMode.QueryMode.MODE_NET)//设置缓存查询策略
                         //.setCacheSaveMode(CCCMode.SaveMode.MODE_NONE)//设置缓存保存策略
-                        .setReqTag("test_login_req_tag")//设置请求标识
-                        //.setCacheKey("test_login_req_cache_key")//设置缓存操作标识
-                        .setSupportRage(true)//设置是否支持断点
-                        .setCCNetCallback(new RxNetDownloadCalback())//设置进度、网络请求状态等回调
-                        .setCCDownloadFileWriteListener(null)//设置自定义的文件下载数据本地写入回调
-                        .setNetLifecycleComposer(this.<CCBaseResponse<Void>>bindUntilEvent(ActivityEvent.DESTROY))//将请求与Activity生命周期绑定，在Activity指定的生命周期发生时取消网络请求
-                        .setResponseBeanType(Void.class);//设置server响应的json所对应的本地JavaBean实体类类型
+                        .setReqTag("test_login_req_tag");//设置请求标识
 
                 downloadRequest.executeAsync();//异步执行请求
 
@@ -205,7 +201,7 @@ public class SingleDownloadRequestActivity extends CCBaseRxAppCompactActivity im
         public <T> void onRequestFail(Object reqTag, Throwable t) {
             tv_file_download_status.setText("下载失败，详细信息见log，log窗口:Error");
             tv_file_download_progress.setText("下载进度：" + gProgress + "%\n下载速度：0B/s\n文件大小：" + gFileSize + "B\n已下载大小：" + gCompletedSize + "B");
-            NetLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onError方法，调用者reqTag=" + reqTag, t);
+            CCLogUtil.printLog("e", LOG_TAG, "调用了RxNetDownloadCalback.onError方法，调用者reqTag=" + reqTag, t);
         }
 
         @Override
@@ -217,8 +213,37 @@ public class SingleDownloadRequestActivity extends CCBaseRxAppCompactActivity im
         @Override
         public <T> void onProgress(Object tag, int progress, long netSpeed, long completedSize, long fileSize) {
 
+
+        }
+
+        @Override
+        public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
+
+        }
+
+        @Override
+        public void onIntervalCallback() {
+
+        }
+    }
+
+
+    private class DownloadProgressListenerImpl implements CCSingleDownloadProgressListener {
+
+        @Override
+        public void onStart(Object tag, CCDownloadTask downloadTask, CCCanceler canceler) {
+
+        }
+
+        @Override
+        public void onProgressSave(Object reqTag, CCDownloadTask downloadTask, int progress, long netSpeed, long completedSize, long fileSize) {
+
+        }
+
+        @Override
+        public void onProgress(Object tag, CCDownloadTask downloadTask, int progress, long netSpeed, long downloadedSize, long fileSize) {
             gProgress = progress;
-            gCompletedSize = completedSize;
+            gCompletedSize = downloadedSize;
             gFileSize = fileSize;
 
             if (netSpeed > 1024 * 1024){
@@ -231,17 +256,22 @@ public class SingleDownloadRequestActivity extends CCBaseRxAppCompactActivity im
 
             tv_file_download_progress.setText("下载进度：" + gProgress + "%\n" + "下载速度：" + gNetSpeed + "\n文件大小：" + gFileSize + "B\n已下载大小：" + gCompletedSize + "B");
 
-            //NetLogUtil.printLog("d", LOG_TAG, "调用了RxNetDownloadCalback.onProgress方法，调用者tag=" + tag + ",progress=" + progress + "，netSpeed=" + netSpeed + "，completedSize=" + completedSize + "，fileSize=" + fileSize);
+            //CCLogUtil.printLog("d", LOG_TAG, "调用了RxNetDownloadCalback.onProgress方法，调用者tag=" + tag + ",progress=" + progress + "，netSpeed=" + netSpeed + "，completedSize=" + completedSize + "，fileSize=" + fileSize);
 
         }
 
         @Override
-        public <T> void onProgressSave(Object reqTag, int progress, long netSpeed, long completedSize, long fileSize) {
+        public void onSuccess(Object tag, CCDownloadTask downloadTask) {
 
         }
 
         @Override
-        public void onIntervalCallback() {
+        public void onError(Object tag, CCDownloadTask downloadTask, Throwable t) {
+
+        }
+
+        @Override
+        public void onComplete(Object tag, CCDownloadTask downloadTask) {
 
         }
     }
