@@ -70,13 +70,11 @@ public abstract class CCRequest<T, R extends CCRequest> {
     //取消网络请求对象
     private Subscription netCancelSubscription;
 
-
     //请求是否运行
     private boolean requestRunning;
 
     //是否被强制退出
     private boolean forceCanceled;
-
 
     //磁盘缓存是否已经返回
     private boolean hasDiskRequestResped = false;
@@ -90,7 +88,16 @@ public abstract class CCRequest<T, R extends CCRequest> {
     //发送网络较差回调的时间间隔 单位：毫秒
     private int mIntervalMilliSeconds = 5000;
 
-    //请求生命周期自动管理对象
+    /**
+     * 请求生命周期自动管理对象
+     * <p>
+     * 方式采用Flowable.compose()方式，建议采用以下两个开源库
+     * <p>
+     * https://github.com/zhihu/RxLifecycle
+     * https://github.com/dhhAndroid/RxLife
+     * <p>
+     * 关于https://github.com/uber/AutoDispose的使用方式，未添加，可自行clone源码进行扩展支持
+     */
     private FlowableTransformer<CCBaseResponse<T>, CCBaseResponse<T>> mRequestLifecycleDisposeComposer;
 
     protected abstract int getHttpMethod();
@@ -619,7 +626,7 @@ public abstract class CCRequest<T, R extends CCRequest> {
      * @param disposeComposer
      * @return
      */
-    @VisibleForTesting
+    @SuppressWarnings("unchecked")
     public R setLifecycleDisposeComposer(FlowableTransformer<CCBaseResponse<T>, CCBaseResponse<T>> disposeComposer) {
         this.mRequestLifecycleDisposeComposer = disposeComposer;
         return (R) this;
@@ -630,7 +637,6 @@ public abstract class CCRequest<T, R extends CCRequest> {
      *
      * @return
      */
-    @VisibleForTesting
     public FlowableTransformer<CCBaseResponse<T>, CCBaseResponse<T>> getLifecycleDisposeComposer() {
         return this.mRequestLifecycleDisposeComposer;
     }

@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
 import com.codingcoderscode.evolving.net.request.CCMultiDownloadRequest;
-import com.codingcoderscode.evolving.net.request.listener.CCMultiDownloadProgressListener;
 import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
 import com.codingcoderscode.evolving.net.request.entity.CCDownloadTask;
+import com.codingcoderscode.evolving.net.request.listener.CCMultiDownloadProgressListener;
 import com.codingcoderscode.evolving.net.util.CCLogUtil;
 import com.demo.evolving.net.lib.CCApplication;
 import com.demo.evolving.net.lib.CCDownloadTask2;
@@ -23,6 +23,8 @@ import com.demo.evolving.net.lib.downloadmanager.CCDownloadStatus;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.nekocode.rxlifecycle.LifecycleEvent;
+import cn.nekocode.rxlifecycle.RxLifecycle;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -211,7 +213,7 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
                                     taskList.get(index).setDownloadStatus(CCDownloadStatus.DOWNLOADING);
 
                                     rv_task.getAdapter().notifyItemChanged(index);
-                                }catch (Exception e){
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -253,6 +255,8 @@ public class MultiDownloadRequestActivity extends CCBaseRxAppCompactActivity imp
                         .setMaxTaskCount(2)
                         .setReqTag("Tag_Outer_MultiDownload");
             }
+
+            ccMultiDownladRequest = (CCMultiDownloadRequest) ccMultiDownladRequest.setLifecycleDisposeComposer(RxLifecycle.bind(this).<Void>cancelFlowableWhen(LifecycleEvent.DESTROY_VIEW));
 
             ccMultiDownladRequest.startAll(taskList);
 
