@@ -179,13 +179,31 @@ public abstract class CCSimpleRequest<T> extends CCRequest<T, CCSimpleRequest<T>
     }
 
     @Override
-    public void onErrorLocal(Throwable t) {
+    protected void onErrorLocal(Throwable t) {
         super.onErrorLocal(t);
+        try {
+            if (this.mResultListener != null && this.isRequestRunning() && !this.isForceCanceled()) {
+                this.mResultListener.onRequestFail(getReqTag(), t);
+            }
+            this.setRequestRunning(false);
+            this.setForceCanceled(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void onCompleteLocal() {
+    protected void onCompleteLocal() {
         super.onCompleteLocal();
+        try {
+            if (this.mResultListener != null && this.isRequestRunning() && !this.isForceCanceled()) {
+                this.mResultListener.onRequestComplete(getReqTag());
+            }
+            this.setRequestRunning(false);
+            this.setForceCanceled(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -221,6 +239,9 @@ public abstract class CCSimpleRequest<T> extends CCRequest<T, CCSimpleRequest<T>
         } else {
             onDealWithNetResponse(tccBaseResponse);
         }
+
+        this.setRequestRunning(false);
+        this.setForceCanceled(false);
     }
 
     /**
@@ -479,12 +500,14 @@ public abstract class CCSimpleRequest<T> extends CCRequest<T, CCSimpleRequest<T>
         return this;
     }
 
+    @VisibleForTesting
     @SuppressWarnings("unchecked")
     public CCSimpleRequest<T> setExtInfo(Object extInfo) {
         this.mExtInfo = extInfo;
         return this;
     }
 
+    @VisibleForTesting
     public Object getExtInfo() {
         return mExtInfo;
     }

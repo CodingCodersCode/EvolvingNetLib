@@ -11,6 +11,7 @@ import com.codingcoderscode.evolving.net.request.entity.CCMultiDownloadTaskWrapp
 import com.codingcoderscode.evolving.net.request.method.CCHttpMethod;
 import com.codingcoderscode.evolving.net.request.wrapper.CCDownloadRequestWrapper;
 import com.codingcoderscode.evolving.net.response.CCBaseResponse;
+import com.codingcoderscode.evolving.net.util.CCLogUtil;
 
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscription;
@@ -22,6 +23,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.functions.BooleanSupplier;
 import io.reactivex.functions.Function;
@@ -82,13 +84,18 @@ public class CCMultiDownloadRequest<T> extends CCSimpleDownloadRequest<T> implem
 
     @Override
     protected Flowable<CCBaseResponse<T>> getRequestFlowable() {
-        return Flowable.intervalRange(0, 1, 0, 5 * 60 * 1000, TimeUnit.MILLISECONDS, Schedulers.computation())
+        return Flowable.intervalRange(0, 1, 0, 5 * 60 * 1000, TimeUnit.MILLISECONDS, Schedulers.io())
                 .repeatUntil(new BooleanSupplier() {
                     @Override
                     public boolean getAsBoolean() throws Exception {
-                        return false;
+
+                        boolean repeat = isRequestRunning() && !isForceCanceled();
+
+                        return !repeat;
                     }
                 })
+                .onBackpressureLatest()
+                //.onBackpressureBuffer(BackpressureStrategy.LATEST)
                 //.subscribeOn(Schedulers.computation())
                 //.unsubscribeOn(Schedulers.io())
                 //.observeOn(Schedulers.io())
@@ -102,7 +109,7 @@ public class CCMultiDownloadRequest<T> extends CCSimpleDownloadRequest<T> implem
                         }
                     }
                 })
-                .subscribeOn(Schedulers.computation());
+                /*.subscribeOn(Schedulers.computation())*/;
     }
 
     /**
@@ -186,6 +193,7 @@ public class CCMultiDownloadRequest<T> extends CCSimpleDownloadRequest<T> implem
                                 .setSupportRage(true)
                                 .setDownloadProgressListener(this)
                                 .setRetryCount(DEFAULT_RETRY_COUNT)
+                                .setLifecycleDisposeComposer(this.getLifecycleDisposeComposer())
                                 .setReqTag(CCMultiDownloadTaskWrapper.newInstance(getDefaultTaskReqTag(), toDownloadTask));
 
                         downloadRequest.executeAsync();
@@ -200,6 +208,7 @@ public class CCMultiDownloadRequest<T> extends CCSimpleDownloadRequest<T> implem
                             .setSupportRage(true)
                             .setDownloadProgressListener(this)
                             .setRetryCount(DEFAULT_RETRY_COUNT)
+                            .setLifecycleDisposeComposer(this.getLifecycleDisposeComposer())
                             .setReqTag(CCMultiDownloadTaskWrapper.newInstance(getDefaultTaskReqTag(), toDownloadTask));
 
                     downloadRequest.executeAsync();
@@ -249,30 +258,36 @@ public class CCMultiDownloadRequest<T> extends CCSimpleDownloadRequest<T> implem
             if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
                 getDownloadProgressListener().<T>onRequestSuccess(getReqTag());
             }
+            this.setRequestRunning(false);
+            this.setForceCanceled(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void onErrorLocal(Throwable t) {
+    protected void onErrorLocal(Throwable t) {
         super.onErrorLocal(t);
         try {
             if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
                 getDownloadProgressListener().<T>onRequestError(getReqTag(), t);
             }
+            this.setRequestRunning(false);
+            this.setForceCanceled(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void onCompleteLocal() {
+    protected void onCompleteLocal() {
         super.onCompleteLocal();
         try {
             if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
                 getDownloadProgressListener().<T>onRequestComplete(getReqTag());
             }
+            this.setRequestRunning(false);
+            this.setForceCanceled(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -573,7 +588,14 @@ public class CCMultiDownloadRequest<T> extends CCSimpleDownloadRequest<T> implem
     public void onProgress(Object tag, CCDownloadTask downloadTask, int progress, long netSpeed, long downloadedSize, long fileSize) {
         if ((this.getDownloadProgressListener() != null) && isRequestRunning() && !isForceCanceled()) {
             this.getDownloadProgressListener().onProgress(getReqTag(), getOriginalDownloadTask(tag, downloadTask), progress, netSpeed, downloadedSize, fileSize);
+
+            CCLogUtil.printLog("e", getClass().getCanonicalName(), "回调下载进度");
+        }else {
+            CCLogUtil.printLog("e", getClass().getCanonicalName(), "不能回调下载进度？？？");
         }
+
+
+
     }
 
     @Override
