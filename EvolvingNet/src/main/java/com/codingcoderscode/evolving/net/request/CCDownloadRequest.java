@@ -182,30 +182,36 @@ public class CCDownloadRequest<T> extends CCSimpleDownloadRequest<T> {
             if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
                 getDownloadProgressListener().<T>onSuccess(getReqTag(), this.mDownloadTask);
             }
+            this.setRequestRunning(false);
+            this.setForceCanceled(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void onErrorLocal(Throwable t) {
+    protected void onErrorLocal(Throwable t) {
         super.onErrorLocal(t);
         try {
             if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
                 getDownloadProgressListener().<T>onError(getReqTag(), this.mDownloadTask, t);
             }
+            this.setRequestRunning(false);
+            this.setForceCanceled(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void onCompleteLocal() {
+    protected void onCompleteLocal() {
         super.onCompleteLocal();
         try {
             if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
                 getDownloadProgressListener().<T>onComplete(getReqTag(), this.mDownloadTask);
             }
+            this.setRequestRunning(false);
+            this.setForceCanceled(false);
         } catch (Exception e) {
             e.printStackTrace();
         }

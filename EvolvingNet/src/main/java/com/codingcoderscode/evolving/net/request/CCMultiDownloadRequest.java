@@ -249,30 +249,36 @@ public class CCMultiDownloadRequest<T> extends CCSimpleDownloadRequest<T> implem
             if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
                 getDownloadProgressListener().<T>onRequestSuccess(getReqTag());
             }
+            this.setRequestRunning(false);
+            this.setForceCanceled(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void onErrorLocal(Throwable t) {
+    protected void onErrorLocal(Throwable t) {
         super.onErrorLocal(t);
         try {
             if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
                 getDownloadProgressListener().<T>onRequestError(getReqTag(), t);
             }
+            this.setRequestRunning(false);
+            this.setForceCanceled(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void onCompleteLocal() {
+    protected void onCompleteLocal() {
         super.onCompleteLocal();
         try {
             if (getDownloadProgressListener() != null && isRequestRunning() && !isForceCanceled()) {
                 getDownloadProgressListener().<T>onRequestComplete(getReqTag());
             }
+            this.setRequestRunning(false);
+            this.setForceCanceled(false);
         } catch (Exception e) {
             e.printStackTrace();
         }

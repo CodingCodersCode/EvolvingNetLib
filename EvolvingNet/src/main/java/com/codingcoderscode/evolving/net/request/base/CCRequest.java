@@ -1,6 +1,7 @@
 package com.codingcoderscode.evolving.net.request.base;
 
 
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
@@ -21,6 +22,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
+import io.reactivex.FlowableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.BooleanSupplier;
 import io.reactivex.functions.Function;
@@ -87,6 +89,9 @@ public abstract class CCRequest<T, R extends CCRequest> {
 
     //发送网络较差回调的时间间隔 单位：毫秒
     private int mIntervalMilliSeconds = 5000;
+
+    //请求生命周期自动管理对象
+    private FlowableTransformer<CCBaseResponse<T>, CCBaseResponse<T>> mRequestLifecycleDisposeComposer;
 
     protected abstract int getHttpMethod();
 
@@ -204,6 +209,9 @@ public abstract class CCRequest<T, R extends CCRequest> {
             mRequestParam = CCUtils.requireNonNullValues(mRequestParam);
         }
 
+        /**
+         * 根据不同的数据请求类型，组合数据请求
+         */
         switch (getCacheQueryMode()) {
             case CCMode.QueryMode.MODE_DISK:
                 resultFlowable = getDiskQueryFlowable();
@@ -242,6 +250,11 @@ public abstract class CCRequest<T, R extends CCRequest> {
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 
+        //设置请求生命周期自动管理对象，composer为null时，表示不需要自动管理请求生命周期，否则，需要自动管理请求生命周期，同时，composer为null时compose()抛出异常，特此判空
+        if (this.getLifecycleDisposeComposer() != null) {
+            resultFlowable = resultFlowable.compose(this.getLifecycleDisposeComposer());
+        }
+
         resultFlowable.subscribe(new Subscriber<CCBaseResponse<T>>() {
             @Override
             public void onSubscribe(Subscription s) {
@@ -265,22 +278,43 @@ public abstract class CCRequest<T, R extends CCRequest> {
         });
     }
 
+    /**
+     * 需实现类根据实际情况复写
+     *
+     * @param s
+     */
+    @CallSuper
     protected void onSubscribeLocal(Subscription s) {
         s.request(Long.MAX_VALUE);
         netCancelSubscription = s;
         netCCCanceler = new CCCanceler(this);
     }
 
+    /**
+     * 需实现类根据实际情况复写
+     *
+     * @param tccBaseResponse
+     */
+    @CallSuper
     protected void onNextLocal(CCBaseResponse<T> tccBaseResponse) {
 
     }
 
-    public void onErrorLocal(Throwable t) {
+    /**
+     * 需实现类根据实际情况复写
+     *
+     * @param t
+     */
+    @CallSuper
+    protected void onErrorLocal(Throwable t) {
 
     }
 
-    public void onCompleteLocal() {
-
+    /**
+     * 需实现类根据实际情况复写
+     */
+    @CallSuper
+    protected void onCompleteLocal() {
     }
 
     /**
@@ -300,119 +334,245 @@ public abstract class CCRequest<T, R extends CCRequest> {
         }
     }
 
+    /**
+     * 获取请求的header信息集合
+     *
+     * @return
+     */
     public Map<String, String> getHeaderMap() {
         return mHeaderMap;
     }
 
+    /**
+     * 设置请求的header信息集合
+     *
+     * @param headerMap
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public R setHeaderMap(Map<String, String> headerMap) {
         this.mHeaderMap = headerMap;
         return (R) this;
     }
 
+    /**
+     * 获取请求参数信息集合
+     *
+     * @return
+     */
     public Map<String, Object> getRequestParam() {
         return mRequestParam;
     }
 
+    /**
+     * 设置请求参数信息集合
+     *
+     * @param requestParam
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public R setRequestParam(Map<String, Object> requestParam) {
         this.mRequestParam = requestParam;
         return (R) this;
     }
 
+    /**
+     * 获取restful api的path seg替换信息
+     *
+     * @return
+     */
     public Map<String, String> getPathMap() {
         return mPathMap;
     }
 
+    /**
+     * 设置restful api的path seg替换信息
+     *
+     * @param pathMap
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public R setPathMap(Map<String, String> pathMap) {
         this.mPathMap = pathMap;
         return (R) this;
     }
 
+    /**
+     * 获取请求失败重试次数
+     *
+     * @return
+     */
     public int getRetryCount() {
         return mRetryCount;
     }
 
+    /**
+     * 设置请求失败重试次数
+     *
+     * @param retryCount
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public R setRetryCount(int retryCount) {
         this.mRetryCount = retryCount;
         return (R) this;
     }
 
+    /**
+     * 获取请求失败重试延迟间隔，单位：毫秒
+     *
+     * @return
+     */
     public int getRetryDelayTimeMillis() {
         return mRetryDelayTimeMillis;
     }
 
+    /**
+     * 设置请求失败重试延迟间隔，单位：毫秒
+     *
+     * @param retryDelayTimeMillis
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public R setRetryDelayTimeMillis(int retryDelayTimeMillis) {
         this.mRetryDelayTimeMillis = retryDelayTimeMillis;
         return (R) this;
     }
 
+    /**
+     * 获取请求标识
+     *
+     * @return
+     */
     public Object getReqTag() {
         return mReqTag;
     }
 
+    /**
+     * 设置请求标识，强烈建议自定义类复写hashCode和equals方法
+     *
+     * @param reqTag
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public R setReqTag(Object reqTag) {
         this.mReqTag = reqTag;
         return (R) this;
     }
 
+    /**
+     * 获取请求的接口地址
+     *
+     * @return
+     */
     public String getApiUrl() {
         return mApiUrl;
     }
 
+    /**
+     * 设置请求的接口地址
+     *
+     * @param apiUrl
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public R setApiUrl(String apiUrl) {
         this.mApiUrl = apiUrl;
         return (R) this;
     }
 
+    /**
+     * 获取网络请求取消or中断对象
+     *
+     * @return
+     */
     public CCCanceler getNetCCCanceler() {
         return netCCCanceler;
     }
 
-
+    /**
+     * 请求是否处于运行状态
+     *
+     * @return
+     */
     public boolean isRequestRunning() {
         return requestRunning;
     }
 
+    /**
+     * 设置请求是否处于运行状态
+     *
+     * @param requestRunning
+     */
     protected void setRequestRunning(boolean requestRunning) {
         this.requestRunning = requestRunning;
     }
 
+    /**
+     * 是否用户强制退出
+     *
+     * @return
+     */
     public boolean isForceCanceled() {
         return forceCanceled;
     }
 
+    /**
+     * 设置请求是否用户强制退出
+     *
+     * @param forceCanceled
+     */
     public void setForceCanceled(boolean forceCanceled) {
         this.forceCanceled = forceCanceled;
     }
 
+    /**
+     * 磁盘缓存请求是否返回
+     *
+     * @return
+     */
     protected boolean isHasDiskRequestResped() {
         return hasDiskRequestResped;
     }
 
+    /**
+     * 设置磁盘缓存请求是否返回
+     *
+     * @param hasDiskRequestResped
+     */
     protected void setHasDiskRequestResped(boolean hasDiskRequestResped) {
         this.hasDiskRequestResped = hasDiskRequestResped;
     }
 
+    /**
+     * 网络请求是否返回
+     *
+     * @return
+     */
     protected boolean isHasNetRequestResped() {
         return hasNetRequestResped;
     }
 
+    /**
+     * 设置网络请求是否返回
+     *
+     * @param hasNetRequestResped
+     */
     protected void setHasNetRequestResped(boolean hasNetRequestResped) {
         this.hasNetRequestResped = hasNetRequestResped;
     }
 
+    /**
+     * 是否开启了周期回调
+     *
+     * @return
+     */
     public boolean isNeedIntervalCallback() {
         return mNeedIntervalCallback;
     }
 
     /**
-     * 设置是否检测网络状态
+     * 设置是否需要周期回调
      *
      * @param needToCheckNetCondition
      * @return
@@ -423,12 +583,17 @@ public abstract class CCRequest<T, R extends CCRequest> {
         return (R) this;
     }
 
+    /**
+     * 获取周期回调间隔，单位：毫秒
+     *
+     * @return
+     */
     public int getIntervalMilliSeconds() {
         return mIntervalMilliSeconds;
     }
 
     /**
-     * 网络状态检测间隔 单位：毫秒
+     * 设置周期回调间隔 单位：毫秒
      *
      * @param intervalMilliSeconds
      * @return
@@ -439,7 +604,34 @@ public abstract class CCRequest<T, R extends CCRequest> {
         return (R) this;
     }
 
-    public CCNetApiService getCCNetApiService() {
+    /**
+     * 获取retrofit请求的api service实例
+     *
+     * @return
+     */
+    protected CCNetApiService getCCNetApiService() {
         return mApiService;
+    }
+
+    /**
+     * 设置请求生命周期自动管理对象
+     *
+     * @param disposeComposer
+     * @return
+     */
+    @VisibleForTesting
+    public R setLifecycleDisposeComposer(FlowableTransformer<CCBaseResponse<T>, CCBaseResponse<T>> disposeComposer) {
+        this.mRequestLifecycleDisposeComposer = disposeComposer;
+        return (R) this;
+    }
+
+    /**
+     * 获取请求生命周期自动管理对象
+     *
+     * @return
+     */
+    @VisibleForTesting
+    public FlowableTransformer<CCBaseResponse<T>, CCBaseResponse<T>> getLifecycleDisposeComposer() {
+        return this.mRequestLifecycleDisposeComposer;
     }
 }
