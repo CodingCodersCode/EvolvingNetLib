@@ -76,8 +76,8 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
 
             //restful api中的path信息
             Map<String, String> pathMap = new HashMap<String, String>();
-            pathMap.put("{path1}", "uaa");
-            pathMap.put("{path2}", "app");
+            pathMap.put("{path1}", "path1_value");
+            pathMap.put("{path2}", "path2_value");
 
             TypeToken typeToken = new TypeToken<SampleRespBeanWrapper<SampleResponseBean>>() {
             };
@@ -96,7 +96,7 @@ public class OrdinaryRequestActivity extends CCBaseRxAppCompactActivity implemen
             Class typeToken3 = testTypeTokenClass.getClass();
 
 
-            ((CCApplication)this.getApplicationContext()).getCcRxNetManager().<SampleRespBeanWrapper<SampleResponseBean>>post("/zuul/{path1}/{path2}/biz/v1/login")
+            ((CCApplication)this.getApplicationContext()).getCcRxNetManager().<SampleRespBeanWrapper<SampleResponseBean>>post("/test/{path1}/{path2}/user/login")
                     .setHeaderMap(specifyHeaderMap)
                     .setPathMap(pathMap)
                     .setRequestParam(paramMap)
