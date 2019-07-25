@@ -2,8 +2,8 @@ package com.demo.evolving.net.lib;
 
 import android.app.Application;
 
-import com.codingcoderscode.evolving.net.CCRxNetManager;
-import com.codingcoderscode.evolving.net.util.CCLogUtil;
+import com.codingcoderscode.lib.net.CCRxNetManager;
+import com.codingcoderscode.lib.net.util.CCLogUtil;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.squareup.leakcanary.RefWatcher;
 

@@ -1,6 +1,6 @@
 package com.demo.evolving.net.lib.downloadmanager;
 
-import com.codingcoderscode.evolving.net.response.CCBaseResponse;
+import com.codingcoderscode.lib.net.response.CCBaseResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;

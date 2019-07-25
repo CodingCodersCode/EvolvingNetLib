@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
-import com.codingcoderscode.evolving.net.request.CCMultiDownloadRequest;
-import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
-import com.codingcoderscode.evolving.net.request.entity.CCDownloadTask;
-import com.codingcoderscode.evolving.net.request.listener.CCMultiDownloadProgressListener;
-import com.codingcoderscode.evolving.net.util.CCLogUtil;
+import com.codingcoderscode.lib.net.request.CCMultiDownloadRequest;
+import com.codingcoderscode.lib.net.request.canceler.CCCanceler;
+import com.codingcoderscode.lib.net.request.entity.CCDownloadTask;
+import com.codingcoderscode.lib.net.request.listener.CCMultiDownloadProgressListener;
+import com.codingcoderscode.lib.net.util.CCLogUtil;
 import com.demo.evolving.net.lib.CCApplication;
 import com.demo.evolving.net.lib.CCDownloadTask2;
 import com.demo.evolving.net.lib.R;

@@ -1,6 +1,6 @@
 package com.demo.evolving.net.lib.downloadmanager;
 
-import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
+import com.codingcoderscode.lib.net.request.CCDownloadRequest;
 
 /**
  * Created by CodingCodersCode on 2017/11/8.
