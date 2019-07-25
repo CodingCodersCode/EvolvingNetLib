@@ -1,7 +1,7 @@
 package com.demo.evolving.net.lib;
 
-import com.codingcoderscode.evolving.net.request.entity.CCDownloadTask;
-import com.codingcoderscode.evolving.net.response.CCBaseResponse;
+import com.codingcoderscode.lib.net.request.entity.CCDownloadTask;
+import com.codingcoderscode.lib.net.response.CCBaseResponse;
 import com.demo.evolving.net.lib.downloadmanager.CCDownloadStatus;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.trello.rxlifecycle2.components.support.RxFragment;

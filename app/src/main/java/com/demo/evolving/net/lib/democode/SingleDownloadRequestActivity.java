@@ -6,12 +6,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
-import com.codingcoderscode.evolving.net.request.base.CCSimpleDownloadRequest;
-import com.codingcoderscode.evolving.net.request.listener.CCSingleDownloadProgressListener;
-import com.codingcoderscode.evolving.net.request.listener.CCNetResultListener;
-import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
-import com.codingcoderscode.evolving.net.request.entity.CCDownloadTask;
-import com.codingcoderscode.evolving.net.util.CCLogUtil;
+import com.codingcoderscode.lib.net.request.base.CCSimpleDownloadRequest;
+import com.codingcoderscode.lib.net.request.listener.CCSingleDownloadProgressListener;
+import com.codingcoderscode.lib.net.request.listener.CCNetResultListener;
+import com.codingcoderscode.lib.net.request.canceler.CCCanceler;
+import com.codingcoderscode.lib.net.request.entity.CCDownloadTask;
+import com.codingcoderscode.lib.net.util.CCLogUtil;
 import com.demo.evolving.net.lib.CCApplication;
 import com.demo.evolving.net.lib.R;
 

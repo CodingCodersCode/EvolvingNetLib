@@ -6,11 +6,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.codingcoderscode.evolving.base.CCBaseRxAppCompactActivity;
-import com.codingcoderscode.evolving.net.cache.mode.CCMode;
-import com.codingcoderscode.evolving.net.request.listener.CCNetResultListener;
-import com.codingcoderscode.evolving.net.request.canceler.CCCanceler;
-import com.codingcoderscode.evolving.net.request.entity.CCFile;
-import com.codingcoderscode.evolving.net.util.CCLogUtil;
+import com.codingcoderscode.lib.net.cache.mode.CCMode;
+import com.codingcoderscode.lib.net.request.listener.CCNetResultListener;
+import com.codingcoderscode.lib.net.request.canceler.CCCanceler;
+import com.codingcoderscode.lib.net.request.entity.CCFile;
+import com.codingcoderscode.lib.net.util.CCLogUtil;
 import com.demo.evolving.net.lib.CCApplication;
 import com.demo.evolving.net.lib.GlideImageLoader;
 import com.demo.evolving.net.lib.R;

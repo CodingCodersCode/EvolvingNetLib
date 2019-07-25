@@ -1,9 +1,8 @@
 package com.demo.evolving.net.lib.downloadmanager;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
-import com.codingcoderscode.evolving.net.request.CCDownloadRequest;
+import com.codingcoderscode.lib.net.request.CCDownloadRequest;
 
 /**
  * Created by CodingCodersCode on 2017/11/8.
