@@ -1,12 +1,8 @@
 package com.codingcoderscode.lib.net.request.entity;
 
 
-import android.text.TextUtils;
+import com.codingcoderscode.lib.net.util.CCFileUtils;
 
-import java.net.FileNameMap;
-import java.net.URLConnection;
-
-import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 /**
@@ -22,21 +18,9 @@ public class CCFile {
      */
     private String fileName;
 
-    public CCFile(String url){
+    public CCFile(String url) {
         this.url = url;
-
-        if (TextUtils.isEmpty(url)){
-            this.mimeType = "multipart/form-data;";
-        }else {
-            FileNameMap fileNameMap = URLConnection.getFileNameMap();
-            //url = url.replace("#", "");   //解决文件名中含有#号异常的问题
-            String contentType = fileNameMap.getContentTypeFor(url.replace("#", ""));
-            if (contentType == null) {
-                this.mimeType =  MediaType.parse("application/octet-stream").toString();
-            }
-            this.mimeType =   MediaType.parse(contentType).toString();
-        }
-
+        this.mimeType = CCFileUtils.getMimeType(url);
         this.fileName = null;
     }
 
