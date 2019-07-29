@@ -48,6 +48,7 @@ public class CCUploadRequest<T> extends CCSimpleRequest<T> {
         CCFile fileValue;
         MultipartBody.Part partBody;
         File uploadFile;
+        String fileNameInMultiBodyPart;
         try {
             if (mTxtRequestParam != null) {
                 for (Map.Entry<String, ?> entry : mTxtRequestParam.entrySet()) {
@@ -70,9 +71,14 @@ public class CCUploadRequest<T> extends CCSimpleRequest<T> {
 
                     uploadFile = new File(fileValue.getUrl());
 
+                    fileNameInMultiBodyPart = fileValue.getFileName();
+                    if (fileNameInMultiBodyPart == null || fileNameInMultiBodyPart.equals("")){
+                        fileNameInMultiBodyPart = uploadFile.getName();
+                    }
+
                     requestBody = new CCSimpleUploadRequestBody(entry.getKey(), MediaType.parse(fileValue.getMimeType()), uploadFile, getCCNetResultListener());
 
-                    partBody = MultipartBody.Part.createFormData(entry.getKey(), uploadFile.getName(), requestBody);
+                    partBody = MultipartBody.Part.createFormData(entry.getKey(), fileNameInMultiBodyPart, requestBody);
 
                     paramPartList.add(partBody);
 
