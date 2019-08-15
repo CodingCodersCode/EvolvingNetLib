@@ -119,6 +119,11 @@ public abstract class CCRequest<T, R extends CCRequest> {
      */
     protected abstract Flowable<CCBaseResponse<T>> getDiskQueryFlowable();
 
+    /**
+     * 获取网络数据查询请求Flowable对象
+     *
+     * @return
+     */
     protected abstract Flowable<CCBaseResponse<T>> getRequestFlowable();
 
     public abstract int getCacheQueryMode();
