@@ -79,6 +79,7 @@ public abstract class CCSimpleRequest<T> extends CCRequest<T, CCSimpleRequest<T>
      *
      * @return 磁盘缓存查询Flowable对象
      */
+    @Override
     protected Flowable<CCBaseResponse<T>> getDiskQueryFlowable() {
         //磁盘缓存获取，包括任何形式的磁盘缓存
         return Flowable.create(new FlowableOnSubscribe<CCBaseResponse<T>>() {
@@ -113,6 +114,11 @@ public abstract class CCSimpleRequest<T> extends CCRequest<T, CCSimpleRequest<T>
         }, BackpressureStrategy.LATEST)/*.subscribeOn(Schedulers.io())*/;
     }
 
+    /**
+     * 获取网络数据查询请求Flowable对象
+     *
+     * @return
+     */
     @Override
     protected Flowable<CCBaseResponse<T>> getRequestFlowable() {
         return Flowable.create(new FlowableOnSubscribe<Call<ResponseBody>>() {
